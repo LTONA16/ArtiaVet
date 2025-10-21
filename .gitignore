@@ -1,0 +1,27 @@
+# Archivos binarios y de compilación
+/bin/
+/obj/
+
+# Configuración de Visual Studio
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+
+# Logs y paquetes
+*.log
+*.vs/
+*.ncrunch*
+*.resharper*
+*.DotSettings.user
+*.idea/
+
+# Paquetes de NuGet
+*.nupkg
+packages/
+
+# Archivos temporales
+*.tmp
+*.cache
+*.DS_Store
+
