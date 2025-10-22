@@ -1,7 +1,11 @@
+using ArtiaVet.Servicios;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+
+builder.Services.AddScoped<IRepositorioTest, RepositorioTest>();
 
 var app = builder.Build();
 
@@ -23,5 +27,11 @@ app.UseAuthorization();
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
+
+using (var scope = app.Services.CreateScope())
+{
+    var repositorioTest = scope.ServiceProvider.GetRequiredService<IRepositorioTest>();
+    await repositorioTest.TestConnectionAsync();
+}
 
 app.Run();

@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "Sjziqr9p0Fjt74U6RE/Sq66dktFdXT/t1rddVuPHN5U=",
+  "Hash": "MAwMD9oLIg69psgN+HaYH2wOCPaHkfs3wY9IExUUvp4=",
   "Source": "ArtiaVet",
   "BasePath": "_content/ArtiaVet",
   "Mode": "Default",
@@ -91,6 +91,25 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\favicon.ico"
+    },
+    {
+      "Identity": "F:\\Unison\\7mo Semestre\\PDS2\\ArtiaVet\\ArtiaVet\\wwwroot\\img\\ArtiaLogo.png",
+      "SourceId": "ArtiaVet",
+      "SourceType": "Discovered",
+      "ContentRoot": "F:\\Unison\\7mo Semestre\\PDS2\\ArtiaVet\\ArtiaVet\\wwwroot\\",
+      "BasePath": "_content/ArtiaVet",
+      "RelativePath": "img/ArtiaLogo.png",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "PreferTarget",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\img\\ArtiaLogo.png"
     },
     {
       "Identity": "F:\\Unison\\7mo Semestre\\PDS2\\ArtiaVet\\ArtiaVet\\wwwroot\\js\\site.js",

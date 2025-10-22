@@ -13,6 +13,10 @@
       "PackagePath": "staticwebassets\\favicon.ico"
     },
     {
+      "Id": "F:\\Unison\\7mo Semestre\\PDS2\\ArtiaVet\\ArtiaVet\\wwwroot\\img\\ArtiaLogo.png",
+      "PackagePath": "staticwebassets\\img\\ArtiaLogo.png"
+    },
+    {
       "Id": "F:\\Unison\\7mo Semestre\\PDS2\\ArtiaVet\\ArtiaVet\\wwwroot\\js\\site.js",
       "PackagePath": "staticwebassets\\js\\site.js"
     },
