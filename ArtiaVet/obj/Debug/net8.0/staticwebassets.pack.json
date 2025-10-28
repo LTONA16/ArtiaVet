@@ -17,6 +17,10 @@
       "PackagePath": "staticwebassets\\img\\ArtiaLogo.png"
     },
     {
+      "Id": "F:\\Unison\\7mo Semestre\\PDS2\\ArtiaVet\\ArtiaVet\\wwwroot\\img\\alvarito.jpeg",
+      "PackagePath": "staticwebassets\\img\\alvarito.jpeg"
+    },
+    {
       "Id": "F:\\Unison\\7mo Semestre\\PDS2\\ArtiaVet\\ArtiaVet\\wwwroot\\js\\site.js",
       "PackagePath": "staticwebassets\\js\\site.js"
     },

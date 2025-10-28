@@ -1,0 +1,56 @@
+@* Vista Parcial: Sidebar - Menú Lateral *@
+
+<div class="bg-slate-700 min-h-screen w-64 flex flex-col p-6">
+    
+    @* Perfil del usuario *@
+    <div class="mb-12 text-center">
+        <div class="w-16 h-16 mx-auto mb-3 rounded-lg overflow-hidden bg-gray-600">
+            <img src="~/img/alvarito.jpeg" alt="Perfil" class="w-full h-full object-cover" />
+        </div>
+        <h2 class="text-white text-2xl font-semibold mb-1">Álvaro Valenzuela</h2>
+        <p class="text-gray-400 text-sm">alvarito@gmail.com</p>
+    </div>
+
+    @* Menú de navegación *@
+    <nav class="flex-1">
+        <ul class="space-y-2">
+            <li>
+                <a href="@Url.Action("Index", "Home")" 
+                   class="block px-4 py-3 text-white text-lg font-medium hover:bg-slate-600 rounded-lg transition-colors">
+                    Inicio
+                </a>
+            </li>
+            <li>
+                <a href="@Url.Action("Consultas", "Home")" 
+                   class="block px-4 py-3 text-gray-400 text-lg hover:bg-slate-600 rounded-lg transition-colors">
+                    Citas
+                </a>
+            </li>
+            <li>
+                <a href="@Url.Action("Recordatorios", "Home")" 
+                   class="block px-4 py-3 text-gray-400 text-lg hover:bg-slate-600 rounded-lg transition-colors">
+                    Calendario
+                </a>
+            </li>
+            <li>
+                <a href="@Url.Action("Historial", "Home")" 
+                   class="block px-4 py-3 text-gray-400 text-lg hover:bg-slate-600 rounded-lg transition-colors">
+                    Recordatorios
+                </a>
+            </li>
+            <li>
+                <a href="@Url.Action("Inventario", "Home")" 
+                   class="block px-4 py-3 text-gray-400 text-lg hover:bg-slate-600 rounded-lg transition-colors">
+                    Inventario
+                </a>
+            </li>
+            <li>
+                <a href="@Url.Action("Configuraciones", "Home")" 
+                   class="block px-4 py-3 text-gray-400 text-lg hover:bg-slate-600 rounded-lg transition-colors">
+                    Facturas
+                </a>
+            </li>
+        </ul>
+    </nav>
+
+</div>

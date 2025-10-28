@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "MAwMD9oLIg69psgN+HaYH2wOCPaHkfs3wY9IExUUvp4=",
+  "Hash": "pHfR9A9/qesGRaKpEX0/+vd89e0dM8pmRgM85p3CIuI=",
   "Source": "ArtiaVet",
   "BasePath": "_content/ArtiaVet",
   "Mode": "Default",
@@ -91,6 +91,25 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\favicon.ico"
+    },
+    {
+      "Identity": "F:\\Unison\\7mo Semestre\\PDS2\\ArtiaVet\\ArtiaVet\\wwwroot\\img\\alvarito.jpeg",
+      "SourceId": "ArtiaVet",
+      "SourceType": "Discovered",
+      "ContentRoot": "F:\\Unison\\7mo Semestre\\PDS2\\ArtiaVet\\ArtiaVet\\wwwroot\\",
+      "BasePath": "_content/ArtiaVet",
+      "RelativePath": "img/alvarito.jpeg",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "PreferTarget",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\img\\alvarito.jpeg"
     },
     {
       "Identity": "F:\\Unison\\7mo Semestre\\PDS2\\ArtiaVet\\ArtiaVet\\wwwroot\\img\\ArtiaLogo.png",

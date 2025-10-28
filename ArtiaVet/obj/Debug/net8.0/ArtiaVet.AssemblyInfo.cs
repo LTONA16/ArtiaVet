@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("ArtiaVet")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+0cc79c4c9505d347b36af4923ecb7a6a22650393")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+4696e57617795ec3a6805e7fe4fcab6948706553")]
 [assembly: System.Reflection.AssemblyProductAttribute("ArtiaVet")]
 [assembly: System.Reflection.AssemblyTitleAttribute("ArtiaVet")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

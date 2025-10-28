@@ -6,6 +6,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllersWithViews();
 
 builder.Services.AddScoped<IRepositorioTest, RepositorioTest>();
+builder.Services.AddScoped<IRepositorioDropdowns, RepositorioDropdowns>();
 
 var app = builder.Build();
 
