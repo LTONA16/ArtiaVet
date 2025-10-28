@@ -16,6 +16,9 @@
 *.DotSettings.user
 *.idea/
 
+# Json de config
+*.json
+
 # Paquetes de NuGet
 *.nupkg
 packages/
