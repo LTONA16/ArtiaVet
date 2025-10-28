@@ -17,6 +17,19 @@ namespace ArtiaVet.Servicios
             connectionString = configuration.GetConnectionString("DefaultConnection");
         }
 
+        //public async Task CrearFactura(CitaId citaId)
+        //{
+        //    using var connection = new SqlConnection(connectionString);
+        //    var id = await connection.QuerySingleAsync<int>
+        //        ("sp_generar_factura",
+        //        new
+        //        {
+        //            citaId = citaId.id_cita
+        //        },
+        //            commandType: System.Data.CommandType.StoredProcedure);
+        //    citaId.id_cita = id;
+        //}
+
         // Método asíncrono (recomendado)
         public async Task<bool> TestConnectionAsync()
         {
