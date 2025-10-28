@@ -1,0 +1,288 @@
+<div class="p-6">
+    <div class="flex justify-between items-center mb-6">
+        <div>
+            <h1 class="text-4xl font-bold text-gray-800 mb-2">Inicio</h1>
+            <p class="text-gray-400 text-sm">Lunes, 25 de Agosto 2025</p>
+        </div>
+        <button onclick="abrirModalCita()" class="flex items-center gap-2 px-4 py-2 bg-gray-100 hover:bg-gray-200 rounded-lg transition-colors">
+            <span class="text-gray-600">Nueva cita</span>
+            <div class="w-6 h-6 rounded-full border-2 border-gray-400 flex items-center justify-center">
+                <span class="text-gray-600 text-lg leading-none pb-0.5">+</span>
+            </div>
+        </button>
+    </div>
+
+    @* Hoy *@
+    <div class="mb-8">
+        <div class="flex justify-between items-center mb-4">
+            <h2 class="text-xl font-semibold text-gray-800">Hoy</h2>
+            <button class="text-gray-400 hover:text-gray-600">
+                <span class="text-2xl">⋯</span>
+            </button>
+        </div>
+        
+        <div class="space-y-4">
+            @* Cita 1 *@
+            <div class="flex items-center justify-between py-3 hover:bg-gray-50 rounded-lg transition-colors">
+                <div class="flex items-center gap-4">
+                    <div class="w-12 h-12 bg-green-500 rounded-full flex items-center justify-center">
+                        <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" />
+                        </svg>
+                    </div>
+                    <div>
+                        <h3 class="font-semibold text-gray-800">Luis Fernando Tona Scott</h3>
+                        <p class="text-sm text-gray-400">Limpieza Dental • Dr. Juan Navarrete</p>
+                    </div>
+                </div>
+                <span class="text-gray-600 font-medium">5:15 pm</span>
+            </div>
+
+            @* Cita 2 *@
+            <div class="flex items-center justify-between py-3 hover:bg-gray-50 rounded-lg transition-colors">
+                <div class="flex items-center gap-4">
+                    <div class="w-12 h-12 bg-blue-500 rounded-full flex items-center justify-center">
+                        <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" />
+                        </svg>
+                    </div>
+                    <div>
+                        <h3 class="font-semibold text-gray-800">Juan Carlos Perea Panduro</h3>
+                        <p class="text-sm text-gray-400">Limpieza Dental • Dr. Juan Navarrete</p>
+                    </div>
+                </div>
+                <span class="text-gray-600 font-medium">5:45 pm</span>
+            </div>
+        </div>
+    </div>
+
+    @* Martes, 26 Agosto *@
+    <div class="mb-8">
+        <div class="flex justify-between items-center mb-4">
+            <h2 class="text-xl font-semibold text-gray-800">Martes, 26 Agosto</h2>
+            <button class="text-gray-400 hover:text-gray-600">
+                <span class="text-2xl">⋯</span>
+            </button>
+        </div>
+        
+        <div class="space-y-4">
+            @* Cita 3 *@
+            <div class="flex items-center justify-between py-3 hover:bg-gray-50 rounded-lg transition-colors">
+                <div class="flex items-center gap-4">
+                    <div class="w-12 h-12 bg-purple-600 rounded-full flex items-center justify-center">
+                        <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" />
+                        </svg>
+                    </div>
+                    <div>
+                        <h3 class="font-semibold text-gray-800">Daniela Garcia Lopez</h3>
+                        <p class="text-sm text-gray-400">Limpieza Dental • Dr. Juan Navarrete</p>
+                    </div>
+                </div>
+                <span class="text-gray-600 font-medium">6:15 pm</span>
+            </div>
+
+            @* Cita 4 *@
+            <div class="flex items-center justify-between py-3 hover:bg-gray-50 rounded-lg transition-colors">
+                <div class="flex items-center gap-4">
+                    <div class="w-12 h-12 bg-green-500 rounded-full flex items-center justify-center">
+                        <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" />
+                        </svg>
+                    </div>
+                    <div>
+                        <h3 class="font-semibold text-gray-800">Brianna Castillo</h3>
+                        <p class="text-sm text-gray-400">Limpieza Dental • Dr. Juan Navarrete</p>
+                    </div>
+                </div>
+                <span class="text-gray-600 font-medium">7:15 pm</span>
+            </div>
+        </div>
+    </div>
+
+    @* Miercoles, 27 Agosto *@
+    <div>
+        <div class="flex justify-between items-center mb-4">
+            <h2 class="text-xl font-semibold text-gray-800">Miercoles, 27 Agosto</h2>
+            <button class="text-gray-400 hover:text-gray-600">
+                <span class="text-2xl">⋯</span>
+            </button>
+        </div>
+        
+        <div class="space-y-4">
+            @* Cita 5 *@
+            <div class="flex items-center justify-between py-3 hover:bg-gray-50 rounded-lg transition-colors">
+                <div class="flex items-center gap-4">
+                    <div class="w-12 h-12 bg-blue-500 rounded-full flex items-center justify-center">
+                        <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" />
+                        </svg>
+                    </div>
+                    <div>
+                        <h3 class="font-semibold text-gray-800">Kevin Xandé Martinez Haro</h3>
+                        <p class="text-sm text-gray-400">Limpieza Dental • Dr. Juan Navarrete</p>
+                    </div>
+                </div>
+                <span class="text-gray-600 font-medium">4:15 pm</span>
+            </div>
+
+            @* Cita 6 *@
+            <div class="flex items-center justify-between py-3 hover:bg-gray-50 rounded-lg transition-colors">
+                <div class="flex items-center gap-4">
+                    <div class="w-12 h-12 bg-yellow-500 rounded-full flex items-center justify-center">
+                        <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" />
+                        </svg>
+                    </div>
+                    <div>
+                        <h3 class="font-semibold text-gray-800">Joshua Murillo Monge</h3>
+                        <p class="text-sm text-gray-400">Limpieza Dental • Dr. Juan Navarrete</p>
+                    </div>
+                </div>
+                <span class="text-gray-600 font-medium">5:45 pm</span>
+            </div>
+        </div>
+    </div>
+</div>
+
+@* Modal para Nueva Cita *@
+<div id="modalNuevaCita" class="hidden fixed inset-0 bg-opacity-30 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+    <div class="bg-white rounded-2xl shadow-2xl max-w-2xl w-full max-h-[90vh] overflow-y-auto">
+        
+        @* Header del Modal *@
+        <div class="sticky top-0 bg-white border-b border-gray-200 px-6 py-4 rounded-t-2xl">
+            <div class="flex justify-between items-center">
+                <h2 class="text-2xl font-bold text-gray-800">Nueva Cita</h2>
+                <button onclick="cerrarModalCita()" class="text-gray-400 hover:text-gray-600 transition-colors">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                    </svg>
+                </button>
+            </div>
+        </div>
+
+        @* Formulario *@
+        <form id="formNuevaCita" asp-action="CrearCita" asp-controller="Citas" method="post" class="p-6">
+            <div class="space-y-5">
+                
+                @* Veterinario *@
+                <div>
+                    <label for="veterinarioID" class="block text-sm font-semibold text-gray-700 mb-2">
+                        Veterinario <span class="text-red-500">*</span>
+                    </label>
+                    <select id="veterinarioID" name="veterinarioID" required 
+                            class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-cyan-500 focus:border-transparent transition-all">
+                        <option value="">Seleccione un veterinario</option>
+                        @* Estos datos vendrán desde el controlador *@
+                    </select>
+                </div>
+
+                @* Mascota *@
+                <div>
+                    <label for="mascotaID" class="block text-sm font-semibold text-gray-700 mb-2">
+                        Mascota <span class="text-red-500">*</span>
+                    </label>
+                    <select id="mascotaID" name="mascotaID" required 
+                            class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-cyan-500 focus:border-transparent transition-all">
+                        <option value="">Seleccione una mascota</option>
+                        @* Estos datos vendrán desde el controlador *@
+                    </select>
+                </div>
+
+                @* Tipo de Cita *@
+                <div>
+                    <label for="tipoCitaID" class="block text-sm font-semibold text-gray-700 mb-2">
+                        Tipo de Cita <span class="text-red-500">*</span>
+                    </label>
+                    <select id="tipoCitaID" name="tipoCitaID" required 
+                            class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-cyan-500 focus:border-transparent transition-all">
+                        <option value="">Seleccione un tipo de cita</option>
+                        @* Estos datos vendrán desde el controlador *@
+                    </select>
+                </div>
+
+                @* Fecha y Hora de la Cita *@
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div>
+                        <label for="fechaCita" class="block text-sm font-semibold text-gray-700 mb-2">
+                            Fecha <span class="text-red-500">*</span>
+                        </label>
+                        <input type="date" id="fechaCita" name="fechaCita" required 
+                               class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-cyan-500 focus:border-transparent transition-all" />
+                    </div>
+                    <div>
+                        <label for="horaCita" class="block text-sm font-semibold text-gray-700 mb-2">
+                            Hora <span class="text-red-500">*</span>
+                        </label>
+                        <input type="time" id="horaCita" name="horaCita" required 
+                               class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-cyan-500 focus:border-transparent transition-all" />
+                    </div>
+                </div>
+
+                @* Importe Adicional *@
+                <div>
+                    <label for="importeAdicional" class="block text-sm font-semibold text-gray-700 mb-2">
+                        Importe Adicional
+                    </label>
+                    <div class="relative">
+                        <span class="absolute left-4 top-1/2 -translate-y-1/2 text-gray-500 font-medium">$</span>
+                        <input type="number" id="importeAdicional" name="importeAdicional" step="0.01" min="0" value="0" 
+                               class="w-full pl-8 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-cyan-500 focus:border-transparent transition-all" 
+                               placeholder="0.00" />
+                    </div>
+                </div>
+
+                @* Observaciones *@
+                <div>
+                    <label for="observaciones" class="block text-sm font-semibold text-gray-700 mb-2">
+                        Observaciones
+                    </label>
+                    <textarea id="observaciones" name="observaciones" rows="4" 
+                              class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-cyan-500 focus:border-transparent transition-all resize-none" 
+                              placeholder="Escriba cualquier observación adicional sobre la cita..."></textarea>
+                </div>
+
+            </div>
+
+            @* Botones *@
+            <div class="flex gap-3 mt-6 pt-6 border-t border-gray-200">
+                <button type="button" onclick="cerrarModalCita()" 
+                        class="flex-1 px-6 py-3 border border-gray-300 text-gray-700 font-medium rounded-lg hover:bg-gray-50 transition-colors">
+                    Cancelar
+                </button>
+                <button type="submit" 
+                        class="flex-1 px-6 py-3 bg-cyan-600 text-white font-medium rounded-lg hover:bg-cyan-700 transition-colors">
+                    Guardar Cita
+                </button>
+            </div>
+        </form>
+
+    </div>
+</div>
+
+<script>
+    function abrirModalCita() {
+        document.getElementById('modalNuevaCita').classList.remove('hidden');
+        document.body.style.overflow = 'hidden'; // Prevenir scroll del body
+    }
+
+    function cerrarModalCita() {
+        document.getElementById('modalNuevaCita').classList.add('hidden');
+        document.body.style.overflow = 'auto'; // Restaurar scroll
+        document.getElementById('formNuevaCita').reset();
+    }
+
+    // Cerrar modal al hacer click fuera de él
+    document.getElementById('modalNuevaCita')?.addEventListener('click', function(e) {
+        if (e.target === this) {
+            cerrarModalCita();
+        }
+    });
+
+    // Cerrar modal con tecla ESC
+    document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape') {
+            cerrarModalCita();
+        }
+    });
+</script>
