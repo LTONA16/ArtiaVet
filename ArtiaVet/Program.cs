@@ -7,6 +7,7 @@ builder.Services.AddControllersWithViews();
 
 builder.Services.AddScoped<IRepositorioTest, RepositorioTest>();
 builder.Services.AddScoped<IRepositorioDropdowns, RepositorioDropdowns>();
+builder.Services.AddScoped<IRepositorioInventario, RepositorioInventario>();
 
 var app = builder.Build();
 

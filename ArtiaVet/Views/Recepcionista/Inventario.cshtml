@@ -1,0 +1,27 @@
+@{
+    ViewData["Title"] = "Inventario";
+}
+
+<div class="flex min-h-screen bg-slate-700">
+    @* Sidebar - Menú Lateral *@
+    <partial name="_Sidebar"></partial>
+
+    @* Contenedor principal con borde y fondo blanco *@
+    <div class="flex-1 m-6 bg-white rounded-3xl overflow-hidden">
+        @* Contenido interior con padding *@
+        <div class="p-8 h-full w-full">
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                @* Columna izquierda - Tabla de Inventario (2/3 del ancho) *@
+                <div class="lg:col-span-2">
+                    <partial name="./Inventario/_TablaInventario"></partial>
+                </div>
+
+                @* Columna derecha - Estadísticas y Alertas (1/3 del ancho) *@
+                <div class="lg:col-span-1 space-y-6">
+                    <partial name="./Inventario/_EstadisticasInventario"></partial>
+                    <partial name="./Inventario/_AlertasStock"></partial>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
