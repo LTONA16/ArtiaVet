@@ -1,0 +1,135 @@
+@model ArtiaVet.Models.CalendarioSemanalViewModel
+
+<div class="bg-white rounded-xl border border-gray-200 overflow-hidden">
+    <div class="grid grid-cols-8 border-b border-gray-200">
+        @* Columna de horas *@
+        <div class="bg-gray-50 border-r border-gray-200 p-3">
+            <div class="h-12"></div>
+        </div>
+        
+        @* Headers de días *@
+        @foreach (var dia in Model.Dias)
+        {
+            <div class="p-3 text-center border-r border-gray-200 last:border-r-0 @(dia.EsHoy ? "bg-blue-50" : "bg-gray-50")">
+                <div class="text-xs font-semibold text-gray-500 mb-1">@dia.NombreDia</div>
+                <div class="@(dia.EsHoy ? "bg-blue-600 text-white" : "bg-white text-gray-800") w-10 h-10 rounded-full flex items-center justify-center mx-auto font-bold text-lg">
+                    @dia.NumeroYMes
+                </div>
+                @if (!dia.EsDiaLaboral)
+                {
+                    <div class="text-xs text-gray-400 mt-1">Cerrado</div>
+                }
+                else
+                {
+                    <div class="text-xs text-gray-600 mt-1 font-medium">@dia.Citas.Count citas</div>
+                }
+            </div>
+        }
+    </div>
+    
+    @* Grid de horas y citas *@
+    <div class="relative">
+        @* Horas de 9 AM a 7 PM (19 en formato 24hrs) *@
+       @for (int hora = 9; hora <= 19; hora++)
+        {
+            <div class="grid grid-cols-8 border-b border-gray-100 min-h-[80px]">
+                @* Columna de hora *@
+                <div class="bg-gray-50 border-r border-gray-200 p-2 flex items-start justify-end">
+                    <span class="text-xs font-medium text-gray-500">
+                        @(hora > 12 ? (hora - 12).ToString("00") : hora.ToString("00")):00 @(hora >= 12 ? "PM" : "AM")
+                    </span>
+                </div>
+
+                @* Celdas de cada día *@
+                @foreach (var dia in Model.Dias)
+                {
+                    <div class="border-r border-gray-100 last:border-r-0 p-1 relative @(dia.EsHoy ? "bg-blue-50 bg-opacity-30" : "")">
+                        @if (dia.EsDiaLaboral && dia.HorasLaborales.Contains(hora))
+                        {
+                            // Renderizar citas para esta hora específica
+                            var citasEnEstaHora = dia.Citas
+                                .Where(c => c.FechaCita.Hour == hora)
+                                .ToList();
+
+                            foreach (var cita in citasEnEstaHora)
+                            {
+                                <div onclick="abrirModalCita(@cita.Id)" 
+                                    class="@cita.ColorFondo @cita.ColorTexto rounded-lg p-2 mb-1 cursor-pointer hover:shadow-lg transition-all duration-200 hover:scale-[1.02] border-l-4 @(cita.ColorTexto.Replace("text-", "border-"))">
+                                    <div class="text-xs font-bold mb-1">@cita.HoraInicio</div>
+                                    <div class="text-xs font-semibold truncate">@cita.NombreMascota</div>
+                                    <div class="text-xs truncate opacity-80">@cita.NombreDueno</div>
+                                    <div class="text-xs font-medium mt-1 truncate">Dr. @cita.NombreVeterinario</div>
+                                </div>
+                            }
+                        }
+                        else if (!dia.EsDiaLaboral)
+                        {
+                            @* Día cerrado (Domingo) *@
+                            <div class="absolute inset-0 bg-gray-100 bg-opacity-50 flex items-center justify-center">
+                                <span class="text-xs text-gray-400 font-medium transform -rotate-45">Cerrado</span>
+                            </div>
+                        }
+                        else if (!dia.HorasLaborales.Contains(hora))
+                        {
+                            @* Fuera de horario laboral *@
+                            <div class="absolute inset-0 bg-gray-200 bg-opacity-30"></div>
+                        }
+                    </div>
+                }
+            </div>
+        }
+
+    </div>
+</div>
+
+@* Vista móvil alternativa *@
+<div class="lg:hidden mt-6">
+    <div class="space-y-4">
+        @foreach (var dia in Model.Dias.Where(d => d.EsDiaLaboral))
+        {
+            <div class="bg-white rounded-xl border border-gray-200 overflow-hidden">
+                <div class="@(dia.EsHoy ? "bg-blue-600 text-white" : "bg-gray-100 text-gray-800") p-4">
+                    <div class="flex items-center justify-between">
+                        <div>
+                            <div class="text-sm font-medium opacity-80">@dia.NombreDia</div>
+                            <div class="text-2xl font-bold">@dia.Fecha.ToString("dd MMM")</div>
+                        </div>
+                        <div class="text-right">
+                            <div class="text-sm opacity-80">@dia.Citas.Count citas</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="p-4 space-y-3">
+                    @if (dia.Citas.Any())
+                    {
+                        @foreach (var cita in dia.Citas.OrderBy(c => c.FechaCita))
+                        {
+                            <div onclick="abrirModalCita(@cita.Id)" 
+                                 class="@cita.ColorFondo @cita.ColorTexto rounded-lg p-4 cursor-pointer hover:shadow-md transition-all border-l-4 @(cita.ColorTexto.Replace("text-", "border-"))">
+                                <div class="flex items-start justify-between mb-2">
+                                    <div class="font-bold">@cita.HoraInicio - @cita.HoraFin</div>
+                                    <div class="text-xs font-medium px-2 py-1 bg-white bg-opacity-50 rounded">
+                                        @cita.TipoCita
+                                    </div>
+                                </div>
+                                <div class="text-sm font-semibold mb-1">@cita.NombreMascota</div>
+                                <div class="text-sm opacity-80 mb-2">Dueño: @cita.NombreDueno</div>
+                                <div class="text-sm font-medium">Dr. @cita.NombreVeterinario</div>
+                            </div>
+                        }
+                    }
+                    else
+                    {
+                        <div class="text-center py-8 text-gray-400">
+                            <svg class="w-12 h-12 mx-auto mb-2 opacity-50" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
+                            </svg>
+                            <p class="text-sm">No hay citas programadas</p>
+                        </div>
+                    }
+                </div>
+            </div>
+        }
+    </div>
+</div>
