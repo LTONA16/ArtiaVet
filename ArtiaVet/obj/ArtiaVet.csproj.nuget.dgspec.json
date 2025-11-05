@@ -1,25 +1,28 @@
 {
   "format": 1,
   "restore": {
-    "/Users/kevin/Documents/Unison/ArtiaVet/ArtiaVet/ArtiaVet.csproj": {}
+    "F:\\Unison\\7mo Semestre\\PDS2\\ArtiaVet\\ArtiaVet\\ArtiaVet.csproj": {}
   },
   "projects": {
-    "/Users/kevin/Documents/Unison/ArtiaVet/ArtiaVet/ArtiaVet.csproj": {
+    "F:\\Unison\\7mo Semestre\\PDS2\\ArtiaVet\\ArtiaVet\\ArtiaVet.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "/Users/kevin/Documents/Unison/ArtiaVet/ArtiaVet/ArtiaVet.csproj",
+        "projectUniqueName": "F:\\Unison\\7mo Semestre\\PDS2\\ArtiaVet\\ArtiaVet\\ArtiaVet.csproj",
         "projectName": "ArtiaVet",
-        "projectPath": "/Users/kevin/Documents/Unison/ArtiaVet/ArtiaVet/ArtiaVet.csproj",
-        "packagesPath": "/Users/kevin/.nuget/packages/",
-        "outputPath": "/Users/kevin/Documents/Unison/ArtiaVet/ArtiaVet/obj/",
+        "projectPath": "F:\\Unison\\7mo Semestre\\PDS2\\ArtiaVet\\ArtiaVet\\ArtiaVet.csproj",
+        "packagesPath": "C:\\Users\\luisi\\.nuget\\packages\\",
+        "outputPath": "F:\\Unison\\7mo Semestre\\PDS2\\ArtiaVet\\ArtiaVet\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "/Users/kevin/.nuget/NuGet/NuGet.Config"
+          "C:\\Users\\luisi\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
           "net8.0"
         ],
         "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "C:\\Program Files\\dotnet\\library-packs": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
@@ -32,6 +35,11 @@
           "warnAsError": [
             "NU1605"
           ]
+        },
+        "restoreAuditProperties": {
+          "enableAudit": "true",
+          "auditLevel": "low",
+          "auditMode": "direct"
         }
       },
       "frameworks": {
@@ -66,7 +74,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "/opt/homebrew/Cellar/dotnet@8/8.0.120/libexec/sdk/8.0.120/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.403/PortableRuntimeIdentifierGraph.json"
         }
       }
     }

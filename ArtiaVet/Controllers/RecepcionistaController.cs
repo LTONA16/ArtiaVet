@@ -52,6 +52,96 @@ namespace ArtiaVet.Controllers
             }
         }
 
+        // ============ MÉTODOS DE CALENDARIO ============
+
+        public async Task<IActionResult> Calendario(int? mes, int? año, string fecha)
+        {
+            // Si no se especifica mes/año, usar el actual
+            var fechaActual = DateTime.Now;
+
+            // Determinar la fecha base
+            DateTime fechaBase;
+            if (!string.IsNullOrEmpty(fecha) && DateTime.TryParse(fecha, out DateTime fechaParam))
+            {
+                fechaBase = fechaParam;
+            }
+            else
+            {
+                fechaBase = fechaActual;
+            }
+
+            var mesSeleccionado = mes ?? fechaBase.Month;
+            var añoSeleccionado = año ?? fechaBase.Year;
+
+            // Calcular inicio y fin de la semana
+            var inicioSemana = fechaBase.AddDays(-(int)fechaBase.DayOfWeek);
+            var finSemana = inicioSemana.AddDays(6);
+
+            // Obtener citas de toda la semana (puede abarcar dos meses)
+            var citasMes1 = await _repositorioDropdowns.ObtenerCitasPorMesAsync(inicioSemana.Year, inicioSemana.Month);
+            var citasMes2 = await _repositorioDropdowns.ObtenerCitasPorMesAsync(finSemana.Year, finSemana.Month);
+
+            // Combinar y filtrar citas de la semana
+            var todasCitas = citasMes1.Union(citasMes2)
+                .Where(c => c.FechaCita.Date >= inicioSemana.Date && c.FechaCita.Date <= finSemana.Date)
+                .ToList();
+
+            // Cargar dropdowns para el modal de crear cita
+            ViewBag.Veterinarios = await _repositorioDropdowns.ObtenerVeterinariosAsync();
+            ViewBag.Mascotas = await _repositorioDropdowns.ObtenerMascotasAsync();
+            ViewBag.TiposCita = await _repositorioDropdowns.ObtenerTiposCitaAsync();
+
+            // Pasar datos a la vista
+            ViewBag.MesActual = mesSeleccionado;
+            ViewBag.AñoActual = añoSeleccionado;
+            ViewBag.Citas = todasCitas;
+            ViewBag.FechaBase = fechaBase.ToString("yyyy-MM-dd");
+
+            return View();
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> ObtenerDetalleCita(int id)
+        {
+            var detalle = await _repositorioDropdowns.ObtenerDetalleCitaAsync(id);
+            if (detalle == null)
+            {
+                return NotFound();
+            }
+            return Json(detalle);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> CrearCitaCalendario(CitaViewModel cita)
+        {
+            if (!ModelState.IsValid)
+            {
+                // Recargar dropdowns
+                ViewBag.Veterinarios = await _repositorioDropdowns.ObtenerVeterinariosAsync();
+                ViewBag.Mascotas = await _repositorioDropdowns.ObtenerMascotasAsync();
+                ViewBag.TiposCita = await _repositorioDropdowns.ObtenerTiposCitaAsync();
+                return View("Calendario");
+            }
+
+            try
+            {
+                await _repositorioDropdowns.CrearCitaAsync(cita);
+                TempData["Mensaje"] = "Cita creada exitosamente";
+
+                // Redirigir al mes de la cita creada
+                return RedirectToAction("Calendario", new
+                {
+                    mes = cita.FechaCita.Month,
+                    año = cita.FechaCita.Year
+                });
+            }
+            catch (Exception ex)
+            {
+                TempData["Error"] = "Error al crear la cita: " + ex.Message;
+                return RedirectToAction("Calendario");
+            }
+        }
+
         // ============ MÉTODOS DE INVENTARIO ============
 
         public async Task<IActionResult> Inventario()

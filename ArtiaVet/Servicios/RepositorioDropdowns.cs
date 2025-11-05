@@ -7,6 +7,8 @@ namespace ArtiaVet.Servicios
 {
     public interface IRepositorioDropdowns
     {
+        Task<List<CitaCalendarioViewModel>> ObtenerCitasPorMesAsync(int año, int mes);
+        Task<CitaDetalleViewModel> ObtenerDetalleCitaAsync(int citaId);
         Task<List<SelectListItem>> ObtenerVeterinariosAsync();
         Task<List<SelectListItem>> ObtenerMascotasAsync();
         Task<List<SelectListItem>> ObtenerTiposCitaAsync();
@@ -155,6 +157,112 @@ namespace ArtiaVet.Servicios
                 Console.WriteLine($"Error al crear cita: {ex.Message}");
                 throw;
             }
+        }
+
+        public async Task<List<CitaCalendarioViewModel>> ObtenerCitasPorMesAsync(int año, int mes)
+        {
+            var citas = new List<CitaCalendarioViewModel>();
+            try
+            {
+                using var connection = new SqlConnection(connectionString);
+                await connection.OpenAsync();
+
+                var query = @"
+            SELECT 
+                c.id,
+                c.fechaCita,
+                c.importeAdicional,
+                c.observaciones,
+                u.nombre as NombreVeterinario,
+                m.nombre as NombreMascota,
+                tc.nombre as TipoCita
+            FROM Citas c
+            INNER JOIN Usuarios u ON c.veterinarioID = u.id
+            INNER JOIN Mascotas m ON c.mascotaID = m.id
+            INNER JOIN TiposCitas tc ON c.tipoCitaID = tc.id
+            WHERE YEAR(c.fechaCita) = @año AND MONTH(c.fechaCita) = @mes
+            ORDER BY c.fechaCita";
+
+                using var command = new SqlCommand(query, connection);
+                command.Parameters.AddWithValue("@año", año);
+                command.Parameters.AddWithValue("@mes", mes);
+
+                using var reader = await command.ExecuteReaderAsync();
+
+                while (await reader.ReadAsync())
+                {
+                    citas.Add(new CitaCalendarioViewModel
+                    {
+                        Id = (int)reader["id"],
+                        FechaCita = (DateTime)reader["fechaCita"],
+                        NombreVeterinario = reader["NombreVeterinario"].ToString(),
+                        NombreMascota = reader["NombreMascota"].ToString(),
+                        TipoCita = reader["TipoCita"].ToString(),
+                        ImporteAdicional = (decimal)reader["importeAdicional"],
+                        Observaciones = reader["observaciones"]?.ToString()
+                    });
+                }
+            }
+            catch (SqlException ex)
+            {
+                Console.WriteLine($"Error al obtener citas: {ex.Message}");
+            }
+
+            return citas;
+        }
+
+        public async Task<CitaDetalleViewModel> ObtenerDetalleCitaAsync(int citaId)
+        {
+            try
+            {
+                using var connection = new SqlConnection(connectionString);
+                await connection.OpenAsync();
+
+                var query = @"
+            SELECT 
+                c.id,
+                c.fechaCita,
+                c.importeAdicional,
+                c.observaciones,
+                u.nombre as NombreVeterinario,
+                m.nombre as NombreMascota,
+                tc.nombre as TipoCita,
+                ISNULL(due.nombre, '') as NombreDueño,
+                ISNULL(due.telefono, '') as TelefonoDueño
+            FROM Citas c
+            INNER JOIN Usuarios u ON c.veterinarioID = u.id
+            INNER JOIN Mascotas m ON c.mascotaID = m.id
+            INNER JOIN TiposCitas tc ON c.tipoCitaID = tc.id
+            LEFT JOIN Usuarios due ON m.dueñoID = due.id
+            WHERE c.id = @citaId";
+
+                using var command = new SqlCommand(query, connection);
+                command.Parameters.AddWithValue("@citaId", citaId);
+
+                using var reader = await command.ExecuteReaderAsync();
+
+                if (await reader.ReadAsync())
+                {
+                    return new CitaDetalleViewModel
+                    {
+                        Id = (int)reader["id"],
+                        FechaCita = (DateTime)reader["fechaCita"],
+                        NombreVeterinario = reader["NombreVeterinario"].ToString(),
+                        NombreMascota = reader["NombreMascota"].ToString(),
+                        TipoCita = reader["TipoCita"].ToString(),
+                        ImporteAdicional = (decimal)reader["importeAdicional"],
+                        Observaciones = reader["observaciones"]?.ToString(),
+                        NombreDueño = reader["NombreDueño"].ToString(),
+                        TelefonoDueño = reader["TelefonoDueño"].ToString()
+                    };
+                }
+            }
+            catch (SqlException ex)
+            {
+                Console.WriteLine($"Error al obtener detalle de cita: {ex.Message}");
+            }
+
+            return null;
         }
     }
 }

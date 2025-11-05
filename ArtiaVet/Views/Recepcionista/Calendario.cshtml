@@ -1,0 +1,642 @@
+﻿@using ArtiaVet.Models
+@{
+    ViewData["Title"] = "Calendario";
+
+    var mesActual = (int)ViewBag.MesActual;
+
+    var añoActual = (int)ViewBag.AñoActual;
+
+    var citas = ViewBag.Citas as List<CitaCalendarioViewModel>;
+
+
+
+    var nombresMeses = new[] { "", "Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio",
+                               "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre" };
+
+
+
+    // Calcular el primer día del mes y cuántos días tiene
+
+    var primerDiaMes = new DateTime(añoActual, mesActual, 1);
+
+    var diasEnMes = DateTime.DaysInMonth(añoActual, mesActual);
+
+    var primerDiaSemana = (int)primerDiaMes.DayOfWeek; // 0 = Domingo
+
+
+
+    // Calcular la semana actual para mostrar
+
+    var hoy = DateTime.Now;
+
+
+
+    // Si hay un parámetro de fecha en la URL, usarlo; si no, usar hoy
+
+    DateTime fechaBase = hoy;
+
+    if (Context.Request.Query.ContainsKey("fecha"))
+
+    {
+
+        if (DateTime.TryParse(Context.Request.Query["fecha"], out DateTime fechaParam))
+
+        {
+
+            fechaBase = fechaParam;
+
+        }
+
+    }
+
+
+
+    var inicioSemana = fechaBase.AddDays(-(int)fechaBase.DayOfWeek);
+
+    var finSemana = inicioSemana.AddDays(6);
+}
+
+<div class="flex min-h-screen bg-slate-700">
+    @* Sidebar *@
+    <partial name="_Sidebar"></partial>
+
+    @* Contenedor principal *@
+    <div class="flex-1 m-6 bg-white rounded-3xl overflow-hidden flex">
+
+        @* Mini calendario lateral *@
+        <div class="w-64 border-r border-gray-200 p-6 flex flex-col">
+
+            @* Navegación del mes *@
+            <div class="flex items-center justify-between mb-6">
+                <button onclick="cambiarMes(-1)" class="p-2 hover:bg-gray-100 rounded-lg transition">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+                    </svg>
+                </button>
+                <h2 class="text-lg font-bold">@nombresMeses[mesActual] @añoActual</h2>
+                <button onclick="cambiarMes(1)" class="p-2 hover:bg-gray-100 rounded-lg transition">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+                    </svg>
+                </button>
+            </div>
+
+            @* Mini calendario mensual *@
+            <div class="mb-6">
+                <div class="grid grid-cols-7 gap-1 text-center mb-2">
+                    <div class="text-xs font-medium text-gray-500">D</div>
+                    <div class="text-xs font-medium text-gray-500">L</div>
+                    <div class="text-xs font-medium text-gray-500">M</div>
+                    <div class="text-xs font-medium text-gray-500">M</div>
+                    <div class="text-xs font-medium text-gray-500">J</div>
+                    <div class="text-xs font-medium text-gray-500">V</div>
+                    <div class="text-xs font-medium text-gray-500">S</div>
+                </div>
+                <div class="grid grid-cols-7 gap-1 text-center">
+                    @* Días vacíos antes del primer día del mes *@
+                    @for (int i = 0; i < primerDiaSemana; i++)
+
+                    {
+                        <div class="text-xs py-1"></div>
+                    }
+
+                    @* Días del mes *@
+                    @for (int dia = 1; dia <= diasEnMes; dia++)
+
+                    {
+
+                        var fechaDia = new DateTime(añoActual, mesActual, dia);
+
+                        var esHoy = fechaDia.Date == hoy.Date;
+
+                        var tieneCitas = citas.Any(c => c.FechaCita.Date == fechaDia.Date);
+
+                        var fechaStr = fechaDia.ToString("yyyy-MM-dd");
+
+                        <button type="button" onclick="irADia('@fechaStr')"
+                                class="text-xs py-1 rounded-full hover:bg-gray-100 transition
+                                       @(esHoy ? "bg-cyan-600 text-white hover:bg-cyan-700" : "")
+                                       @(tieneCitas && !esHoy ? "font-bold text-cyan-600" : "")">
+                            @dia
+                        </button>
+                    }
+                </div>
+            </div>
+
+            @* Botón para crear cita *@
+            <button onclick="abrirModalCitaNueva()"
+                    class="w-full py-3 bg-cyan-600 text-white font-medium rounded-lg hover:bg-cyan-700 transition mb-6">
+                + Nueva Cita
+            </button>
+
+            @* Filtros de categorías (opcional - puedes expandir esto después) *@
+            <div class="space-y-2">
+                <h3 class="text-sm font-semibold text-gray-700 mb-3">Calendarios</h3>
+                <label class="flex items-center space-x-2 text-sm cursor-pointer">
+                    <input type="checkbox" checked class="rounded text-cyan-600 focus:ring-cyan-500">
+                    <span class="w-3 h-3 rounded-full bg-green-500"></span>
+                    <span>Todas las citas</span>
+                </label>
+            </div>
+        </div>
+
+        @* Vista de calendario semanal *@
+        <div class="flex-1 flex flex-col">
+
+            @* Header con controles *@
+            <div class="flex items-center justify-between p-6 border-b border-gray-200">
+                <div class="flex items-center space-x-4">
+                    <button onclick="irAHoy()"
+                            class="px-4 py-2 border border-gray-300 rounded-lg hover:bg-gray-50 transition font-medium">
+                        Hoy
+                    </button>
+                    <button onclick="cambiarSemana(-1)" class="p-2 hover:bg-gray-100 rounded-lg transition">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+                        </svg>
+                    </button>
+                    <button onclick="cambiarSemana(1)" class="p-2 hover:bg-gray-100 rounded-lg transition">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+                        </svg>
+                    </button>
+                </div>
+
+                <div class="flex items-center space-x-3">
+                    <select id="vistaSelector" onchange="cambiarVista()" class="px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-cyan-500">
+                        <option value="semana">Semana</option>
+                        <option value="mes">Mes</option>
+                        <option value="dia">Día</option>
+                    </select>
+                </div>
+            </div>
+
+            @* Vista de semana *@
+            <div class="flex-1 overflow-y-auto overflow-x-hidden" style="max-height: calc(100vh - 200px);">
+                <div class="grid grid-cols-8" style="min-height: 1040px;">
+
+                    @* Columna de horas *@
+                    <div class="border-r border-gray-200 bg-gray-50">
+                        <div class="h-16 border-b border-gray-200"></div>
+                        @for (int hora = 7; hora <= 19; hora++)
+
+                        {
+                            <div class="h-20 border-b border-gray-200 px-2 py-1 text-xs text-gray-500 text-right">
+                                @hora:00
+                            </div>
+                        }
+                    </div>
+
+                    @* Columnas de días de la semana *@
+                    @for (int i = 0; i < 7; i++)
+
+                    {
+
+                        var diaActual = inicioSemana.AddDays(i);
+
+                        var esHoy = diaActual.Date == hoy.Date;
+
+                        var citasDelDia = citas.Where(c => c.FechaCita.Date == diaActual.Date).OrderBy(c => c.FechaCita.TimeOfDay).ToList();
+
+                        var nombreDia = diaActual.ToString("ddd", new System.Globalization.CultureInfo("es-ES")).ToUpper();
+
+                        var fechaDiaStr = diaActual.ToString("yyyy-MM-dd");
+
+                        <div class="border-r border-gray-200 relative">
+                            @* Header del día *@
+                            <div class="h-16 border-b border-gray-200 flex flex-col items-center justify-center @(esHoy ? "bg-cyan-50" : "")">
+                                <div class="text-xs font-medium text-gray-500">@nombreDia @diaActual.Day</div>
+                                @if (esHoy)
+
+                                {
+                                    <div class="w-8 h-8 rounded-full bg-cyan-600 text-white flex items-center justify-center font-bold text-sm mt-1">
+                                        @diaActual.Day
+                                    </div>
+                                }
+
+                                else
+
+                                {
+                                    <div class="text-sm font-semibold text-gray-700 mt-1">
+                                        @diaActual.Day
+                                    </div>
+                                }
+                            </div>
+
+                            @* Grid de horas *@
+                            <div class="relative">
+                                @for (int hora = 7; hora <= 19; hora++)
+
+                                {
+
+                                    var horaLocal = hora;
+                                    <div class="h-20 border-b border-gray-200 hover:bg-gray-50 cursor-pointer transition"
+                                         onclick="abrirModalCitaEnFecha('@fechaDiaStr', @horaLocal)">
+                                    </div>
+                                }
+
+                                @* Citas del día - posicionadas absolutamente *@
+                                @foreach (var cita in citasDelDia)
+
+                                {
+
+                                    var horaInicio = cita.FechaCita.Hour;
+
+                                    var minutoInicio = cita.FechaCita.Minute;
+
+                                    var topPosition = ((horaInicio - 7) * 80) + (minutoInicio * 80 / 60);
+
+                                    var duracion = 60; // Duración por defecto en minutos
+
+                                    var altura = duracion * 80 / 60;
+
+
+
+                                    // Colores según tipo de cita (puedes personalizar)
+
+                                    var coloresFondo = new[] { "bg-blue-100", "bg-green-100", "bg-purple-100", "bg-orange-100", "bg-pink-100" };
+
+                                    var coloresBorde = new[] { "border-blue-400", "border-green-400", "border-purple-400", "border-orange-400", "border-pink-400" };
+
+                                    var coloresTexto = new[] { "text-blue-700", "text-green-700", "text-purple-700", "text-orange-700", "text-pink-700" };
+
+                                    var colorIndex = Math.Abs(cita.TipoCita.GetHashCode()) % coloresFondo.Length;
+
+                                    <div style="position: absolute; top: @(topPosition)px; left: 4px; right: 4px; height: @(altura)px; z-index: 10;"
+                                         onclick="verDetalleCita(@cita.Id)"
+                                         class="@coloresFondo[colorIndex] @coloresBorde[colorIndex] border-l-4 rounded-lg p-2 cursor-pointer hover:shadow-lg transition overflow-hidden">
+                                        <div class="text-xs font-semibold @coloresTexto[colorIndex] truncate">
+                                            @cita.TipoCita
+                                        </div>
+                                        <div class="text-xs text-gray-600 truncate">
+                                            @cita.FechaCita.ToString("HH:mm") - @cita.NombreMascota
+                                        </div>
+                                        <div class="text-xs text-gray-500 truncate">
+                                            Dr. @cita.NombreVeterinario
+                                        </div>
+                                    </div>
+                                }
+                            </div>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@* Modal para crear nueva cita *@
+<div id="modalNuevaCita" class="hidden fixed inset-0 bg-opacity-30 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+    <div class="bg-white rounded-2xl shadow-2xl w-full max-w-2xl mx-4 max-h-[90vh] overflow-y-auto">
+        <div class="sticky top-0 bg-white border-b border-gray-200 px-6 py-4 flex items-center justify-between rounded-t-2xl">
+            <h2 class="text-2xl font-bold text-gray-800">Nueva Cita</h2>
+            <button onclick="cerrarModalCita()" class="text-gray-400 hover:text-gray-600 transition">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                </svg>
+            </button>
+        </div>
+
+        @* Formulario de crear cita (el que ya tienes) *@
+        <form id="formNuevaCita" asp-action="CrearCita" asp-controller="Recepcionista" method="post" class="p-6">
+            @Html.AntiForgeryToken()
+
+            <div class="space-y-5">
+                @* Veterinario *@
+                <div>
+                    <label for="VeterinarioID" class="block text-sm font-semibold text-gray-700 mb-2">
+                        Veterinario <span class="text-red-500">*</span>
+                    </label>
+                    <select id="VeterinarioID" name="VeterinarioID" required
+                            class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-cyan-500 focus:border-transparent transition-all">
+                        <option value="">Seleccione un veterinario</option>
+                        @if (ViewBag.Veterinarios != null)
+
+                        {
+                            @foreach (var vet in ViewBag.Veterinarios as List<Microsoft.AspNetCore.Mvc.Rendering.SelectListItem>)
+
+                            {
+                                <option value="@vet.Value">@vet.Text</option>
+                            }
+                        }
+                    </select>
+                </div>
+
+                @* Mascota *@
+                <div>
+                    <label for="MascotaID" class="block text-sm font-semibold text-gray-700 mb-2">
+                        Mascota <span class="text-red-500">*</span>
+                    </label>
+                    <select id="MascotaID" name="MascotaID" required
+                            class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-cyan-500 focus:border-transparent transition-all">
+                        <option value="">Seleccione una mascota</option>
+                        @if (ViewBag.Mascotas != null)
+
+                        {
+                            @foreach (var mascota in ViewBag.Mascotas as List<Microsoft.AspNetCore.Mvc.Rendering.SelectListItem>)
+
+                            {
+                                <option value="@mascota.Value">@mascota.Text</option>
+                            }
+                        }
+                    </select>
+                </div>
+
+                @* Tipo de Cita *@
+                <div>
+                    <label for="TipoCitaID" class="block text-sm font-semibold text-gray-700 mb-2">
+                        Tipo de Cita <span class="text-red-500">*</span>
+                    </label>
+                    <select id="TipoCitaID" name="TipoCitaID" required
+                            class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-cyan-500 focus:border-transparent transition-all">
+                        <option value="">Seleccione un tipo de cita</option>
+                        @if (ViewBag.TiposCita != null)
+
+                        {
+                            @foreach (var tipo in ViewBag.TiposCita as List<Microsoft.AspNetCore.Mvc.Rendering.SelectListItem>)
+
+                            {
+                                <option value="@tipo.Value">@tipo.Text</option>
+                            }
+                        }
+                    </select>
+                </div>
+
+                <input type="hidden" id="FechaCita" name="FechaCita" />
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div>
+                        <label for="fechaCitaInput" class="block text-sm font-semibold text-gray-700 mb-2">
+                            Fecha <span class="text-red-500">*</span>
+                        </label>
+                        <input type="date" id="fechaCitaInput" required
+                               class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-cyan-500 focus:border-transparent transition-all" />
+                    </div>
+                    <div>
+                        <label for="horaCitaInput" class="block text-sm font-semibold text-gray-700 mb-2">
+                            Hora <span class="text-red-500">*</span>
+                        </label>
+                        <input type="time" id="horaCitaInput" required
+                               class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-cyan-500 focus:border-transparent transition-all" />
+                    </div>
+                </div>
+
+                @* Importe Adicional *@
+                <div>
+                    <label for="ImporteAdicional" class="block text-sm font-semibold text-gray-700 mb-2">
+                        Importe Adicional
+                    </label>
+                    <div class="relative">
+                        <span class="absolute left-4 top-1/2 -translate-y-1/2 text-gray-500 font-medium">$</span>
+                        <input type="number" id="ImporteAdicional" name="ImporteAdicional" step="0.01" min="0" value="0"
+                               class="w-full pl-8 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-cyan-500 focus:border-transparent transition-all"
+                               placeholder="0.00" />
+                    </div>
+                </div>
+
+                @* Observaciones *@
+                <div>
+                    <label for="Observaciones" class="block text-sm font-semibold text-gray-700 mb-2">
+                        Observaciones
+                    </label>
+                    <textarea id="Observaciones" name="Observaciones" rows="4"
+                              class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-cyan-500 focus:border-transparent transition-all resize-none"
+                              placeholder="Escriba cualquier observación adicional sobre la cita..."></textarea>
+                </div>
+            </div>
+
+            <div class="flex gap-3 mt-6 pt-6 border-t border-gray-200">
+                <button type="button" onclick="cerrarModalCita()"
+                        class="flex-1 px-6 py-3 border border-gray-300 text-gray-700 font-medium rounded-lg hover:bg-gray-50 transition-colors">
+                    Cancelar
+                </button>
+                <button type="submit"
+                        class="flex-1 px-6 py-3 bg-cyan-600 text-white font-medium rounded-lg hover:bg-cyan-700 transition-colors">
+                    Guardar Cita
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+
+@* Modal para ver detalle de cita *@
+<div id="modalDetalleCita" class="hidden fixed inset-0 bg-opacity-30 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+    <div class="bg-white rounded-2xl shadow-2xl w-full max-w-lg mx-4">
+        <div class="bg-gradient-to-r from-cyan-600 to-cyan-700 px-6 py-4 flex items-center justify-between rounded-t-2xl">
+            <h2 class="text-xl font-bold text-white">Detalle de Cita</h2>
+            <button onclick="cerrarModalDetalle()" class="text-white hover:text-gray-200 transition">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                </svg>
+            </button>
+        </div>
+
+        <div id="contenidoDetalleCita" class="p-6 space-y-4">
+            @* El contenido se llenará dinámicamente con JavaScript *@
+        </div>
+    </div>
+</div>
+
+<script>
+    let mesActual = @mesActual;
+    let añoActual = @añoActual;
+    let fechaActualSemana = '@inicioSemana.ToString("yyyy-MM-dd")';
+
+    // Función para abrir modal de nueva cita
+    function abrirModalCitaNueva() {
+        document.getElementById('modalNuevaCita').classList.remove('hidden');
+        document.body.style.overflow = 'hidden';
+    }
+
+    // Función para abrir modal con fecha específica
+    function abrirModalCitaEnFecha(fecha, hora) {
+        document.getElementById('fechaCitaInput').value = fecha;
+        document.getElementById('horaCitaInput').value = hora.toString().padStart(2, '0') + ':00';
+        abrirModalCitaNueva();
+    }
+
+    function cerrarModalCita() {
+        document.getElementById('modalNuevaCita').classList.add('hidden');
+        document.body.style.overflow = 'auto';
+        document.getElementById('formNuevaCita').reset();
+    }
+
+    // Combinar fecha y hora antes de enviar
+    document.getElementById('formNuevaCita').addEventListener('submit', function (e) {
+        const fecha = document.getElementById('fechaCitaInput').value;
+        const hora = document.getElementById('horaCitaInput').value;
+        if (fecha && hora) {
+            const fechaHora = fecha + 'T' + hora + ':00';
+            document.getElementById('FechaCita').value = fechaHora;
+        }
+    });
+
+    // Ver detalle de cita
+    async function verDetalleCita(citaId) {
+        try {
+            const response = await fetch(`/Recepcionista/ObtenerDetalleCita?id=${citaId}`);
+            const cita = await response.json();
+
+            const contenido = `
+                    <div class="space-y-4">
+                        <div class="bg-cyan-50 p-4 rounded-lg">
+                            <div class="text-sm text-gray-600">Tipo de Cita</div>
+                            <div class="text-lg font-bold text-cyan-700">${cita.tipoCita}</div>
+                        </div>
+
+                        <div class="grid grid-cols-2 gap-4">
+                            <div>
+                                <div class="text-sm text-gray-600">Fecha</div>
+                                <div class="font-semibold">${new Date(cita.fechaCita).toLocaleDateString('es-ES', {
+                weekday: 'long',
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric'
+            })}</div>
+                            </div>
+                            <div>
+                                <div class="text-sm text-gray-600">Hora</div>
+                                <div class="font-semibold">${new Date(cita.fechaCita).toLocaleTimeString('es-ES', {
+                hour: '2-digit',
+                minute: '2-digit'
+            })}</div>
+                            </div>
+                        </div>
+
+                        <div>
+                            <div class="text-sm text-gray-600">Veterinario</div>
+                            <div class="font-semibold">Dr. ${cita.nombreVeterinario}</div>
+                        </div>
+
+                        <div>
+                            <div class="text-sm text-gray-600">Mascota</div>
+                            <div class="font-semibold">${cita.nombreMascota}</div>
+                        </div>
+
+                        ${cita.nombreDueño ? `
+                        <div>
+                            <div class="text-sm text-gray-600">Dueño</div>
+                            <div class="font-semibold">${cita.nombreDueño}</div>
+                            ${cita.telefonoDueño ? `<div class="text-sm text-gray-500">${cita.telefonoDueño}</div>` : ''}
+                        </div>
+                        ` : ''}
+
+                        ${cita.importeAdicional > 0 ? `
+                        <div>
+                            <div class="text-sm text-gray-600">Importe Adicional</div>
+                            <div class="font-semibold text-green-600">$${cita.importeAdicional.toFixed(2)}</div>
+                        </div>
+                        ` : ''}
+
+                        ${cita.observaciones ? `
+                        <div>
+                            <div class="text-sm text-gray-600">Observaciones</div>
+                            <div class="text-sm bg-gray-50 p-3 rounded-lg">${cita.observaciones}</div>
+                        </div>
+                        ` : ''}
+                    </div>
+                `;
+
+            document.getElementById('contenidoDetalleCita').innerHTML = contenido;
+            document.getElementById('modalDetalleCita').classList.remove('hidden');
+            document.body.style.overflow = 'hidden';
+        } catch (error) {
+            console.error('Error al cargar detalle:', error);
+            alert('Error al cargar los detalles de la cita');
+        }
+    }
+
+    function cerrarModalDetalle() {
+        document.getElementById('modalDetalleCita').classList.add('hidden');
+        document.body.style.overflow = 'auto';
+    }
+
+    // Navegación del mes - CORREGIDO para mantener la fecha de la semana
+    function cambiarMes(incremento) {
+        mesActual += incremento;
+        if (mesActual > 12) {
+            mesActual = 1;
+            añoActual++;
+        } else if (mesActual < 1) {
+            mesActual = 12;
+            añoActual--;
+        }
+
+        // Mantener la fecha actual de la semana o usar el primer día del mes
+        const fechaBase = new Date(fechaActualSemana);
+        const primerDiaMes = new Date(añoActual, mesActual - 1, 1);
+
+        window.location.href = `/Recepcionista/Calendario?mes=${mesActual}&año=${añoActual}&fecha=${primerDiaMes.toISOString().split('T')[0]}`;
+    }
+
+    // Navegación de semana - CORREGIDO para usar el parámetro fecha
+    function cambiarSemana(incremento) {
+        const fechaBase = new Date(fechaActualSemana + 'T12:00:00');
+        fechaBase.setDate(fechaBase.getDate() + (incremento * 7));
+
+        const nuevoMes = fechaBase.getMonth() + 1;
+        const nuevoAño = fechaBase.getFullYear();
+        const nuevaFecha = fechaBase.toISOString().split('T')[0];
+
+        window.location.href = `/Recepcionista/Calendario?mes=${nuevoMes}&año=${nuevoAño}&fecha=${nuevaFecha}`;
+    }
+
+    function irAHoy() {
+        const hoy = new Date();
+        const fechaHoy = hoy.toISOString().split('T')[0];
+        window.location.href = `/Recepcionista/Calendario?mes=${hoy.getMonth() + 1}&año=${hoy.getFullYear()}&fecha=${fechaHoy}`;
+    }
+
+    function irADia(fechaStr) {
+        const fecha = new Date(fechaStr + 'T12:00:00');
+        window.location.href = `/Recepcionista/Calendario?mes=${fecha.getMonth() + 1}&año=${fecha.getFullYear()}&fecha=${fechaStr}`;
+    }
+
+    // Cambiar vista - IMPLEMENTADO
+    function cambiarVista() {
+        const vista = document.getElementById('vistaSelector').value;
+
+        if (vista === 'mes') {
+            // Redirigir a vista mensual (puedes crear una nueva vista o página)
+            alert('Vista de mes - Esta funcionalidad estará disponible próximamente');
+            document.getElementById('vistaSelector').value = 'semana';
+        } else if (vista === 'dia') {
+            // Redirigir a vista de día (puedes crear una nueva vista o página)
+            alert('Vista de día - Esta funcionalidad estará disponible próximamente');
+            document.getElementById('vistaSelector').value = 'semana';
+        }
+        // Si es 'semana', ya estamos en la vista correcta
+    }
+
+    // Cerrar modales con click fuera o ESC
+    document.getElementById('modalNuevaCita')?.addEventListener('click', function (e) {
+        if (e.target === this) cerrarModalCita();
+    });
+
+    document.getElementById('modalDetalleCita')?.addEventListener('click', function (e) {
+        if (e.target === this) cerrarModalDetalle();
+    });
+
+    document.addEventListener('keydown', function (e) {
+        if (e.key === 'Escape') {
+            cerrarModalCita();
+            cerrarModalDetalle();
+        }
+    });
+
+    // Auto-scroll a la hora actual al cargar la página
+    window.addEventListener('load', function () {
+        const ahora = new Date();
+        const horaActual = ahora.getHours();
+
+        // Si está dentro del rango de horas del calendario (7-19)
+        if (horaActual >= 7 && horaActual <= 19) {
+            const scrollContainer = document.querySelector('.flex-1.overflow-y-auto');
+            const posicionScroll = (horaActual - 7) * 80; // 80px por hora
+
+            if (scrollContainer) {
+                scrollContainer.scrollTop = posicionScroll - 100; // -100 para dejar espacio arriba
+            }
+        }
+    });
+</script>
