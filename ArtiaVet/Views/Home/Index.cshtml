@@ -1,8 +1,19 @@
 ﻿@{
-    ViewData["Title"] = "Home Page";
+    ViewData["Title"] = "Inicio - Artia Veterinaria";
 }
 
-<div class="text-center">
-    <h1 class="text-4xl">Bienvenido a Artia</h1>
-    <img src="~/img/ArtiaLogo.png" alt="Artia Logo" />
-</div>
+@* Navbar *@
+<partial name="_Navbar" />
+
+@* Vista Principal que referencia a las vistas parciales *@
+<partial name="_HeroSection" />
+<partial name="_ServiciosSection" />
+<partial name="_EquipoSection" />
+<partial name="_TestimoniosSection" />
+<partial name="_FAQSection" />
+
+@section Scripts {
+    <script src="~/js/navbar.js"></script>
+    <script src="~/js/carousel.js"></script>
+    <script src="~/js/faq.js"></script>
+}

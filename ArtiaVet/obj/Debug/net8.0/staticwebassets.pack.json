@@ -21,6 +21,18 @@
       "PackagePath": "staticwebassets/img/alvarito.jpeg"
     },
     {
+      "Id": "/Users/kevin/Documents/Unison/ArtiaVet/ArtiaVet/wwwroot/js/carousel.js",
+      "PackagePath": "staticwebassets/js/carousel.js"
+    },
+    {
+      "Id": "/Users/kevin/Documents/Unison/ArtiaVet/ArtiaVet/wwwroot/js/faq.js",
+      "PackagePath": "staticwebassets/js/faq.js"
+    },
+    {
+      "Id": "/Users/kevin/Documents/Unison/ArtiaVet/ArtiaVet/wwwroot/js/navbar.js",
+      "PackagePath": "staticwebassets/js/navbar.js"
+    },
+    {
       "Id": "/Users/kevin/Documents/Unison/ArtiaVet/ArtiaVet/wwwroot/js/site.js",
       "PackagePath": "staticwebassets/js/site.js"
     },

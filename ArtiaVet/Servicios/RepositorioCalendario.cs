@@ -67,12 +67,11 @@ namespace ArtiaVet.Servicios
                     FROM Citas c
                     INNER JOIN Usuarios u ON c.veterinarioID = u.id
                     INNER JOIN Mascotas m ON c.mascotaID = m.id
-                    INNER JOIN Usuarios du ON m.dueñoID = du.id
+                    INNER JOIN Dueños du ON m.dueñoID = du.id
                     INNER JOIN TiposCitas tc ON c.tipoCitaID = tc.id
-                    WHERE c.fechaCita >= @fechaInicio 
-                        AND c.fechaCita < @fechaFin
-                        AND u.tipoUsuario = 2
-                    ORDER BY c.fechaCita";
+                    WHERE c.fechaCita >= @fechaInicio
+                    AND c.fechaCita < @fechaFin
+                    ORDER BY c.fechaCita;";
 
                 using var command = new SqlCommand(query, connection);
                 command.Parameters.AddWithValue("@fechaInicio", inicioSemana);
@@ -122,7 +121,6 @@ namespace ArtiaVet.Servicios
             {
                 using var connection = new SqlConnection(connectionString);
                 await connection.OpenAsync();
-
                 var query = @"
                     SELECT 
                         c.id,
@@ -138,7 +136,7 @@ namespace ArtiaVet.Servicios
                     FROM Citas c
                     INNER JOIN Usuarios u ON c.veterinarioID = u.id
                     INNER JOIN Mascotas m ON c.mascotaID = m.id
-                    INNER JOIN Usuarios du ON m.dueñoID = du.id
+                    INNER JOIN Dueños du ON m.dueñoID = du.id
                     INNER JOIN TiposCitas tc ON c.tipoCitaID = tc.id
                     WHERE c.id = @citaId";
 

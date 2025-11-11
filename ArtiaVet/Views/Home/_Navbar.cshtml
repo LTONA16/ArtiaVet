@@ -1,0 +1,77 @@
+@* Navbar Transparente con scroll effect *@
+<nav id="navbar" class="fixed top-0 left-0 right-0 z-50 transition-all duration-300">
+    <div class="container mx-auto px-6 py-4">
+        <div class="flex items-center justify-between">
+            
+            @* Logo *@
+            <a href="#hero" class="flex items-center gap-3 group">
+                <div class="w-10 h-10 bg-white rounded-full flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform duration-300">
+                    <svg class="w-6 h-6 text-[#1a7487]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
+                    </svg>
+                </div>
+                <span class="text-xl font-bold text-white navbar-text">Artia Veterinaria</span>
+            </a>
+
+            @* Desktop Menu *@
+            <div class="hidden md:flex items-center gap-8">
+                <a href="#hero" class="nav-link text-white hover:text-[#1a7487] transition-colors duration-300 font-medium">
+                    Inicio
+                </a>
+                <a href="#servicios" class="nav-link text-white hover:text-[#1a7487] transition-colors duration-300 font-medium">
+                    Servicios
+                </a>
+                <a href="#equipo" class="nav-link text-white hover:text-[#1a7487] transition-colors duration-300 font-medium">
+                    Equipo
+                </a>
+                <a href="#testimonios" class="nav-link text-white hover:text-[#1a7487] transition-colors duration-300 font-medium">
+                    Testimonios
+                </a>
+                <a href="#faq" class="nav-link text-white hover:text-[#1a7487] transition-colors duration-300 font-medium">
+                    FAQ
+                </a>
+                
+                @* Botón Iniciar Sesión *@
+                <a href="@Url.Action("Login", "Account")" 
+                   class="bg-white text-[#1a7487] hover:bg-[#1a7487] hover:text-white px-6 py-2 rounded-full font-semibold transition-all duration-300 shadow-lg hover:shadow-xl transform hover:scale-105">
+                    Iniciar Sesión
+                </a>
+            </div>
+
+            @* Mobile Menu Button *@
+            <button id="mobileMenuBtn" class="md:hidden text-white focus:outline-none">
+                <svg id="menuIcon" class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+                </svg>
+                <svg id="closeIcon" class="w-8 h-8 hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                </svg>
+            </button>
+        </div>
+
+        @* Mobile Menu *@
+        <div id="mobileMenu" class="md:hidden max-h-0 overflow-hidden transition-all duration-300">
+            <div class="pt-4 pb-3 space-y-3">
+                <a href="#hero" class="mobile-nav-link block text-white hover:text-[#1a7487] transition-colors duration-300 font-medium py-2">
+                    Inicio
+                </a>
+                <a href="#servicios" class="mobile-nav-link block text-white hover:text-[#1a7487] transition-colors duration-300 font-medium py-2">
+                    Servicios
+                </a>
+                <a href="#equipo" class="mobile-nav-link block text-white hover:text-[#1a7487] transition-colors duration-300 font-medium py-2">
+                    Equipo
+                </a>
+                <a href="#testimonios" class="mobile-nav-link block text-white hover:text-[#1a7487] transition-colors duration-300 font-medium py-2">
+                    Testimonios
+                </a>
+                <a href="#faq" class="mobile-nav-link block text-white hover:text-[#1a7487] transition-colors duration-300 font-medium py-2">
+                    FAQ
+                </a>
+                <a href="@Url.Action("Login", "Account")" 
+                   class="block text-center bg-white text-[#1a7487] hover:bg-[#1a7487] hover:text-white px-6 py-2 rounded-full font-semibold transition-all duration-300 mt-4">
+                    Iniciar Sesión
+                </a>
+            </div>
+        </div>
+    </div>
+</nav>

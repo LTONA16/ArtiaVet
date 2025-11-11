@@ -10,26 +10,6 @@
     
     @* Contenedor principal *@
     <div class="flex-1 m-6 bg-white rounded-3xl overflow-hidden flex flex-col">
-        @* DEBUG - Remover después *@
-        <div class="p-4 bg-yellow-50 border border-yellow-200 rounded-lg mb-4">
-            <h3 class="font-bold mb-2">Debug Info:</h3>
-            <p><strong>Rango:</strong> @Model.FechaInicio.ToString("yyyy-MM-dd") hasta @Model.FechaFin.ToString("yyyy-MM-dd")</p>
-            <p><strong>Total días:</strong> @Model.Dias.Count</p>
-            <p><strong>Total citas en modelo:</strong> @Model.Dias.Sum(d => d.Citas.Count)</p>
-            
-            @foreach (var dia in Model.Dias.Where(d => d.Citas.Any()))
-            {
-                <div class="mt-2">
-                    <strong>@dia.Fecha.ToString("yyyy-MM-dd") (@dia.NombreDia):</strong> @dia.Citas.Count citas
-                    <ul class="ml-4 text-sm">
-                        @foreach (var cita in dia.Citas)
-                        {
-                            <li>ID: @cita.Id - Hora: @cita.FechaCita.Hour:00 - @cita.NombreMascota (@cita.NombreVeterinario)</li>
-                        }
-                    </ul>
-                </div>
-            }
-        </div>
         @* Header del calendario *@
         <div class="p-6 border-b border-gray-200 bg-white">
             <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
@@ -91,7 +71,7 @@
 </div>
 
 @* Modal para detalles de cita *@
-<div id="modalDetalleCita" class="hidden fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center p-4">
+<div id="modalDetalleCita" class="hidden fixed inset-0 backdrop-blur z-50 flex items-center justify-center p-4">
     <div class="bg-white rounded-2xl max-w-lg w-full shadow-2xl transform transition-all">
         <div id="modalHeader" class="px-6 py-4 border-b border-gray-200 flex items-center justify-between rounded-t-2xl">
             <h3 class="text-xl font-bold text-gray-800">Detalles de la Cita</h3>

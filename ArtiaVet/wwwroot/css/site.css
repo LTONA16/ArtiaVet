@@ -1,0 +1,110 @@
+/* Animaciones personalizadas */
+@keyframes fade-in {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes slide-in {
+    from {
+        opacity: 0;
+        transform: translateX(100px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+.animate-fade-in {
+    animation: fade-in 1s ease-out;
+}
+
+.animate-slide-in {
+    animation: slide-in 0.3s ease-out;
+}
+
+/* Navbar Styles */
+#navbar {
+    backdrop-filter: blur(10px);
+}
+
+#navbar.bg-transparent {
+    background-color: rgba(0, 0, 0, 0.3);
+}
+
+#mobileMenu {
+    transition: max-height 0.3s ease-out;
+}
+
+/* Smooth scroll */
+html {
+    scroll-behavior: smooth;
+    scroll-padding-top: 80px;
+}
+
+/* Auth Forms - Input Focus Effects */
+input:focus {
+    outline: none;
+}
+
+/* Gradient backgrounds for auth pages */
+.bg-gradient-to-br {
+    background-image: linear-gradient(to bottom right, var(--tw-gradient-stops));
+}
+
+/* Estilos para el carousel */
+#testimonialSlider {
+    will-change: transform;
+}
+
+/* Estilos para el FAQ */
+.faq-answer {
+    transition: max-height 0.3s ease-out;
+}
+
+.faq-icon {
+    transition: transform 0.3s ease;
+}
+
+/* Hover effects mejorados */
+.group:hover {
+    transform: translateY(-5px);
+}
+
+/* Optimización de imágenes */
+img {
+    image-rendering: -webkit-optimize-contrast;
+    image-rendering: crisp-edges;
+}
+
+/* Loading state para imágenes */
+img[src*="unsplash"] {
+    background-color: #f3f4f6;
+    min-height: 200px;
+}
+
+/* Ajustes responsive */
+@media (max-width: 768px) {
+    .animate-fade-in {
+        animation-duration: 0.6s;
+    }
+}
+
+/* Scroll suave en dispositivos móviles */
+@media (prefers-reduced-motion: reduce) {
+    html {
+        scroll-behavior: auto;
+    }
+    
+    * {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+    }
+}

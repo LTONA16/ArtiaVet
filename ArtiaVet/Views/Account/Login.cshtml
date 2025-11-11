@@ -1,0 +1,123 @@
+@{
+    ViewData["Title"] = "Iniciar Sesión - Artia Veterinaria";
+}
+
+<div class="min-h-screen flex items-center justify-center bg-gradient-to-br from-[#1a7487] to-[#0d4a57] py-12 px-4 sm:px-6 lg:px-8">
+    <div class="max-w-md w-full">
+        
+        @* Card Container *@
+        <div class="bg-white rounded-2xl shadow-2xl overflow-hidden">
+            
+            @* Header *@
+            <div class="bg-[#1a7487] px-8 py-6 text-center">
+                <div class="flex justify-center mb-4">
+                    <div class="w-16 h-16 bg-white rounded-full flex items-center justify-center">
+                        <svg class="w-10 h-10 text-[#1a7487]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
+                        </svg>
+                    </div>
+                </div>
+                <h2 class="text-3xl font-bold text-white mb-2">Artia Veterinaria</h2>
+                <p class="text-white text-opacity-90">Bienvenido de vuelta</p>
+            </div>
+
+            @* Form *@
+            <div class="px-8 py-8">
+                <form asp-action="Login" method="post" class="space-y-6">
+                    
+                    @* Email Field *@
+                    <div>
+                        <label for="email" class="block text-sm font-semibold text-gray-700 mb-2">
+                            Correo Electrónico
+                        </label>
+                        <div class="relative">
+                            <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                <svg class="h-5 w-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 12a4 4 0 10-8 0 4 4 0 008 0zm0 0v1.5a2.5 2.5 0 005 0V12a9 9 0 10-9 9m4.5-1.206a8.959 8.959 0 01-4.5 1.207" />
+                                </svg>
+                            </div>
+                            <input 
+                                type="email" 
+                                id="email" 
+                                name="email" 
+                                required
+                                class="block w-full pl-10 pr-3 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#1a7487] focus:border-transparent transition-all duration-200 placeholder-gray-400"
+                                placeholder="tu@email.com" />
+                        </div>
+                    </div>
+
+                    @* Password Field *@
+                    <div>
+                        <label for="password" class="block text-sm font-semibold text-gray-700 mb-2">
+                            Contraseña
+                        </label>
+                        <div class="relative">
+                            <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                <svg class="h-5 w-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
+                                </svg>
+                            </div>
+                            <input 
+                                type="password" 
+                                id="password" 
+                                name="password" 
+                                required
+                                class="block w-full pl-10 pr-3 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#1a7487] focus:border-transparent transition-all duration-200 placeholder-gray-400"
+                                placeholder="••••••••" />
+                        </div>
+                    </div>
+
+                    @* Remember & Forgot *@
+                    <div class="flex items-center justify-between">
+                        <div class="flex items-center">
+                            <input 
+                                type="checkbox" 
+                                id="remember" 
+                                name="remember"
+                                class="h-4 w-4 text-[#1a7487] focus:ring-[#1a7487] border-gray-300 rounded" />
+                            <label for="remember" class="ml-2 block text-sm text-gray-700">
+                                Recordarme
+                            </label>
+                        </div>
+                        <div class="text-sm">
+                            <a href="#" class="font-medium text-[#1a7487] hover:text-[#145a6a] transition-colors">
+                                ¿Olvidaste tu contraseña?
+                            </a>
+                        </div>
+                    </div>
+
+                    @* Submit Button *@
+                    <button 
+                        type="submit"
+                        class="w-full bg-[#1a7487] hover:bg-[#145a6a] text-white font-semibold py-3 px-4 rounded-lg transition-all duration-300 transform hover:scale-[1.02] shadow-lg hover:shadow-xl">
+                        Iniciar Sesión
+                    </button>
+
+                </form>
+            </div>
+
+            @* Footer *@
+            <div class="bg-gray-50 px-8 py-4 text-center border-t border-gray-200">
+                <a asp-controller="Home" asp-action="Index" class="text-sm text-[#1a7487] hover:text-[#145a6a] font-medium transition-colors">
+                    ← Volver al inicio
+                </a>
+            </div>
+
+        </div>
+
+    </div>
+</div>
+
+@* Mensaje temporal si existe *@
+@if (TempData["Message"] != null)
+{
+    <div id="tempMessage" class="fixed top-4 right-4 bg-green-500 text-white px-6 py-3 rounded-lg shadow-lg z-50 animate-slide-in">
+        @TempData["Message"]
+    </div>
+    <script>
+        setTimeout(() => {
+            const msg = document.getElementById('tempMessage');
+            if (msg) msg.style.display = 'none';
+        }, 3000);
+    </script>
+}
