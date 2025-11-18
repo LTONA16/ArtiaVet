@@ -321,6 +321,158 @@ namespace ArtiaVet.Controllers
                 Console.WriteLine($"Error al obtener detalle de cita: {ex.Message}");
                 return Json(new { success = false, mensaje = "Error al obtener los detalles de la cita" });
             }
+
+
         }
+
+        // Recordatorios
+        // Agregar estos métodos a tu RecepcionistaController existente
+
+        // GET: Recepcionista/Recordatorios
+        public async Task<IActionResult> Recordatorios()
+        {
+            try
+            {
+                var recordatoriosViewModel = await _repositorioCitas.ObtenerRecordatoriosProximos7DiasAsync();
+                ViewBag.Citas = await _repositorioCitas.ObtenerCitasActivasAsync();
+                return View(recordatoriosViewModel);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error al cargar recordatorios: {ex.Message}");
+                TempData["Error"] = "Ocurrió un error al cargar los recordatorios. Por favor intente nuevamente.";
+                return View(new RecordatoriosProximosViewModel());
+            }
+        }
+
+        // GET: Recepcionista/ObtenerCitasActivas
+        [HttpGet]
+        public async Task<IActionResult> ObtenerCitasActivas()
+        {
+            try
+            {
+                var citas = await _repositorioCitas.ObtenerCitasActivasAsync();
+                return Json(new { success = true, data = citas });
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error al obtener citas activas: {ex.Message}");
+                return Json(new { success = false, mensaje = "Error al obtener las citas activas" });
+            }
+        }
+
+        // POST: Recepcionista/CrearRecordatorio
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> CrearRecordatorio(RecordatorioViewModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                TempData["Error"] = "Por favor complete todos los campos requeridos";
+                return RedirectToAction("Recordatorios");
+            }
+
+            try
+            {
+                await _repositorioCitas.CrearRecordatorioAsync(model);
+                TempData["Mensaje"] = "Recordatorio creado exitosamente";
+                return RedirectToAction("Recordatorios");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error al crear recordatorio: {ex.Message}");
+                TempData["Error"] = "Ocurrió un error al crear el recordatorio. Por favor intente nuevamente.";
+                return RedirectToAction("Recordatorios");
+            }
+        }
+
+        // GET: Recepcionista/ObtenerRecordatorio
+        [HttpGet]
+        public async Task<IActionResult> ObtenerRecordatorio(int id)
+        {
+            try
+            {
+                var recordatorio = await _repositorioCitas.ObtenerRecordatorioPorIdAsync(id);
+
+                if (recordatorio == null)
+                {
+                    return NotFound(new { mensaje = "Recordatorio no encontrado" });
+                }
+
+                return Json(new { success = true, data = recordatorio });
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error al obtener recordatorio: {ex.Message}");
+                return Json(new { success = false, mensaje = "Error al obtener el recordatorio" });
+            }
+        }
+
+        // POST: Recepcionista/EditarRecordatorio
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> EditarRecordatorio(RecordatorioViewModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                TempData["Error"] = "Por favor complete todos los campos requeridos";
+                return RedirectToAction("Recordatorios");
+            }
+
+            try
+            {
+                await _repositorioCitas.ActualizarRecordatorioAsync(model);
+                TempData["Mensaje"] = "Recordatorio actualizado exitosamente";
+                return RedirectToAction("Recordatorios");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error al actualizar recordatorio: {ex.Message}");
+                TempData["Error"] = "Ocurrió un error al actualizar el recordatorio. Por favor intente nuevamente.";
+                return RedirectToAction("Recordatorios");
+            }
+        }
+
+        // POST: Recepcionista/EliminarRecordatorio
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> EliminarRecordatorio(int id)
+        {
+            try
+            {
+                await _repositorioCitas.EliminarRecordatorioAsync(id);
+                TempData["Mensaje"] = "Recordatorio eliminado exitosamente";
+                return RedirectToAction("Recordatorios");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error al eliminar recordatorio: {ex.Message}");
+                TempData["Error"] = "Ocurrió un error al eliminar el recordatorio. Por favor intente nuevamente.";
+                return RedirectToAction("Recordatorios");
+            }
+        }
+
+        // GET: Recepcionista/ObtenerDetalleRecordatorio
+        [HttpGet]
+        public async Task<IActionResult> ObtenerDetalleRecordatorio(int id)
+        {
+            try
+            {
+                var recordatorio = await _repositorioCitas.ObtenerDetalleRecordatorioCompletoAsync(id);
+
+                if (recordatorio == null)
+                {
+                    return NotFound(new { mensaje = "Recordatorio no encontrado" });
+                }
+
+                return Json(new { success = true, data = recordatorio });
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error al obtener detalle del recordatorio: {ex.Message}");
+                return Json(new { success = false, mensaje = "Error al obtener los detalles del recordatorio" });
+            }
+        }
+
     }
 }

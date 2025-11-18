@@ -1,0 +1,80 @@
+<div id="modalDetalleRecordatorio" class="hidden fixed inset-0 bg-opacity-30 backdrop-blur-sm flex items-center justify-center z-50">
+    <div class="bg-white rounded-2xl p-8 max-w-2xl w-full mx-4 max-h-[90vh] overflow-y-auto">
+        <div class="flex justify-between items-center mb-6">
+            <h2 class="text-2xl font-bold text-gray-800">Detalle del Recordatorio</h2>
+            <button onclick="cerrarModalDetalleRecordatorio()" class="text-gray-400 hover:text-gray-600">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                </svg>
+            </button>
+        </div>
+
+        <div class="space-y-6">
+            <div class="bg-blue-50 rounded-lg p-4">
+                <div class="flex items-center gap-3">
+                    <div class="w-12 h-12 rounded-full flex items-center justify-center bg-blue-500">
+                        <svg class="w-6 h-6" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22Z" stroke="#ffffff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                            <path d="M12 6V12L16 14" stroke="#ffffff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                        </svg>
+                    </div>
+                    <div>
+                        <p class="text-sm text-gray-600">ID del Recordatorio</p>
+                        <p class="font-semibold text-gray-800" id="detalleRecordatorioId">#0000</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-2 gap-4">
+                <div>
+                    <label class="block text-sm font-medium text-gray-600 mb-1">Asunto</label>
+                    <p class="text-gray-800 font-medium" id="detalleAsunto">-</p>
+                </div>
+
+                <div>
+                    <label class="block text-sm font-medium text-gray-600 mb-1">Fecha</label>
+                    <p class="text-gray-800 font-medium" id="detalleRecordatorioFecha">-</p>
+                </div>
+
+                <div>
+                    <label class="block text-sm font-medium text-gray-600 mb-1">Hora</label>
+                    <p class="text-gray-800 font-medium" id="detalleRecordatorioHora">-</p>
+                </div>
+
+                <div>
+                    <label class="block text-sm font-medium text-gray-600 mb-1">Dueño</label>
+                    <p class="text-gray-800 font-medium" id="detalleRecordatorioDueno">-</p>
+                </div>
+
+                <div>
+                    <label class="block text-sm font-medium text-gray-600 mb-1">Mascota</label>
+                    <p class="text-gray-800 font-medium" id="detalleRecordatorioMascota">-</p>
+                </div>
+
+                <div>
+                    <label class="block text-sm font-medium text-gray-600 mb-1">Teléfono</label>
+                    <p class="text-gray-800 font-medium" id="detalleTelefono">-</p>
+                </div>
+
+                <div class="col-span-2">
+                    <label class="block text-sm font-medium text-gray-600 mb-1">Email</label>
+                    <p class="text-gray-800 font-medium" id="detalleEmail">-</p>
+                </div>
+            </div>
+
+            <div>
+                <label class="block text-sm font-medium text-gray-600 mb-2">Mensaje</label>
+                <div class="bg-gray-50 rounded-lg p-4">
+                    <p class="text-gray-800" id="detalleMensaje">-</p>
+                </div>
+            </div>
+
+            <div class="flex gap-3 pt-4">
+                <button onclick="cerrarModalDetalleRecordatorio()"
+                        class="flex-1 px-6 py-3 bg-gray-200 text-gray-700 rounded-lg hover:bg-gray-300 transition-colors font-medium">
+                    Cerrar
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
