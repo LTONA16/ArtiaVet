@@ -1,6 +1,6 @@
 # Archivos binarios y de compilación
-/bin/*
-/obj/*
+bin/
+obj/
 
 # Configuración de Visual Studio
 *.user
