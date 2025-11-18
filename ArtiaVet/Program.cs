@@ -9,6 +9,12 @@ builder.Services.AddScoped<IRepositorioTest, RepositorioTest>();
 builder.Services.AddScoped<IRepositorioDropdowns, RepositorioDropdowns>();
 builder.Services.AddScoped<IRepositorioInventario, RepositorioInventario>();
 builder.Services.AddScoped<IRepositorioCalendario, RepositorioCalendario>();
+builder.Services.AddScoped<IRepositorioCitas, RepositorioCitas>();
+
+builder.Services.AddAntiforgery(options =>
+{
+    options.HeaderName = "X-CSRF-TOKEN";
+});
 
 var app = builder.Build();
 

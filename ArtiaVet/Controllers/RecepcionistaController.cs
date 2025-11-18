@@ -9,16 +9,18 @@ namespace ArtiaVet.Controllers
         private readonly IRepositorioDropdowns _repositorioDropdowns;
         private readonly IRepositorioInventario _repositorioInventario;
         private readonly IRepositorioCalendario _repositorioCalendario;
-        
+        private readonly IRepositorioCitas _repositorioCitas;
 
         public RecepcionistaController(
             IRepositorioDropdowns repositorioDropdowns,
             IRepositorioInventario repositorioInventario,
-            IRepositorioCalendario repositorioCalendario)
+            IRepositorioCalendario repositorioCalendario,
+            IRepositorioCitas repositorioCitas)
         {
             _repositorioDropdowns = repositorioDropdowns;
             _repositorioInventario = repositorioInventario;
             _repositorioCalendario = repositorioCalendario;
+            _repositorioCitas = repositorioCitas;
         }
 
         public async Task<IActionResult> Index()
@@ -188,6 +190,131 @@ namespace ArtiaVet.Controllers
                         colorTexto = cita.ColorTexto
                     }
                 });
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error al obtener detalle de cita: {ex.Message}");
+                return Json(new { success = false, mensaje = "Error al obtener los detalles de la cita" });
+            }
+        }
+
+        // ============ MÉTODOS DE CITAS ============
+
+        public async Task<IActionResult> Citas()
+        {
+            try
+            {
+                var citasProximas = await _repositorioCitas.ObtenerCitasProximos7DiasAsync();
+                ViewBag.Veterinarios = await _repositorioCitas.ObtenerVeterinariosAsync();
+                ViewBag.Mascotas = await _repositorioCitas.ObtenerMascotasAsync();
+                ViewBag.TiposCita = await _repositorioCitas.ObtenerTiposCitaAsync();
+                ViewBag.TiposAnimales = await _repositorioCitas.ObtenerTiposAnimalesAsync();
+                ViewBag.Duenos = await _repositorioCitas.ObtenerDuenosAsync();
+                ViewBag.Alergias = await _repositorioCitas.ObtenerAlergiasAsync();
+                
+                return View(citasProximas);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error al cargar citas: {ex.Message}");
+                TempData["Error"] = "Ocurrió un error al cargar las citas. Por favor intente nuevamente.";
+                return RedirectToAction("Index");
+            }
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> CrearCitaDesdeListado(CitaViewModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                TempData["Error"] = "Por favor complete todos los campos requeridos";
+                return RedirectToAction("Citas");
+            }
+
+            try
+            {
+                await _repositorioCitas.CrearCitaAsync(model);
+                TempData["Mensaje"] = "Cita creada exitosamente";
+                return RedirectToAction("Citas");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error al crear cita: {ex.Message}");
+                TempData["Error"] = "Ocurrió un error al crear la cita. Por favor intente nuevamente.";
+                return RedirectToAction("Citas");
+            }
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> CrearDueno([FromBody] DuenoViewModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                var errors = ModelState.Values.SelectMany(v => v.Errors).Select(e => e.ErrorMessage);
+                return Json(new { success = false, mensaje = string.Join(", ", errors) });
+            }
+
+            try
+            {
+                var dueñoId = await _repositorioCitas.CrearDuenoAsync(model);
+                var dueños = await _repositorioCitas.ObtenerDuenosAsync();
+                
+                return Json(new { 
+                    success = true, 
+                    mensaje = "Dueño creado exitosamente",
+                    dueñoId = dueñoId,
+                    dueños = dueños
+                });
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error al crear dueño: {ex.Message}");
+                return Json(new { success = false, mensaje = $"Ocurrió un error: {ex.Message}" });
+            }
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> CrearMascota([FromBody] MascotaViewModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                var errors = ModelState.Values.SelectMany(v => v.Errors).Select(e => e.ErrorMessage);
+                return Json(new { success = false, mensaje = string.Join(", ", errors) });
+            }
+
+            try
+            {
+                var mascotaId = await _repositorioCitas.CrearMascotaAsync(model);
+                var mascotas = await _repositorioCitas.ObtenerMascotasAsync();
+                
+                return Json(new { 
+                    success = true, 
+                    mensaje = "Mascota creada exitosamente",
+                    mascotaId = mascotaId,
+                    mascotas = mascotas
+                });
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error al crear mascota: {ex.Message}");
+                return Json(new { success = false, mensaje = $"Ocurrió un error: {ex.Message}" });
+            }
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> ObtenerDetalleCitaCompleto(int id)
+        {
+            try
+            {
+                var cita = await _repositorioCitas.ObtenerDetalleCitaAsync(id);
+                
+                if (cita == null)
+                {
+                    return NotFound(new { mensaje = "Cita no encontrada" });
+                }
+                
+                return Json(new { success = true, data = cita });
             }
             catch (Exception ex)
             {
