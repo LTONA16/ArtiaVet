@@ -1,228 +1,112 @@
-@* Modal para Nueva Mascota *@
+<!-- Modal para Nueva Mascota (actualizado) -->
 <div id="modalNuevaMascota" class="hidden fixed inset-0 bg-opacity-30 backdrop-blur-sm z-[60] flex items-center justify-center p-4">
-    <div class="bg-white rounded-2xl shadow-2xl max-w-2xl w-full max-h-[90vh] overflow-y-auto">
+  <div class="bg-white rounded-2xl shadow-2xl max-w-2xl w-full max-h-[90vh] overflow-y-auto">
+    <div class="sticky top-0 bg-white border-b border-gray-200 px-6 py-4 rounded-t-2xl z-10">
+      <div class="flex justify-between items-center">
+        <h2 class="text-2xl font-bold text-gray-800">Nueva Mascota</h2>
+        <button type="button" onclick="cerrarModalMascota()" class="text-gray-400 hover:text-gray-600 transition-colors">✕</button>
+      </div>
+    </div>
 
-        @* Header del Modal *@
-        <div class="sticky top-0 bg-white border-b border-gray-200 px-6 py-4 rounded-t-2xl z-10">
-            <div class="flex justify-between items-center">
-                <h2 class="text-2xl font-bold text-gray-800">Nueva Mascota</h2>
-                <button type="button" onclick="cerrarModalMascota()" class="text-gray-400 hover:text-gray-600 transition-colors">
-                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
-                    </svg>
-                </button>
-            </div>
+    <form id="formNuevaMascota" class="p-6">
+      @Html.AntiForgeryToken()
+
+      <div class="space-y-5">
+        <div>
+          <label for="NombreMascota" class="block text-sm font-semibold text-gray-700 mb-2">Nombre <span class="text-red-500">*</span></label>
+          <input type="text" id="NombreMascota" name="Nombre" required maxlength="50" class="w-full px-4 py-3 border rounded-lg" placeholder="Ej: Max, Luna" />
         </div>
 
-        @* Formulario *@
-        <form id="formNuevaMascota" class="p-6">
-            @Html.AntiForgeryToken()
+        <div>
+          <label for="TipoAnimalID" class="block text-sm font-semibold text-gray-700 mb-2">Tipo de Animal <span class="text-red-500">*</span></label>
+          <select id="TipoAnimalID" name="TipoAnimalID" required class="w-full px-4 py-3 border rounded-lg">
+            <option value="">Seleccione un tipo de animal</option>
+            @if (ViewBag.TiposAnimales != null)
+            {
+              @foreach (var tipo in ViewBag.TiposAnimales as List<Microsoft.AspNetCore.Mvc.Rendering.SelectListItem>)
+              {
+                <option value="@tipo.Value">@tipo.Text</option>
+              }
+            }
+          </select>
+        </div>
 
-            <div class="space-y-5">
+        <div>
+          <label for="DuenoID" class="block text-sm font-semibold text-gray-700 mb-2">Dueño <span class="text-red-500">*</span></label>
+          <div class="flex gap-2">
+            <select id="DuenoID" name="DuenoID" required class="flex-1 px-4 py-3 border rounded-lg">
+              <option value="">Cargando dueños...</option>
+            </select>
+            <button type="button" onclick="abrirModalDueno()" class="px-4 py-3 bg-gray-100 hover:bg-gray-200 rounded-lg">+</button>
+          </div>
+        </div>
 
-                @* Nombre *@
-                <div>
-                    <label for="NombreMascota" class="block text-sm font-semibold text-gray-700 mb-2">
-                        Nombre <span class="text-red-500">*</span>
-                    </label>
-                    <input type="text" id="NombreMascota" name="Nombre" required maxlength="50"
-                           class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-cyan-500 focus:border-transparent transition-all"
-                           placeholder="Ej: Max, Luna, Rocky" />
-                </div>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div>
+            <label for="RazaMascota" class="block text-sm font-semibold text-gray-700 mb-2">Raza <span class="text-red-500">*</span></label>
+            <input type="text" id="RazaMascota" name="Raza" required maxlength="50" class="w-full px-4 py-3 border rounded-lg" placeholder="Ej: Labrador" />
+          </div>
+          <div>
+            <label for="EdadMascota" class="block text-sm font-semibold text-gray-700 mb-2">Edad (años) <span class="text-red-500">*</span></label>
+            <input type="number" id="EdadMascota" name="Edad" required min="0" max="50" class="w-full px-4 py-3 border rounded-lg" placeholder="0" />
+          </div>
+        </div>
 
-                @* Tipo de Animal *@
-                <div>
-                    <label for="TipoAnimalID" class="block text-sm font-semibold text-gray-700 mb-2">
-                        Tipo de Animal <span class="text-red-500">*</span>
-                    </label>
-                    <select id="TipoAnimalID" name="TipoAnimalID" required
-                            class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-cyan-500 focus:border-transparent transition-all">
-                        <option value="">Seleccione un tipo de animal</option>
-                        @if (ViewBag.TiposAnimales != null)
-                        {
-                            @foreach (var tipo in ViewBag.TiposAnimales as List<Microsoft.AspNetCore.Mvc.Rendering.SelectListItem>)
-                            {
-                                <option value="@tipo.Value">@tipo.Text</option>
-                            }
-                        }
-                    </select>
-                </div>
+        <div>
+          <label for="NotasMascota" class="block text-sm font-semibold text-gray-700 mb-2">Notas</label>
+          <textarea id="NotasMascota" name="Notas" rows="3" class="w-full px-4 py-3 border rounded-lg resize-none" placeholder="Información adicional..."></textarea>
+        </div>
+      </div>
 
-                @* Dueño *@
-                <div>
-                    <label for="DuenoID" class="block text-sm font-semibold text-gray-700 mb-2">
-                        Dueño <span class="text-red-500">*</span>
-                    </label>
-                    <div class="flex gap-2">
-                        <select id="DuenoID" name="DuenoID" required
-                                class="flex-1 px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-cyan-500 focus:border-transparent transition-all">
-                            <option value="">Seleccione un dueño</option>
-                            @if (ViewBag.Dueños != null)
-                            {
-                                @foreach (var dueño in ViewBag.Dueños as List<Microsoft.AspNetCore.Mvc.Rendering.SelectListItem>)
-                                {
-                                    <option value="@dueño.Value">@dueño.Text</option>
-                                }
-                            }
-                        </select>
-                        <button type="button" onclick="abrirModalDueno()" 
-                                class="px-4 py-3 bg-gray-100 hover:bg-gray-200 rounded-lg transition-colors">
-                            <span class="text-gray-600 text-lg leading-none">+</span>
-                        </button>
-                    </div>
-                </div>
-
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    @* Raza *@
-                    <div>
-                        <label for="RazaMascota" class="block text-sm font-semibold text-gray-700 mb-2">
-                            Raza <span class="text-red-500">*</span>
-                        </label>
-                        <input type="text" id="RazaMascota" name="Raza" required maxlength="50"
-                               class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-cyan-500 focus:border-transparent transition-all"
-                               placeholder="Ej: Labrador, Siamés" />
-                    </div>
-
-                    @* Edad *@
-                    <div>
-                        <label for="EdadMascota" class="block text-sm font-semibold text-gray-700 mb-2">
-                            Edad (años) <span class="text-red-500">*</span>
-                        </label>
-                        <input type="number" id="EdadMascota" name="Edad" required min="0" max="50"
-                               class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-cyan-500 focus:border-transparent transition-all"
-                               placeholder="0" />
-                    </div>
-                </div>
-
-                @* Alergias *@
-                <div>
-                    <label class="block text-sm font-semibold text-gray-700 mb-2">
-                        Alergias (opcional)
-                    </label>
-                    <div class="border border-gray-300 rounded-lg p-4 max-h-40 overflow-y-auto">
-                        @if (ViewBag.Alergias != null)
-                        {
-                            @foreach (var alergia in ViewBag.Alergias as List<Microsoft.AspNetCore.Mvc.Rendering.SelectListItem>)
-                            {
-                                <div class="flex items-center mb-2">
-                                    <input type="checkbox" id="alergia_@alergia.Value" name="AlergiasIDs" value="@alergia.Value"
-                                           class="w-4 h-4 text-cyan-600 border-gray-300 rounded focus:ring-cyan-500" />
-                                    <label for="alergia_@alergia.Value" class="ml-2 text-sm text-gray-700">
-                                        @alergia.Text
-                                    </label>
-                                </div>
-                            }
-                        }
-                    </div>
-                </div>
-
-                @* Notas *@
-                <div>
-                    <label for="NotasMascota" class="block text-sm font-semibold text-gray-700 mb-2">
-                        Notas (opcional)
-                    </label>
-                    <textarea id="NotasMascota" name="Notas" rows="3" maxlength="500"
-                              class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-cyan-500 focus:border-transparent transition-all resize-none"
-                              placeholder="Información adicional sobre la mascota..."></textarea>
-                </div>
-
-            </div>
-
-            @* Botones *@
-            <div class="flex gap-3 mt-6 pt-6 border-t border-gray-200">
-                <button type="button" onclick="cerrarModalMascota()"
-                        class="flex-1 px-6 py-3 border border-gray-300 text-gray-700 font-medium rounded-lg hover:bg-gray-50 transition-colors">
-                    Cancelar
-                </button>
-                <button type="button" onclick="guardarMascota()"
-                        class="flex-1 px-6 py-3 bg-cyan-600 text-white font-medium rounded-lg hover:bg-cyan-700 transition-colors">
-                    Guardar Mascota
-                </button>
-            </div>
-        </form>
-
-    </div>
+      <div class="flex gap-3 mt-6 pt-6 border-t border-gray-200">
+        <button type="button" onclick="cerrarModalMascota()" class="flex-1 px-6 py-3 border rounded-lg">Cancelar</button>
+        <button type="button" onclick="guardarMascota()" class="flex-1 px-6 py-3 bg-cyan-600 text-white rounded-lg hover:bg-cyan-700">Guardar Mascota</button>
+      </div>
+    </form>
+  </div>
 </div>
 
 <script>
-    function abrirModalMascota() {
-        document.getElementById('modalNuevaMascota').classList.remove('hidden');
-    }
+  async function abrirModalMascota() {
+    document.getElementById('modalNuevaMascota').classList.remove('hidden');
+    ocultarMensajesMascota && ocultarMensajesMascota();
+    await cargarDuenosDropdown(); // <-- fuerza recarga desde servidor
+  }
 
-    function cerrarModalMascota() {
-        document.getElementById('modalNuevaMascota').classList.add('hidden');
-        document.getElementById('formNuevaMascota').reset();
-    }
+  function cerrarModalMascota() {
+    document.getElementById('modalNuevaMascota').classList.add('hidden');
+    document.getElementById('formNuevaMascota').reset();
+    ocultarMensajesMascota && ocultarMensajesMascota();
+  }
 
-    function guardarMascota() {
-        const form = document.getElementById('formNuevaMascota');
-        
-        if (!form.checkValidity()) {
-            form.reportValidity();
-            return;
-        }
+  async function cargarDuenosDropdown() {
+    const selectDueno = document.getElementById('DuenoID');
+    selectDueno.innerHTML = '<option value="">Cargando dueños...</option>';
 
-        const nombre = document.getElementById('NombreMascota').value;
-        const tipoAnimalID = document.getElementById('TipoAnimalID').value;
-        const dueñoID = document.getElementById('DuenoID').value;
-        const raza = document.getElementById('RazaMascota').value;
-        const edad = document.getElementById('EdadMascota').value;
-        const notas = document.getElementById('NotasMascota').value;
-
-        if (!nombre || !tipoAnimalID || !dueñoID || !raza || !edad) {
-            alert('Por favor complete todos los campos requeridos');
-            return;
-        }
-
-        const alergiasCheckboxes = document.querySelectorAll('input[name="AlergiasIDs"]:checked');
-        const alergiasIDs = Array.from(alergiasCheckboxes).map(cb => parseInt(cb.value));
-
-        const data = {
-            Nombre: nombre,
-            TipoAnimalID: parseInt(tipoAnimalID),
-            DueñoID: parseInt(dueñoID),
-            Raza: raza,
-            Edad: parseInt(edad),
-            Notas: notas || null,
-            AlergiasIDs: alergiasIDs
-        };
-
-        console.log('Datos a enviar:', data);
-
-        const token = document.querySelector('input[name="__RequestVerificationToken"]').value;
-
-        fetch('/Recepcionista/CrearMascota', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'X-CSRF-TOKEN': token
-            },
-            body: JSON.stringify(data)
-        })
-        .then(response => response.json())
-        .then(result => {
-            if (result.success) {
-                const selectMascota = document.getElementById('MascotaID');
-                selectMascota.innerHTML = '<option value="">Seleccione una mascota</option>';
-                
-                result.mascotas.forEach(mascota => {
-                    const option = document.createElement('option');
-                    option.value = mascota.value;
-                    option.textContent = mascota.text;
-                    selectMascota.appendChild(option);
-                });
-
-                selectMascota.value = result.mascotaId;
-
-                cerrarModalMascota();
-                alert('Mascota creada exitosamente');
-            } else {
-                alert(result.mensaje || 'Error al crear la mascota');
-            }
-        })
-        .catch(error => {
-            console.error('Error:', error);
-            alert('Error al crear la mascota');
+    try {
+        const response = await fetch('/Recepcionista/ObtenerDuenos', {
+            method: 'GET',
+            credentials: 'same-origin'
         });
+
+        const result = await response.json();
+
+        selectDueno.innerHTML = '<option value="">Seleccione un dueño</option>';
+
+        result.dueños.forEach(d => {
+            const option = document.createElement('option');
+            option.value = d.value;
+            option.textContent = d.text;
+            selectDueno.appendChild(option);
+        });
+
+        console.log("Dueños cargados:", result.dueños.length);
+    } catch(e) {
+        console.error("Error cargando dueños:", e);
+        selectDueno.innerHTML = '<option value="">Error cargando dueños</option>';
     }
+}
+
+
+  // guardarMascota() ya existente en tu archivo; asegúrate que use #DuenoID para el dueño seleccionado.
 </script>

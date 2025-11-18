@@ -325,6 +325,23 @@ namespace ArtiaVet.Controllers
 
         }
 
+        [HttpGet]
+        public async Task<IActionResult> ObtenerDuenos()
+        {
+            try
+            {
+                var dueños = await _repositorioCitas.ObtenerDuenosAsync();
+                // devolver en el mismo formato que usas en el frontend: { dueños: [ { value, text } ] }
+                return Json(new { success = true, dueños });
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error al obtener dueños: {ex.Message}");
+                return Json(new { success = false, mensaje = "Error al obtener dueños" });
+            }
+        }
+
+
         // Recordatorios
         // Agregar estos métodos a tu RecepcionistaController existente
 

@@ -9,10 +9,13 @@
             </button>
         </div>
 
-        <form asp-controller="Recepcionista" asp-action="CrearRecordatorio" method="post">
+        <form id="formNuevoRecordatorio" asp-controller="Recepcionista" asp-action="CrearRecordatorio" method="post">
             @Html.AntiForgeryToken()
 
+            <input type="hidden" id="FechaRecordatorio" name="FechaRecordatorio" />
+
             <div class="space-y-4">
+
                 <div>
                     <label class="block text-sm font-medium text-gray-700 mb-2">Cita *</label>
                     <select name="CitaID" id="nuevoCitaID" required
@@ -25,10 +28,18 @@
                     </select>
                 </div>
 
-                <div>
-                    <label class="block text-sm font-medium text-gray-700 mb-2">Fecha y Hora del Recordatorio *</label>
-                    <input type="datetime-local" name="FechaRecordatorio" required
-                           class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent" />
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Fecha *</label>
+                        <input type="date" id="fechaRecordatorioInput" required
+                               class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent" />
+                    </div>
+
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Hora *</label>
+                        <input type="time" id="horaRecordatorioInput" required
+                               class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent" />
+                    </div>
                 </div>
 
                 <div>
@@ -59,3 +70,34 @@
         </form>
     </div>
 </div>
+
+<script>
+    function abrirModalRecordatorio() {
+        document.getElementById('modalNuevoRecordatorio').classList.remove('hidden');
+        document.body.style.overflow = 'hidden';
+    }
+
+    function cerrarModalRecordatorio() {
+        document.getElementById('modalNuevoRecordatorio').classList.add('hidden');
+        document.body.style.overflow = 'auto';
+        document.getElementById('formNuevoRecordatorio').reset();
+    }
+
+    // Convertimos fecha + hora → DateTime adecuado para DB
+    document.getElementById('formNuevoRecordatorio').addEventListener('submit', function () {
+        const fecha = document.getElementById('fechaRecordatorioInput').value;
+        const hora = document.getElementById('horaRecordatorioInput').value;
+
+        if (fecha && hora) {
+            const fechaHora = `${fecha}T${hora}:00`;
+            document.getElementById('FechaRecordatorio').value = fechaHora;
+        }
+    });
+
+    // Cerrar modal al hacer click fuera del contenido
+    document.getElementById('modalNuevoRecordatorio')?.addEventListener('click', function (e) {
+        if (e.target === this) {
+            cerrarModalRecordatorio();
+        }
+    });
+</script>

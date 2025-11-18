@@ -14,6 +14,16 @@
             </div>
         </div>
 
+        @* Mensaje de Error *@
+        <div id="errorMensajeCita" class="hidden mx-6 mt-4 p-4 bg-red-100 border border-red-400 text-red-700 rounded-lg">
+            <div class="flex items-center gap-2">
+                <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd"/>
+                </svg>
+                <span id="errorTextoCita"></span>
+            </div>
+        </div>
+
         @* Formulario *@
         <form id="formNuevaCita" asp-action="CrearCitaDesdeListado" asp-controller="Recepcionista" method="post" class="p-6">
             @Html.AntiForgeryToken()
@@ -145,12 +155,26 @@
     function abrirModalCita() {
         document.getElementById('modalNuevaCita').classList.remove('hidden');
         document.body.style.overflow = 'hidden';
+        ocultarErrorCita();
     }
 
     function cerrarModalCita() {
         document.getElementById('modalNuevaCita').classList.add('hidden');
         document.body.style.overflow = 'auto';
         document.getElementById('formNuevaCita').reset();
+        ocultarErrorCita();
+    }
+
+    function mostrarErrorCita(mensaje) {
+        const errorDiv = document.getElementById('errorMensajeCita');
+        const errorTexto = document.getElementById('errorTextoCita');
+        errorTexto.textContent = mensaje;
+        errorDiv.classList.remove('hidden');
+        errorDiv.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    }
+
+    function ocultarErrorCita() {
+        document.getElementById('errorMensajeCita').classList.add('hidden');
     }
 
     document.getElementById('formNuevaCita').addEventListener('submit', function (e) {
