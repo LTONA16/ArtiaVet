@@ -1,0 +1,24 @@
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.5.2.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ArtiaVet", "ArtiaVet.csproj", "{AF2D3F19-049C-1488-CCC0-D196DC4C2098}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{AF2D3F19-049C-1488-CCC0-D196DC4C2098}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AF2D3F19-049C-1488-CCC0-D196DC4C2098}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AF2D3F19-049C-1488-CCC0-D196DC4C2098}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AF2D3F19-049C-1488-CCC0-D196DC4C2098}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {B2188BED-CF2D-432E-91B8-E021E80D2775}
+	EndGlobalSection
+EndGlobal

@@ -9,119 +9,119 @@ build_property.EnforceExtendedAnalyzerRules =
 build_property._SupportedPlatformList = Linux,macOS,Windows
 build_property.RootNamespace = ArtiaVet
 build_property.RootNamespace = ArtiaVet
-build_property.ProjectDir = /Users/kevin/Documents/Unison/ArtiaVet/ArtiaVet/
+build_property.ProjectDir = F:\Unison\7mo Semestre\PDS2\ArtiaVet\ArtiaVet\
 build_property.EnableComHosting = 
 build_property.EnableGeneratedComInterfaceComImportInterop = 
 build_property.RazorLangVersion = 8.0
 build_property.SupportLocalizedComponentNames = 
 build_property.GenerateRazorMetadataSourceChecksumAttributes = 
-build_property.MSBuildProjectDirectory = /Users/kevin/Documents/Unison/ArtiaVet/ArtiaVet
+build_property.MSBuildProjectDirectory = F:\Unison\7mo Semestre\PDS2\ArtiaVet\ArtiaVet
 build_property._RazorSourceGeneratorDebug = 
 
-[/Users/kevin/Documents/Unison/ArtiaVet/ArtiaVet/Views/Account/Login.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3MvQWNjb3VudC9Mb2dpbi5jc2h0bWw=
+[F:/Unison/7mo Semestre/PDS2/ArtiaVet/ArtiaVet/Views/Account/Login.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWNjb3VudFxMb2dpbi5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[/Users/kevin/Documents/Unison/ArtiaVet/ArtiaVet/Views/Account/_ViewStart.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3MvQWNjb3VudC9fVmlld1N0YXJ0LmNzaHRtbA==
+[F:/Unison/7mo Semestre/PDS2/ArtiaVet/ArtiaVet/Views/Account/_ViewStart.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWNjb3VudFxfVmlld1N0YXJ0LmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[/Users/kevin/Documents/Unison/ArtiaVet/ArtiaVet/Views/Home/Index.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3MvSG9tZS9JbmRleC5jc2h0bWw=
+[F:/Unison/7mo Semestre/PDS2/ArtiaVet/ArtiaVet/Views/Home/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxJbmRleC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[/Users/kevin/Documents/Unison/ArtiaVet/ArtiaVet/Views/Home/Privacy.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3MvSG9tZS9Qcml2YWN5LmNzaHRtbA==
+[F:/Unison/7mo Semestre/PDS2/ArtiaVet/ArtiaVet/Views/Home/Privacy.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxQcml2YWN5LmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[/Users/kevin/Documents/Unison/ArtiaVet/ArtiaVet/Views/Home/_EquipoSection.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3MvSG9tZS9fRXF1aXBvU2VjdGlvbi5jc2h0bWw=
+[F:/Unison/7mo Semestre/PDS2/ArtiaVet/ArtiaVet/Views/Home/_EquipoSection.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxfRXF1aXBvU2VjdGlvbi5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[/Users/kevin/Documents/Unison/ArtiaVet/ArtiaVet/Views/Home/_FAQSection.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3MvSG9tZS9fRkFRU2VjdGlvbi5jc2h0bWw=
+[F:/Unison/7mo Semestre/PDS2/ArtiaVet/ArtiaVet/Views/Home/_FAQSection.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxfRkFRU2VjdGlvbi5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[/Users/kevin/Documents/Unison/ArtiaVet/ArtiaVet/Views/Home/_HeroSection.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3MvSG9tZS9fSGVyb1NlY3Rpb24uY3NodG1s
+[F:/Unison/7mo Semestre/PDS2/ArtiaVet/ArtiaVet/Views/Home/_HeroSection.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxfSGVyb1NlY3Rpb24uY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[/Users/kevin/Documents/Unison/ArtiaVet/ArtiaVet/Views/Home/_Navbar.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3MvSG9tZS9fTmF2YmFyLmNzaHRtbA==
+[F:/Unison/7mo Semestre/PDS2/ArtiaVet/ArtiaVet/Views/Home/_Navbar.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxfTmF2YmFyLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[/Users/kevin/Documents/Unison/ArtiaVet/ArtiaVet/Views/Home/_ServiciosSection.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3MvSG9tZS9fU2VydmljaW9zU2VjdGlvbi5jc2h0bWw=
+[F:/Unison/7mo Semestre/PDS2/ArtiaVet/ArtiaVet/Views/Home/_ServiciosSection.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxfU2VydmljaW9zU2VjdGlvbi5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[/Users/kevin/Documents/Unison/ArtiaVet/ArtiaVet/Views/Home/_TestimoniosSection.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3MvSG9tZS9fVGVzdGltb25pb3NTZWN0aW9uLmNzaHRtbA==
+[F:/Unison/7mo Semestre/PDS2/ArtiaVet/ArtiaVet/Views/Home/_TestimoniosSection.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxfVGVzdGltb25pb3NTZWN0aW9uLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[/Users/kevin/Documents/Unison/ArtiaVet/ArtiaVet/Views/Recepcionista/Calendario.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3MvUmVjZXBjaW9uaXN0YS9DYWxlbmRhcmlvLmNzaHRtbA==
+[F:/Unison/7mo Semestre/PDS2/ArtiaVet/ArtiaVet/Views/Recepcionista/Calendario.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUmVjZXBjaW9uaXN0YVxDYWxlbmRhcmlvLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[/Users/kevin/Documents/Unison/ArtiaVet/ArtiaVet/Views/Recepcionista/index.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3MvUmVjZXBjaW9uaXN0YS9pbmRleC5jc2h0bWw=
+[F:/Unison/7mo Semestre/PDS2/ArtiaVet/ArtiaVet/Views/Recepcionista/index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUmVjZXBjaW9uaXN0YVxpbmRleC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[/Users/kevin/Documents/Unison/ArtiaVet/ArtiaVet/Views/Recepcionista/Inventario.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3MvUmVjZXBjaW9uaXN0YS9JbnZlbnRhcmlvLmNzaHRtbA==
+[F:/Unison/7mo Semestre/PDS2/ArtiaVet/ArtiaVet/Views/Recepcionista/Inventario.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUmVjZXBjaW9uaXN0YVxJbnZlbnRhcmlvLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[/Users/kevin/Documents/Unison/ArtiaVet/ArtiaVet/Views/Recepcionista/Inventario/_AlertasStock.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3MvUmVjZXBjaW9uaXN0YS9JbnZlbnRhcmlvL19BbGVydGFzU3RvY2suY3NodG1s
+[F:/Unison/7mo Semestre/PDS2/ArtiaVet/ArtiaVet/Views/Recepcionista/Inventario/_AlertasStock.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUmVjZXBjaW9uaXN0YVxJbnZlbnRhcmlvXF9BbGVydGFzU3RvY2suY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[/Users/kevin/Documents/Unison/ArtiaVet/ArtiaVet/Views/Recepcionista/Inventario/_EstadisticasInventario.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3MvUmVjZXBjaW9uaXN0YS9JbnZlbnRhcmlvL19Fc3RhZGlzdGljYXNJbnZlbnRhcmlvLmNzaHRtbA==
+[F:/Unison/7mo Semestre/PDS2/ArtiaVet/ArtiaVet/Views/Recepcionista/Inventario/_EstadisticasInventario.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUmVjZXBjaW9uaXN0YVxJbnZlbnRhcmlvXF9Fc3RhZGlzdGljYXNJbnZlbnRhcmlvLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[/Users/kevin/Documents/Unison/ArtiaVet/ArtiaVet/Views/Recepcionista/Inventario/_TablaInventario.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3MvUmVjZXBjaW9uaXN0YS9JbnZlbnRhcmlvL19UYWJsYUludmVudGFyaW8uY3NodG1s
+[F:/Unison/7mo Semestre/PDS2/ArtiaVet/ArtiaVet/Views/Recepcionista/Inventario/_TablaInventario.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUmVjZXBjaW9uaXN0YVxJbnZlbnRhcmlvXF9UYWJsYUludmVudGFyaW8uY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[/Users/kevin/Documents/Unison/ArtiaVet/ArtiaVet/Views/Recepcionista/_CalendarioSemanal.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3MvUmVjZXBjaW9uaXN0YS9fQ2FsZW5kYXJpb1NlbWFuYWwuY3NodG1s
+[F:/Unison/7mo Semestre/PDS2/ArtiaVet/ArtiaVet/Views/Recepcionista/_CalendarioSemanal.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUmVjZXBjaW9uaXN0YVxfQ2FsZW5kYXJpb1NlbWFuYWwuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[/Users/kevin/Documents/Unison/ArtiaVet/ArtiaVet/Views/Recepcionista/_CitasProximas.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3MvUmVjZXBjaW9uaXN0YS9fQ2l0YXNQcm94aW1hcy5jc2h0bWw=
+[F:/Unison/7mo Semestre/PDS2/ArtiaVet/ArtiaVet/Views/Recepcionista/_CitasProximas.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUmVjZXBjaW9uaXN0YVxfQ2l0YXNQcm94aW1hcy5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[/Users/kevin/Documents/Unison/ArtiaVet/ArtiaVet/Views/Recepcionista/_GraficasStock.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3MvUmVjZXBjaW9uaXN0YS9fR3JhZmljYXNTdG9jay5jc2h0bWw=
+[F:/Unison/7mo Semestre/PDS2/ArtiaVet/ArtiaVet/Views/Recepcionista/_GraficasStock.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUmVjZXBjaW9uaXN0YVxfR3JhZmljYXNTdG9jay5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[/Users/kevin/Documents/Unison/ArtiaVet/ArtiaVet/Views/Recepcionista/_Recordatorios.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3MvUmVjZXBjaW9uaXN0YS9fUmVjb3JkYXRvcmlvcy5jc2h0bWw=
+[F:/Unison/7mo Semestre/PDS2/ArtiaVet/ArtiaVet/Views/Recepcionista/_Recordatorios.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUmVjZXBjaW9uaXN0YVxfUmVjb3JkYXRvcmlvcy5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[/Users/kevin/Documents/Unison/ArtiaVet/ArtiaVet/Views/Recepcionista/_Sidebar.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3MvUmVjZXBjaW9uaXN0YS9fU2lkZWJhci5jc2h0bWw=
+[F:/Unison/7mo Semestre/PDS2/ArtiaVet/ArtiaVet/Views/Recepcionista/_Sidebar.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUmVjZXBjaW9uaXN0YVxfU2lkZWJhci5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[/Users/kevin/Documents/Unison/ArtiaVet/ArtiaVet/Views/Shared/Error.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3MvU2hhcmVkL0Vycm9yLmNzaHRtbA==
+[F:/Unison/7mo Semestre/PDS2/ArtiaVet/ArtiaVet/Views/Shared/Error.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXEVycm9yLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[/Users/kevin/Documents/Unison/ArtiaVet/ArtiaVet/Views/Shared/_LayoutAuth.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3MvU2hhcmVkL19MYXlvdXRBdXRoLmNzaHRtbA==
+[F:/Unison/7mo Semestre/PDS2/ArtiaVet/ArtiaVet/Views/Shared/_LayoutAuth.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9MYXlvdXRBdXRoLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[/Users/kevin/Documents/Unison/ArtiaVet/ArtiaVet/Views/Shared/_ValidationScriptsPartial.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3MvU2hhcmVkL19WYWxpZGF0aW9uU2NyaXB0c1BhcnRpYWwuY3NodG1s
+[F:/Unison/7mo Semestre/PDS2/ArtiaVet/ArtiaVet/Views/Shared/_ValidationScriptsPartial.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9WYWxpZGF0aW9uU2NyaXB0c1BhcnRpYWwuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[/Users/kevin/Documents/Unison/ArtiaVet/ArtiaVet/Views/_ViewImports.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3MvX1ZpZXdJbXBvcnRzLmNzaHRtbA==
+[F:/Unison/7mo Semestre/PDS2/ArtiaVet/ArtiaVet/Views/_ViewImports.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcX1ZpZXdJbXBvcnRzLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[/Users/kevin/Documents/Unison/ArtiaVet/ArtiaVet/Views/_ViewStart.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3MvX1ZpZXdTdGFydC5jc2h0bWw=
+[F:/Unison/7mo Semestre/PDS2/ArtiaVet/ArtiaVet/Views/_ViewStart.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcX1ZpZXdTdGFydC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[/Users/kevin/Documents/Unison/ArtiaVet/ArtiaVet/Views/Shared/_Layout.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3MvU2hhcmVkL19MYXlvdXQuY3NodG1s
-build_metadata.AdditionalFiles.CssScope = b-nur10es2jo
+[F:/Unison/7mo Semestre/PDS2/ArtiaVet/ArtiaVet/Views/Shared/_Layout.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9MYXlvdXQuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = b-s00mbqge7t
