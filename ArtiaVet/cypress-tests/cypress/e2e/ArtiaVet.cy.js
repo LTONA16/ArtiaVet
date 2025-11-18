@@ -118,6 +118,7 @@ describe('Funcionamiento del boton contacto por whatsapp', () => {
 describe('Funcionamiento del boton iniciar sesion', () => {
   it('passes', () => {
     cy.visit('http://localhost:5272/')
+
   })
 })
 

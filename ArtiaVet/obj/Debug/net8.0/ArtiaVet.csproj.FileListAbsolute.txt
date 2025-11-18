@@ -174,8 +174,18 @@ F:/Unison/7mo Semestre/PDS2/ArtiaVet/ArtiaVet/bin/Debug/net8.0/runtimes/win/lib/
 /Users/kevin/Documents/Unison/ArtiaVet/ArtiaVet/bin/Debug/net8.0/cypress-tests/cypress/fixtures/example.json
 /Users/kevin/Documents/Unison/ArtiaVet/ArtiaVet/bin/Debug/net8.0/cypress-tests/package-lock.json
 /Users/kevin/Documents/Unison/ArtiaVet/ArtiaVet/bin/Debug/net8.0/cypress-tests/package.json
+<<<<<<< HEAD
 F:\Unison\7mo Semestre\PDS2\ArtiaVet\ArtiaVet\bin\Debug\net8.0\appsettings.Development.json
 F:\Unison\7mo Semestre\PDS2\ArtiaVet\ArtiaVet\bin\Debug\net8.0\appsettings.json
+=======
+F:\Unison\7mo Semestre\PDS2\ArtiaVet\ArtiaVet\obj\Debug\net8.0\ArtiaVet.dll
+F:\Unison\7mo Semestre\PDS2\ArtiaVet\ArtiaVet\obj\Debug\net8.0\refint\ArtiaVet.dll
+F:\Unison\7mo Semestre\PDS2\ArtiaVet\ArtiaVet\obj\Debug\net8.0\ArtiaVet.pdb
+F:\Unison\7mo Semestre\PDS2\ArtiaVet\ArtiaVet\bin\Debug\net8.0\appsettings.Development.json
+F:\Unison\7mo Semestre\PDS2\ArtiaVet\ArtiaVet\bin\Debug\net8.0\appsettings.json
+F:\Unison\7mo Semestre\PDS2\ArtiaVet\ArtiaVet\bin\Debug\net8.0\cypress-tests\package-lock.json
+F:\Unison\7mo Semestre\PDS2\ArtiaVet\ArtiaVet\bin\Debug\net8.0\cypress\fixtures\example.json
+>>>>>>> citas
 F:\Unison\7mo Semestre\PDS2\ArtiaVet\ArtiaVet\bin\Debug\net8.0\package-lock.json
 F:\Unison\7mo Semestre\PDS2\ArtiaVet\ArtiaVet\bin\Debug\net8.0\package.json
 F:\Unison\7mo Semestre\PDS2\ArtiaVet\ArtiaVet\bin\Debug\net8.0\ArtiaVet.staticwebassets.runtime.json
@@ -205,6 +215,10 @@ F:\Unison\7mo Semestre\PDS2\ArtiaVet\ArtiaVet\bin\Debug\net8.0\Microsoft.SqlServ
 F:\Unison\7mo Semestre\PDS2\ArtiaVet\ArtiaVet\bin\Debug\net8.0\System.ClientModel.dll
 F:\Unison\7mo Semestre\PDS2\ArtiaVet\ArtiaVet\bin\Debug\net8.0\System.Configuration.ConfigurationManager.dll
 F:\Unison\7mo Semestre\PDS2\ArtiaVet\ArtiaVet\bin\Debug\net8.0\System.Data.SqlClient.dll
+<<<<<<< HEAD
+=======
+F:\Unison\7mo Semestre\PDS2\ArtiaVet\ArtiaVet\bin\Debug\net8.0\System.Diagnostics.DiagnosticSource.dll
+>>>>>>> citas
 F:\Unison\7mo Semestre\PDS2\ArtiaVet\ArtiaVet\bin\Debug\net8.0\System.Diagnostics.EventLog.dll
 F:\Unison\7mo Semestre\PDS2\ArtiaVet\ArtiaVet\bin\Debug\net8.0\System.IdentityModel.Tokens.Jwt.dll
 F:\Unison\7mo Semestre\PDS2\ArtiaVet\ArtiaVet\bin\Debug\net8.0\System.Memory.Data.dll
@@ -255,6 +269,7 @@ F:\Unison\7mo Semestre\PDS2\ArtiaVet\ArtiaVet\obj\Debug\net8.0\scopedcss\Views\S
 F:\Unison\7mo Semestre\PDS2\ArtiaVet\ArtiaVet\obj\Debug\net8.0\scopedcss\bundle\ArtiaVet.styles.css
 F:\Unison\7mo Semestre\PDS2\ArtiaVet\ArtiaVet\obj\Debug\net8.0\scopedcss\projectbundle\ArtiaVet.bundle.scp.css
 F:\Unison\7mo Semestre\PDS2\ArtiaVet\ArtiaVet\obj\Debug\net8.0\ArtiaVet.csproj.Up2Date
+<<<<<<< HEAD
 F:\Unison\7mo Semestre\PDS2\ArtiaVet\ArtiaVet\obj\Debug\net8.0\ArtiaVet.dll
 F:\Unison\7mo Semestre\PDS2\ArtiaVet\ArtiaVet\obj\Debug\net8.0\refint\ArtiaVet.dll
 F:\Unison\7mo Semestre\PDS2\ArtiaVet\ArtiaVet\obj\Debug\net8.0\ArtiaVet.pdb
@@ -262,3 +277,7 @@ F:\Unison\7mo Semestre\PDS2\ArtiaVet\ArtiaVet\obj\Debug\net8.0\ArtiaVet.genrunti
 F:\Unison\7mo Semestre\PDS2\ArtiaVet\ArtiaVet\obj\Debug\net8.0\ref\ArtiaVet.dll
 F:\Unison\7mo Semestre\PDS2\ArtiaVet\ArtiaVet\bin\Debug\net8.0\cypress-tests\package-lock.json
 F:\Unison\7mo Semestre\PDS2\ArtiaVet\ArtiaVet\bin\Debug\net8.0\cypress\fixtures\example.json
+=======
+F:\Unison\7mo Semestre\PDS2\ArtiaVet\ArtiaVet\obj\Debug\net8.0\ArtiaVet.genruntimeconfig.cache
+F:\Unison\7mo Semestre\PDS2\ArtiaVet\ArtiaVet\obj\Debug\net8.0\ref\ArtiaVet.dll
+>>>>>>> citas
