@@ -27,4 +27,4 @@ packages/
 *.tmp
 *.cache
 *.DS_Store
-
+ArtiaVet/appsettings.Development.json
