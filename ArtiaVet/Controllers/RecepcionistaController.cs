@@ -1,9 +1,11 @@
+using ArtiaVet.Filters;
 using ArtiaVet.Models;
 using ArtiaVet.Servicios;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ArtiaVet.Controllers
 {
+    [SoloRecepcionista]
     public class RecepcionistaController : Controller
     {
         private readonly IRepositorioDropdowns _repositorioDropdowns;

@@ -76,8 +76,27 @@ F:/Unison/7mo Semestre/PDS2/ArtiaVet/ArtiaVet/bin/Debug/net8.0/runtimes/win/lib/
 F:/Unison/7mo Semestre/PDS2/ArtiaVet/ArtiaVet/bin/Debug/net8.0/runtimes/win/lib/net8.0/System.Security.Cryptography.Pkcs.dll
 F:/Unison/7mo Semestre/PDS2/ArtiaVet/ArtiaVet/obj/Debug/net8.0/ArtiaVet.csproj.AssemblyReference.cache
 F:/Unison/7mo Semestre/PDS2/ArtiaVet/ArtiaVet/obj/Debug/net8.0/ArtiaVet.csproj.Up2Date
+F:/Unison/7mo Semestre/PDS2/ArtiaVet/ArtiaVet/bin/Debug/net8.0/package-lock.json
+F:/Unison/7mo Semestre/PDS2/ArtiaVet/ArtiaVet/bin/Debug/net8.0/package.json
+F:/Unison/7mo Semestre/PDS2/ArtiaVet/ArtiaVet/bin/Debug/net8.0/System.Data.SqlClient.dll
+F:/Unison/7mo Semestre/PDS2/ArtiaVet/ArtiaVet/bin/Debug/net8.0/runtimes/win-arm64/native/sni.dll
+F:/Unison/7mo Semestre/PDS2/ArtiaVet/ArtiaVet/bin/Debug/net8.0/runtimes/win-x64/native/sni.dll
+F:/Unison/7mo Semestre/PDS2/ArtiaVet/ArtiaVet/bin/Debug/net8.0/runtimes/win-x86/native/sni.dll
+F:/Unison/7mo Semestre/PDS2/ArtiaVet/ArtiaVet/bin/Debug/net8.0/runtimes/unix/lib/net8.0/System.Data.SqlClient.dll
+F:/Unison/7mo Semestre/PDS2/ArtiaVet/ArtiaVet/bin/Debug/net8.0/runtimes/win/lib/net8.0/System.Data.SqlClient.dll
+<<<<<<< HEAD
+=======
+F:/Unison/7mo Semestre/PDS2/ArtiaVet/ArtiaVet/bin/Debug/net8.0/cypress-tests/package-lock.json
+F:/Unison/7mo Semestre/PDS2/ArtiaVet/ArtiaVet/bin/Debug/net8.0/cypress/fixtures/example.json
+>>>>>>> citas
+F:/Unison/7mo Semestre/PDS2/ArtiaVet/ArtiaVet/bin/Debug/net8.0/System.Diagnostics.DiagnosticSource.dll
 /Users/kevin/Documents/Unison/ArtiaVet/ArtiaVet/bin/Debug/net8.0/appsettings.Development.json
 /Users/kevin/Documents/Unison/ArtiaVet/ArtiaVet/bin/Debug/net8.0/appsettings.json
+/Users/kevin/Documents/Unison/ArtiaVet/ArtiaVet/bin/Debug/net8.0/cypress-tests/cypress/fixtures/example.json
+/Users/kevin/Documents/Unison/ArtiaVet/ArtiaVet/bin/Debug/net8.0/cypress-tests/package-lock.json
+/Users/kevin/Documents/Unison/ArtiaVet/ArtiaVet/bin/Debug/net8.0/cypress-tests/package.json
+/Users/kevin/Documents/Unison/ArtiaVet/ArtiaVet/bin/Debug/net8.0/package-lock.json
+/Users/kevin/Documents/Unison/ArtiaVet/ArtiaVet/bin/Debug/net8.0/package.json
 /Users/kevin/Documents/Unison/ArtiaVet/ArtiaVet/bin/Debug/net8.0/ArtiaVet.staticwebassets.runtime.json
 /Users/kevin/Documents/Unison/ArtiaVet/ArtiaVet/bin/Debug/net8.0/ArtiaVet
 /Users/kevin/Documents/Unison/ArtiaVet/ArtiaVet/bin/Debug/net8.0/ArtiaVet.deps.json
@@ -104,6 +123,8 @@ F:/Unison/7mo Semestre/PDS2/ArtiaVet/ArtiaVet/obj/Debug/net8.0/ArtiaVet.csproj.U
 /Users/kevin/Documents/Unison/ArtiaVet/ArtiaVet/bin/Debug/net8.0/Microsoft.SqlServer.Server.dll
 /Users/kevin/Documents/Unison/ArtiaVet/ArtiaVet/bin/Debug/net8.0/System.ClientModel.dll
 /Users/kevin/Documents/Unison/ArtiaVet/ArtiaVet/bin/Debug/net8.0/System.Configuration.ConfigurationManager.dll
+/Users/kevin/Documents/Unison/ArtiaVet/ArtiaVet/bin/Debug/net8.0/System.Data.SqlClient.dll
+/Users/kevin/Documents/Unison/ArtiaVet/ArtiaVet/bin/Debug/net8.0/System.Diagnostics.DiagnosticSource.dll
 /Users/kevin/Documents/Unison/ArtiaVet/ArtiaVet/bin/Debug/net8.0/System.Diagnostics.EventLog.dll
 /Users/kevin/Documents/Unison/ArtiaVet/ArtiaVet/bin/Debug/net8.0/System.IdentityModel.Tokens.Jwt.dll
 /Users/kevin/Documents/Unison/ArtiaVet/ArtiaVet/bin/Debug/net8.0/System.Memory.Data.dll
@@ -127,6 +148,11 @@ F:/Unison/7mo Semestre/PDS2/ArtiaVet/ArtiaVet/obj/Debug/net8.0/ArtiaVet.csproj.U
 /Users/kevin/Documents/Unison/ArtiaVet/ArtiaVet/bin/Debug/net8.0/runtimes/win-arm64/native/Microsoft.Data.SqlClient.SNI.dll
 /Users/kevin/Documents/Unison/ArtiaVet/ArtiaVet/bin/Debug/net8.0/runtimes/win-x64/native/Microsoft.Data.SqlClient.SNI.dll
 /Users/kevin/Documents/Unison/ArtiaVet/ArtiaVet/bin/Debug/net8.0/runtimes/win-x86/native/Microsoft.Data.SqlClient.SNI.dll
+/Users/kevin/Documents/Unison/ArtiaVet/ArtiaVet/bin/Debug/net8.0/runtimes/win-arm64/native/sni.dll
+/Users/kevin/Documents/Unison/ArtiaVet/ArtiaVet/bin/Debug/net8.0/runtimes/win-x64/native/sni.dll
+/Users/kevin/Documents/Unison/ArtiaVet/ArtiaVet/bin/Debug/net8.0/runtimes/win-x86/native/sni.dll
+/Users/kevin/Documents/Unison/ArtiaVet/ArtiaVet/bin/Debug/net8.0/runtimes/unix/lib/net8.0/System.Data.SqlClient.dll
+/Users/kevin/Documents/Unison/ArtiaVet/ArtiaVet/bin/Debug/net8.0/runtimes/win/lib/net8.0/System.Data.SqlClient.dll
 /Users/kevin/Documents/Unison/ArtiaVet/ArtiaVet/bin/Debug/net8.0/runtimes/win/lib/net8.0/System.Diagnostics.EventLog.Messages.dll
 /Users/kevin/Documents/Unison/ArtiaVet/ArtiaVet/bin/Debug/net8.0/runtimes/win/lib/net8.0/System.Diagnostics.EventLog.dll
 /Users/kevin/Documents/Unison/ArtiaVet/ArtiaVet/bin/Debug/net8.0/runtimes/win/lib/net8.0/System.Security.Cryptography.Pkcs.dll
@@ -155,29 +181,3 @@ F:/Unison/7mo Semestre/PDS2/ArtiaVet/ArtiaVet/obj/Debug/net8.0/ArtiaVet.csproj.U
 /Users/kevin/Documents/Unison/ArtiaVet/ArtiaVet/obj/Debug/net8.0/ArtiaVet.pdb
 /Users/kevin/Documents/Unison/ArtiaVet/ArtiaVet/obj/Debug/net8.0/ArtiaVet.genruntimeconfig.cache
 /Users/kevin/Documents/Unison/ArtiaVet/ArtiaVet/obj/Debug/net8.0/ref/ArtiaVet.dll
-/Users/kevin/Documents/Unison/ArtiaVet/ArtiaVet/bin/Debug/net8.0/package-lock.json
-/Users/kevin/Documents/Unison/ArtiaVet/ArtiaVet/bin/Debug/net8.0/package.json
-F:/Unison/7mo Semestre/PDS2/ArtiaVet/ArtiaVet/bin/Debug/net8.0/package-lock.json
-F:/Unison/7mo Semestre/PDS2/ArtiaVet/ArtiaVet/bin/Debug/net8.0/package.json
-F:/Unison/7mo Semestre/PDS2/ArtiaVet/ArtiaVet/bin/Debug/net8.0/System.Data.SqlClient.dll
-F:/Unison/7mo Semestre/PDS2/ArtiaVet/ArtiaVet/bin/Debug/net8.0/runtimes/win-arm64/native/sni.dll
-F:/Unison/7mo Semestre/PDS2/ArtiaVet/ArtiaVet/bin/Debug/net8.0/runtimes/win-x64/native/sni.dll
-F:/Unison/7mo Semestre/PDS2/ArtiaVet/ArtiaVet/bin/Debug/net8.0/runtimes/win-x86/native/sni.dll
-F:/Unison/7mo Semestre/PDS2/ArtiaVet/ArtiaVet/bin/Debug/net8.0/runtimes/unix/lib/net8.0/System.Data.SqlClient.dll
-F:/Unison/7mo Semestre/PDS2/ArtiaVet/ArtiaVet/bin/Debug/net8.0/runtimes/win/lib/net8.0/System.Data.SqlClient.dll
-/Users/kevin/Documents/Unison/ArtiaVet/ArtiaVet/bin/Debug/net8.0/System.Data.SqlClient.dll
-/Users/kevin/Documents/Unison/ArtiaVet/ArtiaVet/bin/Debug/net8.0/runtimes/win-arm64/native/sni.dll
-/Users/kevin/Documents/Unison/ArtiaVet/ArtiaVet/bin/Debug/net8.0/runtimes/win-x64/native/sni.dll
-/Users/kevin/Documents/Unison/ArtiaVet/ArtiaVet/bin/Debug/net8.0/runtimes/win-x86/native/sni.dll
-/Users/kevin/Documents/Unison/ArtiaVet/ArtiaVet/bin/Debug/net8.0/runtimes/unix/lib/net8.0/System.Data.SqlClient.dll
-/Users/kevin/Documents/Unison/ArtiaVet/ArtiaVet/bin/Debug/net8.0/runtimes/win/lib/net8.0/System.Data.SqlClient.dll
-/Users/kevin/Documents/Unison/ArtiaVet/ArtiaVet/bin/Debug/net8.0/cypress-tests/cypress/fixtures/example.json
-/Users/kevin/Documents/Unison/ArtiaVet/ArtiaVet/bin/Debug/net8.0/cypress-tests/package-lock.json
-/Users/kevin/Documents/Unison/ArtiaVet/ArtiaVet/bin/Debug/net8.0/cypress-tests/package.json
-<<<<<<< HEAD
-=======
-F:/Unison/7mo Semestre/PDS2/ArtiaVet/ArtiaVet/bin/Debug/net8.0/cypress-tests/package-lock.json
-F:/Unison/7mo Semestre/PDS2/ArtiaVet/ArtiaVet/bin/Debug/net8.0/cypress/fixtures/example.json
->>>>>>> citas
-F:/Unison/7mo Semestre/PDS2/ArtiaVet/ArtiaVet/bin/Debug/net8.0/System.Diagnostics.DiagnosticSource.dll
-/Users/kevin/Documents/Unison/ArtiaVet/ArtiaVet/bin/Debug/net8.0/System.Diagnostics.DiagnosticSource.dll

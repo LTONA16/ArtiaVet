@@ -5,11 +5,23 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 
+builder.Services.AddAuthorization();
+
 builder.Services.AddScoped<IRepositorioTest, RepositorioTest>();
 builder.Services.AddScoped<IRepositorioDropdowns, RepositorioDropdowns>();
 builder.Services.AddScoped<IRepositorioInventario, RepositorioInventario>();
 builder.Services.AddScoped<IRepositorioCalendario, RepositorioCalendario>();
 builder.Services.AddScoped<IRepositorioCitas, RepositorioCitas>();
+builder.Services.AddScoped<IRepositorioUsuarios, RepositorioUsuarios>();
+builder.Services.AddSession();
+
+builder.Services.AddSession(options =>
+{
+    options.IdleTimeout = TimeSpan.FromHours(2); // Duración de la sesión
+    options.Cookie.HttpOnly = true;
+    options.Cookie.IsEssential = true;
+    options.Cookie.Name = ".ArtiaVet.Session";
+});
 
 builder.Services.AddAntiforgery(options =>
 {
@@ -30,6 +42,8 @@ app.UseHttpsRedirection();
 app.UseStaticFiles();
 
 app.UseRouting();
+
+app.UseSession();
 
 app.UseAuthorization();
 

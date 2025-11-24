@@ -18,6 +18,10 @@ build_property.GenerateRazorMetadataSourceChecksumAttributes =
 build_property.MSBuildProjectDirectory = /Users/kevin/Documents/Unison/ArtiaVet/ArtiaVet
 build_property._RazorSourceGeneratorDebug = 
 
+[/Users/kevin/Documents/Unison/ArtiaVet/ArtiaVet/Views/Account/AccesoDenegado.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvQWNjb3VudC9BY2Nlc29EZW5lZ2Fkby5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
 [/Users/kevin/Documents/Unison/ArtiaVet/ArtiaVet/Views/Account/Login.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3MvQWNjb3VudC9Mb2dpbi5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
