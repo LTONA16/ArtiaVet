@@ -12,7 +12,10 @@ builder.Services.AddScoped<IRepositorioDropdowns, RepositorioDropdowns>();
 builder.Services.AddScoped<IRepositorioInventario, RepositorioInventario>();
 builder.Services.AddScoped<IRepositorioCalendario, RepositorioCalendario>();
 builder.Services.AddScoped<IRepositorioCitas, RepositorioCitas>();
+builder.Services.AddScoped<IRepositorioCalendarioVeterinario, RepositorioCalendarioVeterinario>();
+builder.Services.AddScoped<IRepositorioCitasVeterinario, RepositorioCitasVeterinario>();
 builder.Services.AddScoped<IRepositorioUsuarios, RepositorioUsuarios>();
+
 builder.Services.AddSession();
 
 builder.Services.AddSession(options =>

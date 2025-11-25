@@ -1,0 +1,220 @@
+@model ArtiaVet.Models.CalendarioSemanalViewModel
+@{
+    ViewData["Title"] = "Calendario de Citas";
+}
+
+<div class="flex min-h-screen bg-slate-700">
+    
+    @* Sidebar - Menú Lateral *@
+    <partial name="_Sidebar"></partial>
+    
+    @* Contenedor principal *@
+    <div class="flex-1 m-6 bg-white rounded-3xl overflow-hidden flex flex-col">
+        @* Header del calendario *@
+        <div class="p-6 border-b border-gray-200 bg-white">
+            <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+                
+                @* Título y rango de fechas *@
+                <div>
+                    <h1 class="text-3xl font-bold text-slate-800 mb-1">Calendario de Citas</h1>
+                    <p class="text-gray-500 text-lg">@Model.RangoFechas</p>
+                </div>
+                
+                @* Controles de navegación *@
+                <div class="flex items-center gap-3">
+                    @* Botón Semana Anterior *@
+                    <a href="@Url.Action("Calendario", "Veterinario", new { fecha = Model.SemanaAnterior })" 
+                       class="p-2 hover:bg-gray-100 rounded-lg transition-colors">
+                        <svg class="w-6 h-6 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
+                        </svg>
+                    </a>
+                    
+                    @* Botón Hoy *@
+                    <a href="@Url.Action("Calendario", "Veterinario")" 
+                       class="px-4 py-2 bg-slate-700 text-white rounded-lg hover:bg-slate-600 transition-colors font-medium">
+                        Hoy
+                    </a>
+                    
+                    @* Botón Semana Siguiente *@
+                    <a href="@Url.Action("Calendario", "Veterinario", new { fecha = Model.SemanaSiguiente })" 
+                       class="p-2 hover:bg-gray-100 rounded-lg transition-colors">
+                        <svg class="w-6 h-6 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                        </svg>
+                    </a>
+                </div>
+            </div>
+            
+            @* Leyenda de veterinarios *@
+            @if (ViewBag.Veterinarios != null && ((List<ArtiaVet.Models.VeterinarioCalendarioViewModel>)ViewBag.Veterinarios).Any())
+            {
+                <div class="mt-6 flex flex-wrap gap-4">
+                    @foreach (var vet in (List<ArtiaVet.Models.VeterinarioCalendarioViewModel>)ViewBag.Veterinarios)
+                    {
+                        <div class="flex items-center gap-2">
+                            <div class="w-4 h-4 rounded @vet.ColorFondo"></div>
+                            <span class="text-sm font-medium text-gray-700">@vet.Nombre</span>
+                            <span class="text-xs text-gray-500">(@vet.TotalCitasSemana citas)</span>
+                        </div>
+                    }
+                </div>
+            }
+        </div>
+        
+        @* Calendario Semanal *@
+        <div class="flex-1 overflow-auto p-6">
+            <partial name="_CalendarioSemanal" model="Model"></partial>
+        </div>
+        
+    </div>
+</div>
+
+@* Modal para detalles de cita *@
+<div id="modalDetalleCita" class="hidden fixed inset-0 backdrop-blur z-50 flex items-center justify-center p-4">
+    <div class="bg-white rounded-2xl max-w-lg w-full shadow-2xl transform transition-all">
+        <div id="modalHeader" class="px-6 py-4 border-b border-gray-200 flex items-center justify-between rounded-t-2xl">
+            <h3 class="text-xl font-bold text-gray-800">Detalles de la Cita</h3>
+            <button onclick="cerrarModal()" class="text-gray-400 hover:text-gray-600 transition-colors">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                </svg>
+            </button>
+        </div>
+        
+        <div id="modalBody" class="p-6 space-y-4">
+            <div class="flex items-center gap-3">
+                <svg class="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path>
+                </svg>
+                <div>
+                    <p class="text-xs text-gray-500">Veterinario</p>
+                    <p id="modalVeterinario" class="font-semibold text-gray-800"></p>
+                </div>
+            </div>
+            
+            <div class="flex items-center gap-3">
+                <svg class="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.828 14.828a4 4 0 01-5.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                </svg>
+                <div>
+                    <p class="text-xs text-gray-500">Mascota</p>
+                    <p id="modalMascota" class="font-semibold text-gray-800"></p>
+                </div>
+            </div>
+            
+            <div class="flex items-center gap-3">
+                <svg class="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"></path>
+                </svg>
+                <div>
+                    <p class="text-xs text-gray-500">Dueño</p>
+                    <p id="modalDueno" class="font-semibold text-gray-800"></p>
+                </div>
+            </div>
+            
+            <div class="flex items-center gap-3">
+                <svg class="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"></path>
+                </svg>
+                <div>
+                    <p class="text-xs text-gray-500">Tipo de Cita</p>
+                    <p id="modalTipoCita" class="font-semibold text-gray-800"></p>
+                </div>
+            </div>
+            
+            <div class="flex items-center gap-3">
+                <svg class="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
+                </svg>
+                <div>
+                    <p class="text-xs text-gray-500">Fecha y Hora</p>
+                    <p id="modalFechaHora" class="font-semibold text-gray-800"></p>
+                </div>
+            </div>
+            
+            <div class="flex items-center gap-3">
+                <svg class="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                </svg>
+                <div>
+                    <p class="text-xs text-gray-500">Importe Total</p>
+                    <p id="modalImporte" class="font-semibold text-gray-800"></p>
+                </div>
+            </div>
+            
+            <div id="modalObservacionesContainer" class="pt-4 border-t border-gray-200">
+                <p class="text-xs text-gray-500 mb-2">Observaciones</p>
+                <p id="modalObservaciones" class="text-sm text-gray-700 leading-relaxed"></p>
+            </div>
+        </div>
+        
+        <div class="px-6 py-4 bg-gray-50 rounded-b-2xl flex justify-end">
+            <button onclick="cerrarModal()" class="px-6 py-2 bg-slate-700 text-white rounded-lg hover:bg-slate-600 transition-colors font-medium">
+                Cerrar
+            </button>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        function abrirModalCita(citaId) {
+            fetch(`@Url.Action("ObtenerDetalleCita", "Veterinario")?id=${citaId}`)
+                .then(response => response.json())
+                .then(result => {
+                    if (result.success) {
+                        const data = result.data;
+                        
+                        // Actualizar color del header
+                        const modalHeader = document.getElementById('modalHeader');
+                        modalHeader.className = `px-6 py-4 border-b border-gray-200 flex items-center justify-between rounded-t-2xl ${data.colorFondo}`;
+                        
+                        // Actualizar contenido
+                        document.getElementById('modalVeterinario').textContent = data.veterinario;
+                        document.getElementById('modalMascota').textContent = data.mascota;
+                        document.getElementById('modalDueno').textContent = data.dueno;
+                        document.getElementById('modalTipoCita').textContent = data.tipoCita;
+                        document.getElementById('modalFechaHora').textContent = `${data.fecha} - ${data.horaInicio}`;
+                        document.getElementById('modalImporte').textContent = `$${data.importeTotal.toFixed(2)}`;
+                        
+                        const observaciones = document.getElementById('modalObservaciones');
+                        const obsContainer = document.getElementById('modalObservacionesContainer');
+                        if (data.observaciones && data.observaciones.trim() !== '') {
+                            observaciones.textContent = data.observaciones;
+                            obsContainer.classList.remove('hidden');
+                        } else {
+                            obsContainer.classList.add('hidden');
+                        }
+                        
+                        // Mostrar modal
+                        document.getElementById('modalDetalleCita').classList.remove('hidden');
+                    } else {
+                        alert('Error al cargar los detalles de la cita');
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    alert('Error al cargar los detalles de la cita');
+                });
+        }
+        
+        function cerrarModal() {
+            document.getElementById('modalDetalleCita').classList.add('hidden');
+        }
+        
+        // Cerrar modal al hacer clic fuera de él
+        document.getElementById('modalDetalleCita').addEventListener('click', function(e) {
+            if (e.target === this) {
+                cerrarModal();
+            }
+        });
+        
+        // Cerrar modal con tecla Escape
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                cerrarModal();
+            }
+        });
+    </script>
+}

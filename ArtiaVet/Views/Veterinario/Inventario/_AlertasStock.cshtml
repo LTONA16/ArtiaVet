@@ -1,0 +1,58 @@
+@using ArtiaVet.Models
+
+<div class="bg-white rounded-lg shadow-sm p-6">
+    <h2 class="text-2xl font-bold text-gray-800 mb-6">Stock Bajo</h2>
+
+    @{
+        var stockBajo = ViewBag.StockBajo as List<InventarioViewModel>;
+    }
+
+    @if (stockBajo != null && stockBajo.Any())
+    {
+        <div class="space-y-4">
+            @foreach (var item in stockBajo)
+            {
+                <div class="border-l-4 @(item.StockCritico ? "border-red-500 bg-red-50" : "border-yellow-500 bg-yellow-50") p-4 rounded-r-lg">
+                    <div class="flex items-start justify-between mb-2">
+                        <div class="flex-1">
+                            <h3 class="font-semibold text-gray-800">@item.NombreInsumo</h3>
+                            <p class="text-sm text-gray-600 mt-1">Cantidad: <span class="font-medium">@item.Cantidad</span></p>
+                        </div>
+                        @if (item.StockCritico)
+                        {
+                            <span class="inline-flex items-center px-2 py-1 rounded-full text-xs font-semibold bg-red-200 text-red-800">
+                                Crítico
+                            </span>
+                        }
+                        else
+                        {
+                            <span class="inline-flex items-center px-2 py-1 rounded-full text-xs font-semibold bg-yellow-200 text-yellow-800">
+                                Bajo
+                            </span>
+                        }
+                    </div>
+                    
+                    @* Barra de progreso *@
+                    <div class="w-full bg-gray-200 rounded-full h-2 mt-3">
+                        @{
+                            var porcentaje = Math.Min((item.Cantidad / 50.0) * 100, 100);
+                            var colorBarra = item.StockCritico ? "bg-red-500" : "bg-yellow-500";
+                        }
+                        <div class="@colorBarra h-2 rounded-full transition-all" style="width: @porcentaje%"></div>
+                    </div>
+                </div>
+            }
+        </div>
+    }
+    else
+    {
+        <div class="text-center py-8">
+            <div class="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-3">
+                <svg class="w-8 h-8 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
+            </div>
+            <p class="text-gray-600">Todo el stock está en niveles normales</p>
+        </div>
+    }
+</div>

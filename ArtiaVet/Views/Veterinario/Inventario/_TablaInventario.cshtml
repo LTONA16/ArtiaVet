@@ -1,0 +1,432 @@
+@using Microsoft.AspNetCore.Mvc.Rendering
+@using ArtiaVet.Models
+
+@if (TempData["Mensaje"] != null)
+{
+    <div class="mb-4 p-4 bg-green-100 border border-green-400 text-green-700 rounded-lg">
+        @TempData["Mensaje"]
+    </div>
+}
+
+@if (TempData["Error"] != null)
+{
+    <div class="mb-4 p-4 bg-red-100 border border-red-400 text-red-700 rounded-lg">
+        @TempData["Error"]
+    </div>
+}
+
+<div class="bg-white rounded-lg shadow-sm">
+    <div class="p-6">
+        <div class="flex justify-between items-center mb-6">
+            <div>
+                <h1 class="text-4xl font-bold text-gray-800 mb-2">Inventario</h1>
+                <p class="text-gray-400 text-sm flex items-center gap-2">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16V4m0 0L3 8m4-4l4 4m6 0v12m0 0l4-4m-4 4l-4-4" />
+                    </svg>
+                    Gestión de insumos y stock • Arrastra para reordenar
+                </p>
+            </div>
+            <button onclick="abrirModalInventario()" class="flex items-center gap-2 px-4 py-2 bg-cyan-600 hover:bg-cyan-700 text-white rounded-lg transition-colors">
+                <span>Agregar Insumo</span>
+                <div class="w-6 h-6 rounded-full border-2 border-white flex items-center justify-center">
+                    <span class="text-white text-lg leading-none pb-0.5">+</span>
+                </div>
+            </button>
+        </div>
+
+        @* Tabla de Inventario *@
+        <div class="overflow-x-auto">
+            <table class="w-full">
+                <thead>
+                    <tr class="border-b-2 border-gray-200">
+                        <th class="text-left py-4 px-4 text-sm font-semibold text-gray-600 uppercase tracking-wider">Insumo</th>
+                        <th class="text-center py-4 px-4 text-sm font-semibold text-gray-600 uppercase tracking-wider">Cantidad</th>
+                        <th class="text-center py-4 px-4 text-sm font-semibold text-gray-600 uppercase tracking-wider">Precio Unit.</th>
+                        <th class="text-center py-4 px-4 text-sm font-semibold text-gray-600 uppercase tracking-wider">Valor Total</th>
+                        <th class="text-center py-4 px-4 text-sm font-semibold text-gray-600 uppercase tracking-wider">Estado</th>
+                        <th class="text-center py-4 px-4 text-sm font-semibold text-gray-600 uppercase tracking-wider">Acciones</th>
+                    </tr>
+                </thead>
+                <tbody id="inventarioTableBody">
+                    @if (ViewBag.Inventario != null && (ViewBag.Inventario as List<InventarioViewModel>).Any())
+                    {
+                        @foreach (var item in ViewBag.Inventario as List<InventarioViewModel>)
+                        {
+                            <tr class="border-b border-gray-100 hover:bg-gray-50 transition-colors cursor-move" 
+                                draggable="true" 
+                                data-id="@item.Id"
+                                data-nombre="@item.NombreInsumo"
+                                data-cantidad="@item.Cantidad"
+                                data-precio="@item.PrecioUnitario"
+                                data-insumoid="@item.InsumoID">
+                                <td class="py-4 px-4">
+                                    <span class="font-semibold text-gray-800">@item.NombreInsumo</span>
+                                </td>
+                                <td class="py-4 px-4 text-center">
+                                    <span class="font-medium text-gray-700">@item.Cantidad</span>
+                                </td>
+                                <td class="py-4 px-4 text-center">
+                                    <span class="text-gray-700">$@item.PrecioUnitario.ToString("N2")</span>
+                                </td>
+                                <td class="py-4 px-4 text-center">
+                                    <span class="font-semibold text-gray-800">$@item.ValorTotal.ToString("N2")</span>
+                                </td>
+                                <td class="py-4 px-4 text-center">
+                                    @if (item.StockCritico)
+                                    {
+                                        <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold bg-red-100 text-red-800">
+                                            Crítico
+                                        </span>
+                                    }
+                                    else if (item.StockBajo)
+                                    {
+                                        <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold bg-yellow-100 text-yellow-800">
+                                            Bajo
+                                        </span>
+                                    }
+                                    else
+                                    {
+                                        <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold bg-green-100 text-green-800">
+                                            Normal
+                                        </span>
+                                    }
+                                </td>
+                                <td class="py-4 px-4 text-center">
+                                    <div class="flex justify-center gap-2">
+                                        <button onclick="abrirModalEditar(@item.Id, @item.InsumoID, @item.Cantidad)" 
+                                                class="p-2 text-blue-600 hover:bg-blue-50 rounded-lg transition-colors" 
+                                                title="Editar">
+                                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
+                                            </svg>
+                                        </button>
+                                        <button onclick="confirmarEliminar(@item.Id, '@item.NombreInsumo')" 
+                                                class="p-2 text-red-600 hover:bg-red-50 rounded-lg transition-colors" 
+                                                title="Eliminar">
+                                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                                            </svg>
+                                        </button>
+                                    </div>
+                                </td>
+                            </tr>
+                        }
+                    }
+                    else
+                    {
+                        <tr>
+                            <td colspan="6" class="py-8 text-center text-gray-500">
+                                No hay insumos registrados en el inventario
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+@* Modal para Nuevo Inventario *@
+<div id="modalNuevoInventario" class="hidden fixed inset-0 bg-opacity-30 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+    <div class="bg-white rounded-2xl shadow-2xl max-w-md w-full">
+        <div class="sticky top-0 bg-white border-b border-gray-200 px-6 py-4 rounded-t-2xl">
+            <div class="flex justify-between items-center">
+                <h2 class="text-2xl font-bold text-gray-800">Agregar Insumo</h2>
+                <button type="button" onclick="cerrarModalInventario()" class="text-gray-400 hover:text-gray-600 transition-colors">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                    </svg>
+                </button>
+            </div>
+        </div>
+
+        <form id="formNuevoInventario" asp-action="CrearInventario" asp-controller="Veterinario" method="post" class="p-6">
+            @Html.AntiForgeryToken()
+            <div class="space-y-5">
+                <div>
+                    <label for="InsumoID" class="block text-sm font-semibold text-gray-700 mb-2">
+                        Insumo <span class="text-red-500">*</span>
+                    </label>
+                    <select id="InsumoID" name="InsumoID" required
+                            class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-cyan-500 focus:border-transparent transition-all">
+                        <option value="">Seleccione un insumo</option>
+                        @if (ViewBag.Insumos != null)
+                        {
+                            @foreach (var insumo in ViewBag.Insumos as List<SelectListItem>)
+                            {
+                                <option value="@insumo.Value">@insumo.Text</option>
+                            }
+                        }
+                    </select>
+                </div>
+
+                <div>
+                    <label for="Cantidad" class="block text-sm font-semibold text-gray-700 mb-2">
+                        Cantidad <span class="text-red-500">*</span>
+                    </label>
+                    <input type="number" id="Cantidad" name="Cantidad" required min="0"
+                           class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-cyan-500 focus:border-transparent transition-all"
+                           placeholder="Ingrese la cantidad" />
+                </div>
+            </div>
+
+            <div class="flex gap-3 mt-6 pt-6 border-t border-gray-200">
+                <button type="button" onclick="cerrarModalInventario()"
+                        class="flex-1 px-6 py-3 border border-gray-300 text-gray-700 font-medium rounded-lg hover:bg-gray-50 transition-colors">
+                    Cancelar
+                </button>
+                <button type="submit"
+                        class="flex-1 px-6 py-3 bg-cyan-600 text-white font-medium rounded-lg hover:bg-cyan-700 transition-colors">
+                    Guardar
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+
+@* Modal para Editar Inventario *@
+<div id="modalEditarInventario" class="hidden fixed inset-0 bg-opacity-30 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+    <div class="bg-white rounded-2xl shadow-2xl max-w-md w-full">
+        <div class="sticky top-0 bg-white border-b border-gray-200 px-6 py-4 rounded-t-2xl">
+            <div class="flex justify-between items-center">
+                <h2 class="text-2xl font-bold text-gray-800">Editar Inventario</h2>
+                <button type="button" onclick="cerrarModalEditar()" class="text-gray-400 hover:text-gray-600 transition-colors">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                    </svg>
+                </button>
+            </div>
+        </div>
+
+        <form id="formEditarInventario" asp-action="ActualizarInventario" asp-controller="Veterinario" method="post" class="p-6">
+            @Html.AntiForgeryToken()
+            <input type="hidden" id="EditId" name="Id" />
+            
+            <div class="space-y-5">
+                <div>
+                    <label for="EditInsumoID" class="block text-sm font-semibold text-gray-700 mb-2">
+                        Insumo <span class="text-red-500">*</span>
+                    </label>
+                    <select id="EditInsumoID" name="InsumoID" required
+                            class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-cyan-500 focus:border-transparent transition-all">
+                        <option value="">Seleccione un insumo</option>
+                        @if (ViewBag.Insumos != null)
+                        {
+                            @foreach (var insumo in ViewBag.Insumos as List<SelectListItem>)
+                            {
+                                <option value="@insumo.Value">@insumo.Text</option>
+                            }
+                        }
+                    </select>
+                </div>
+
+                <div>
+                    <label for="EditCantidad" class="block text-sm font-semibold text-gray-700 mb-2">
+                        Cantidad <span class="text-red-500">*</span>
+                    </label>
+                    <input type="number" id="EditCantidad" name="Cantidad" required min="0"
+                           class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-cyan-500 focus:border-transparent transition-all" />
+                </div>
+            </div>
+
+            <div class="flex gap-3 mt-6 pt-6 border-t border-gray-200">
+                <button type="button" onclick="cerrarModalEditar()"
+                        class="flex-1 px-6 py-3 border border-gray-300 text-gray-700 font-medium rounded-lg hover:bg-gray-50 transition-colors">
+                    Cancelar
+                </button>
+                <button type="submit"
+                        class="flex-1 px-6 py-3 bg-cyan-600 text-white font-medium rounded-lg hover:bg-cyan-700 transition-colors">
+                    Actualizar
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+
+@* Formulario oculto para eliminar *@
+<form id="formEliminar" asp-action="EliminarInventario" asp-controller="Veterinario" method="post" class="hidden">
+    @Html.AntiForgeryToken()
+    <input type="hidden" id="DeleteId" name="id" />
+</form>
+
+<script>
+    // ============ DRAG AND DROP CON PERSISTENCIA ============
+    let draggedElement = null;
+
+    // Cargar orden guardado al cargar la página
+    document.addEventListener('DOMContentLoaded', function() {
+        cargarOrdenGuardado();
+        inicializarDragAndDrop();
+    });
+
+    function inicializarDragAndDrop() {
+        const tbody = document.getElementById('inventarioTableBody');
+        if (!tbody) return;
+
+        const rows = tbody.querySelectorAll('tr[draggable="true"]');
+        
+        rows.forEach(row => {
+            row.addEventListener('dragstart', handleDragStart);
+            row.addEventListener('dragover', handleDragOver);
+            row.addEventListener('drop', handleDrop);
+            row.addEventListener('dragend', handleDragEnd);
+            row.addEventListener('dragenter', handleDragEnter);
+            row.addEventListener('dragleave', handleDragLeave);
+        });
+    }
+
+    function handleDragStart(e) {
+        draggedElement = this;
+        this.style.opacity = '0.4';
+        e.dataTransfer.effectAllowed = 'move';
+        e.dataTransfer.setData('text/html', this.innerHTML);
+    }
+
+    function handleDragOver(e) {
+        if (e.preventDefault) {
+            e.preventDefault();
+        }
+        e.dataTransfer.dropEffect = 'move';
+        return false;
+    }
+
+    function handleDragEnter(e) {
+        if (this !== draggedElement) {
+            this.classList.add('border-cyan-500', 'border-2');
+        }
+    }
+
+    function handleDragLeave(e) {
+        this.classList.remove('border-cyan-500', 'border-2');
+    }
+
+    function handleDrop(e) {
+        if (e.stopPropagation) {
+            e.stopPropagation();
+        }
+
+        this.classList.remove('border-cyan-500', 'border-2');
+
+        if (draggedElement !== this) {
+            const tbody = document.getElementById('inventarioTableBody');
+            const allRows = Array.from(tbody.querySelectorAll('tr[draggable="true"]'));
+            const draggedIndex = allRows.indexOf(draggedElement);
+            const targetIndex = allRows.indexOf(this);
+
+            if (draggedIndex < targetIndex) {
+                this.parentNode.insertBefore(draggedElement, this.nextSibling);
+            } else {
+                this.parentNode.insertBefore(draggedElement, this);
+            }
+
+            // Guardar nuevo orden
+            guardarOrden();
+        }
+
+        return false;
+    }
+
+    function handleDragEnd(e) {
+        this.style.opacity = '1';
+        
+        const rows = document.querySelectorAll('#inventarioTableBody tr[draggable="true"]');
+        rows.forEach(row => {
+            row.classList.remove('border-cyan-500', 'border-2');
+        });
+    }
+
+    function guardarOrden() {
+        const tbody = document.getElementById('inventarioTableBody');
+        const rows = tbody.querySelectorAll('tr[draggable="true"]');
+        const orden = Array.from(rows).map(row => row.getAttribute('data-id'));
+        
+        localStorage.setItem('inventarioOrden', JSON.stringify(orden));
+        console.log('✅ Orden guardado:', orden);
+    }
+
+    function cargarOrdenGuardado() {
+        const ordenGuardado = localStorage.getItem('inventarioOrden');
+        if (!ordenGuardado) {
+            console.log('ℹ️ No hay orden guardado');
+            return;
+        }
+
+        const orden = JSON.parse(ordenGuardado);
+        const tbody = document.getElementById('inventarioTableBody');
+        if (!tbody) return;
+
+        const rows = Array.from(tbody.querySelectorAll('tr[draggable="true"]'));
+        
+        // Crear un mapa de id -> elemento
+        const rowMap = new Map();
+        rows.forEach(row => {
+            const id = row.getAttribute('data-id');
+            rowMap.set(id, row);
+        });
+
+        // Reordenar según el orden guardado
+        orden.forEach(id => {
+            const row = rowMap.get(id);
+            if (row) {
+                tbody.appendChild(row);
+            }
+        });
+
+        console.log('✅ Orden cargado desde localStorage');
+    }
+
+    // ============ FUNCIONES DE MODALES (EXISTENTES) ============
+    function abrirModalInventario() {
+        document.getElementById('modalNuevoInventario').classList.remove('hidden');
+        document.body.style.overflow = 'hidden';
+    }
+
+    function cerrarModalInventario() {
+        document.getElementById('modalNuevoInventario').classList.add('hidden');
+        document.body.style.overflow = 'auto';
+        document.getElementById('formNuevoInventario').reset();
+    }
+
+    function abrirModalEditar(id, insumoID, cantidad) {
+        document.getElementById('EditId').value = id;
+        document.getElementById('EditInsumoID').value = insumoID;
+        document.getElementById('EditCantidad').value = cantidad;
+        document.getElementById('modalEditarInventario').classList.remove('hidden');
+        document.body.style.overflow = 'hidden';
+    }
+
+    function cerrarModalEditar() {
+        document.getElementById('modalEditarInventario').classList.add('hidden');
+        document.body.style.overflow = 'auto';
+        document.getElementById('formEditarInventario').reset();
+    }
+
+    function confirmarEliminar(id, nombre) {
+        if (confirm(`¿Está seguro que desea eliminar el insumo "${nombre}" del inventario?`)) {
+            document.getElementById('DeleteId').value = id;
+            document.getElementById('formEliminar').submit();
+        }
+    }
+
+    // Cerrar modales al hacer click fuera
+    document.getElementById('modalNuevoInventario')?.addEventListener('click', function (e) {
+        if (e.target === this) {
+            cerrarModalInventario();
+        }
+    });
+
+    document.getElementById('modalEditarInventario')?.addEventListener('click', function (e) {
+        if (e.target === this) {
+            cerrarModalEditar();
+        }
+    });
+
+    // Cerrar modales con tecla ESC
+    document.addEventListener('keydown', function (e) {
+        if (e.key === 'Escape') {
+            cerrarModalInventario();
+            cerrarModalEditar();
+        }
+    });
+</script>

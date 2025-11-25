@@ -1,0 +1,223 @@
+@model ArtiaVet.Models.RecordatoriosProximosViewModel
+@{
+    ViewData["Title"] = "Recordatorios";
+}
+
+<div class="flex min-h-screen bg-slate-700">
+    @* Sidebar - Menú Lateral *@
+    <partial name="_Sidebar"></partial>
+
+    @* Contenedor principal con borde y fondo blanco *@
+    <div class="flex-1 m-6 bg-white rounded-3xl overflow-hidden">
+        @* Contenido interior con padding *@
+        <div class="p-8 h-full w-full">
+            
+            @* Mensajes de éxito/error *@
+            @if (TempData["Mensaje"] != null)
+            {
+                <div class="mb-4 p-4 bg-green-100 border border-green-400 text-green-700 rounded-lg">
+                    @TempData["Mensaje"]
+                </div>
+            }
+            @if (TempData["Error"] != null)
+            {
+                <div class="mb-4 p-4 bg-red-100 border border-red-400 text-red-700 rounded-lg">
+                    @TempData["Error"]
+                </div>
+            }
+
+            @* Header *@
+            <div class="flex justify-between items-center mb-6">
+                <div>
+                    <h1 class="text-4xl font-bold text-gray-800 mb-2">Recordatorios</h1>
+                    <p class="text-gray-400 text-sm">Próximos 7 días</p>
+                </div>
+                <button onclick="abrirModalRecordatorio()" class="flex items-center gap-2 px-4 py-2 bg-gray-100 hover:bg-gray-200 rounded-lg transition-colors">
+                    <span class="text-gray-600">Nuevo recordatorio</span>
+                    <div class="w-6 h-6 rounded-full border-2 border-gray-400 flex items-center justify-center">
+                        <span class="text-gray-600 text-lg leading-none pb-0.5">+</span>
+                    </div>
+                </button>
+            </div>
+
+            @* Lista de recordatorios por día *@
+            <div class="space-y-8">
+                @foreach (var dia in Model.RecordatoriosPorDias)
+                {
+                    <div>
+                        <div class="flex justify-between items-center mb-4">
+                            <h2 class="text-xl font-semibold text-gray-800">
+                                @if (dia.EsHoy)
+                                {
+                                    <span>Hoy</span>
+                                }
+                                else
+                                {
+                                    <span>@dia.DiaSemana, @dia.FechaFormateada</span>
+                                }
+                            </h2>
+                        </div>
+
+                        @if (dia.Recordatorios.Any())
+                        {
+                            <div class="space-y-4">
+                                @foreach (var recordatorio in dia.Recordatorios)
+                                {
+                                    <div onclick="abrirModalDetalleRecordatorio(@recordatorio.Id)" 
+                                         class="flex items-center justify-between py-3 px-4 hover:bg-gray-50 rounded-lg transition-colors cursor-pointer border-l-4 border-blue-500">
+                                        <div class="flex items-center gap-4">
+                                            <div class="w-12 h-12 rounded-full flex items-center justify-center bg-blue-500">
+                                                <svg class="w-6 h-6" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                    <path d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22Z" stroke="#ffffff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                                    <path d="M12 6V12L16 14" stroke="#ffffff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                                </svg>
+                                            </div>
+                                            <div>
+                                                <h3 class="font-semibold text-gray-800">@recordatorio.Asunto</h3>
+                                                <p class="text-sm text-gray-600">@recordatorio.NombreDueno - @recordatorio.NombreMascota</p>
+                                                <p class="text-sm text-gray-400 mt-1">@recordatorio.Mensaje</p>
+                                            </div>
+                                        </div>
+                                        <div class="flex items-center gap-3">
+                                            <span class="text-gray-600 font-medium">@recordatorio.HoraRecordatorio</span>
+                                            <div class="flex gap-2">
+                                                <button onclick="event.stopPropagation(); abrirModalEditarRecordatorio(@recordatorio.Id)" 
+                                                        class="p-2 hover:bg-blue-100 rounded-lg transition-colors">
+                                                    <svg class="w-5 h-5 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/>
+                                                    </svg>
+                                                </button>
+                                                <button onclick="event.stopPropagation(); confirmarEliminarRecordatorio(@recordatorio.Id)" 
+                                                        class="p-2 hover:bg-red-100 rounded-lg transition-colors">
+                                                    <svg class="w-5 h-5 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/>
+                                                    </svg>
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                }
+                            </div>
+                        }
+                        else
+                        {
+                            <div class="text-center py-8 text-gray-400">
+                                No hay recordatorios programados para este día
+                            </div>
+                        }
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</div>
+
+@* Modales *@
+<partial name="_ModalNuevoRecordatorio"></partial>
+<partial name="_ModalEditarRecordatorio"></partial>
+<partial name="_ModalDetalleRecordatorio"></partial>
+<partial name="_ModalConfirmarEliminarRecordatorio"></partial>
+
+<script>
+    function abrirModalRecordatorio() {
+        document.getElementById('modalNuevoRecordatorio').classList.remove('hidden');
+        document.body.style.overflow = 'hidden';
+    }
+
+    function cerrarModalRecordatorio() {
+        document.getElementById('modalNuevoRecordatorio').classList.add('hidden');
+        document.body.style.overflow = 'auto';
+    }
+
+    function abrirModalDetalleRecordatorio(recordatorioId) {
+        fetch(`/Veterinario/ObtenerDetalleRecordatorio?id=${recordatorioId}`)
+            .then(response => response.json())
+            .then(result => {
+                if (result.success) {
+                    const recordatorio = result.data;
+                    
+                    document.getElementById('detalleRecordatorioId').textContent = recordatorio.id;
+                    document.getElementById('detalleAsunto').textContent = recordatorio.asunto || 'N/A';
+                    document.getElementById('detalleMensaje').textContent = recordatorio.mensaje || 'N/A';
+                    document.getElementById('detalleRecordatorioDueno').textContent = recordatorio.nombreDueno || 'N/A';
+                    document.getElementById('detalleRecordatorioMascota').textContent = recordatorio.nombreMascota || 'N/A';
+                    document.getElementById('detalleTelefono').textContent = recordatorio.telefonoDueno || 'N/A';
+                    document.getElementById('detalleEmail').textContent = recordatorio.emailDueno || 'N/A';
+                    
+                    const fecha = new Date(recordatorio.fechaRecordatorio);
+                    document.getElementById('detalleRecordatorioFecha').textContent = fecha.toLocaleDateString('es-MX', { 
+                        year: 'numeric', 
+                        month: 'long', 
+                        day: 'numeric' 
+                    });
+                    
+                    document.getElementById('detalleRecordatorioHora').textContent = recordatorio.horaRecordatorio || 'N/A';
+                    
+                    document.getElementById('modalDetalleRecordatorio').classList.remove('hidden');
+                    document.body.style.overflow = 'hidden';
+                } else {
+                    console.error('Error al cargar los detalles del recordatorio');
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
+    }
+
+    function cerrarModalDetalleRecordatorio() {
+        document.getElementById('modalDetalleRecordatorio').classList.add('hidden');
+        document.body.style.overflow = 'auto';
+    }
+
+    function abrirModalEditarRecordatorio(recordatorioId) {
+        fetch(`/Veterinario/ObtenerRecordatorio?id=${recordatorioId}`)
+            .then(response => response.json())
+            .then(result => {
+                if (result.success) {
+                    const recordatorio = result.data;
+                    
+                    document.getElementById('editarRecordatorioId').value = recordatorio.id;
+                    document.getElementById('editarCitaID').value = recordatorio.citaID;
+                    document.getElementById('editarAsunto').value = recordatorio.asunto;
+                    document.getElementById('editarMensaje').value = recordatorio.mensaje;
+                    
+                    const fecha = new Date(recordatorio.fechaRecordatorio);
+                    const fechaStr = fecha.toISOString().slice(0, 16);
+                    document.getElementById('editarFechaRecordatorio').value = fechaStr;
+                    
+                    document.getElementById('modalEditarRecordatorio').classList.remove('hidden');
+                    document.body.style.overflow = 'hidden';
+                } else {
+                    console.error('Error al cargar el recordatorio');
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
+    }
+
+    function cerrarModalEditarRecordatorio() {
+        document.getElementById('modalEditarRecordatorio').classList.add('hidden');
+        document.body.style.overflow = 'auto';
+    }
+
+    function confirmarEliminarRecordatorio(recordatorioId) {
+        document.getElementById('eliminarRecordatorioId').value = recordatorioId;
+        document.getElementById('modalConfirmarEliminarRecordatorio').classList.remove('hidden');
+        document.body.style.overflow = 'hidden';
+    }
+
+    function cerrarModalConfirmarEliminar() {
+        document.getElementById('modalConfirmarEliminarRecordatorio').classList.add('hidden');
+        document.body.style.overflow = 'auto';
+    }
+
+    document.addEventListener('keydown', function (e) {
+        if (e.key === 'Escape') {
+            cerrarModalRecordatorio();
+            cerrarModalDetalleRecordatorio();
+            cerrarModalEditarRecordatorio();
+            cerrarModalConfirmarEliminar();
+        }
+    });
+</script>

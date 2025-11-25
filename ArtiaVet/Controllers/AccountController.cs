@@ -109,12 +109,26 @@ namespace ArtiaVet.Controllers
         {
             var tipoUsuario = HttpContext.Session.GetInt32("TipoUsuario");
 
-            return tipoUsuario switch
+            if (!tipoUsuario.HasValue)
             {
-                TiposUsuario.Veterinario => RedirectToAction("Index", "Veterinario"),
-                TiposUsuario.Recepcionista => RedirectToAction("Index", "Recepcionista"),
-                _ => RedirectToAction("Index", "Home")
-            };
+                return RedirectToAction("Login", "Account");
+            }
+
+            switch (tipoUsuario.Value)
+            {
+                case 1: // Administrador
+                    return RedirectToAction("Index", "Admin");
+
+                case 2: // Veterinario
+                    return RedirectToAction("Index", "Veterinario");
+
+                case 3: // Recepción
+                    return RedirectToAction("Index", "Recepcionista");
+
+                default:
+                    return RedirectToAction("AccesoDenegado", "Account");
+            }
         }
+
     }
 }
