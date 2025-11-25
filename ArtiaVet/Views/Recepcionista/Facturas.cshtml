@@ -1,0 +1,236 @@
+@model ArtiaVet.Models.FacturasViewModel
+@{
+    ViewData["Title"] = "Facturas";
+}
+
+<div class="flex min-h-screen bg-slate-700">
+    @* Sidebar - Menú Lateral *@
+    <partial name="_Sidebar"></partial>
+
+    @* Contenedor principal con borde y fondo blanco *@
+    <div class="flex-1 m-6 bg-white rounded-3xl overflow-hidden">
+        @* Contenido interior con padding *@
+        <div class="p-8 h-full w-full">
+
+            @* Mensajes de éxito/error *@
+            @if (TempData["Mensaje"] != null)
+            {
+                <div class="mb-4 p-4 bg-green-100 border border-green-400 text-green-700 rounded-lg">
+                    @TempData["Mensaje"]
+                </div>
+            }
+            @if (TempData["Error"] != null)
+            {
+                <div class="mb-4 p-4 bg-red-100 border border-red-400 text-red-700 rounded-lg">
+                    @TempData["Error"]
+                </div>
+            }
+
+            @* Header *@
+            <div class="flex justify-between items-center mb-6">
+                <div>
+                    <h1 class="text-4xl font-bold text-gray-800 mb-2">Facturas</h1>
+                    <p class="text-gray-400 text-sm">Gestión de facturación</p>
+                </div>
+                <button onclick="abrirModalNuevaFactura()" 
+                        class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-xl font-semibold transition-colors">
+                    + Nueva Factura
+                </button>
+            </div>
+
+            @* Barra de búsqueda *@
+            <div class="mb-6 bg-gray-50 p-6 rounded-xl">
+                <form method="get" asp-action="Facturas" class="space-y-4">
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Buscar por nombre</label>
+                            <input type="text" 
+                                   name="busqueda" 
+                                   value="@Model.TerminoBusqueda"
+                                   placeholder="Buscar por dueño, mascota, veterinario..."
+                                   class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Fecha inicio</label>
+                            <input type="date" 
+                                   name="fechaInicio" 
+                                   value="@Model.FechaInicio?.ToString("yyyy-MM-dd")"
+                                   class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Fecha fin</label>
+                            <input type="date" 
+                                   name="fechaFin" 
+                                   value="@Model.FechaFin?.ToString("yyyy-MM-dd")"
+                                   class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+                        </div>
+                    </div>
+                    <div class="flex gap-2">
+                        <button type="submit" 
+                                class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded-lg font-semibold transition-colors">
+                            Buscar
+                        </button>
+                        <a asp-action="Facturas" 
+                           class="bg-gray-200 hover:bg-gray-300 text-gray-700 px-6 py-2 rounded-lg font-semibold transition-colors inline-block">
+                            Limpiar
+                        </a>
+                    </div>
+                </form>
+            </div>
+
+            @* Lista de facturas *@
+            @if (Model.Facturas.Any())
+            {
+                <div class="space-y-3">
+                    @foreach (var factura in Model.Facturas)
+                    {
+                        <div onclick="abrirModalDetalleFactura(@factura.Id)"
+                            class="flex items-center justify-between py-4 px-4 hover:bg-gray-50 rounded-lg transition-colors cursor-pointer border border-gray-200">
+                            <div class="flex items-center gap-4 flex-1">
+                                <div class="w-12 h-12 rounded-full bg-green-500 flex items-center justify-center flex-shrink-0">
+                                    <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" 
+                                              d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
+                                    </svg>
+                                </div>
+                                <div class="flex-1 min-w-0">
+                                    <h3 class="font-semibold text-gray-800 truncate">@factura.NombreDueno - @factura.NombreMascota</h3>
+                                    <p class="text-sm text-gray-400 truncate">@factura.TipoCita • Dr. @factura.NombreVeterinario</p>
+                                </div>
+                            </div>
+                            <div class="flex items-center gap-6 flex-shrink-0">
+                                <div class="text-right">
+                                    <p class="text-sm text-gray-500">@factura.FechaFormateada</p>
+                                    <p class="font-bold text-gray-800 text-lg">$@factura.Total.ToString("N2")</p>
+                                </div>
+                                <form method="post" asp-action="EliminarFactura" class="inline" onclick="event.stopPropagation();" onsubmit="return confirm('¿Está seguro que desea eliminar esta factura?');">
+                                    @Html.AntiForgeryToken()
+                                    <input type="hidden" name="id" value="@factura.Id" />
+                                    <button type="submit" class="text-red-600 hover:text-red-800 p-2">
+                                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" 
+                                                  d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/>
+                                        </svg>
+                                    </button>
+                                </form>
+                            </div>
+                        </div>
+                    }
+                </div>
+            }
+            else
+            {
+                <div class="text-center py-12">
+                    <svg class="w-16 h-16 mx-auto text-gray-400 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" 
+                              d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
+                    </svg>
+                    <p class="text-gray-400 text-lg">No se encontraron facturas</p>
+                    @if (!string.IsNullOrWhiteSpace(Model.TerminoBusqueda) || Model.FechaInicio.HasValue || Model.FechaFin.HasValue)
+                    {
+                        <p class="text-gray-400 text-sm mt-2">Intenta ajustar los criterios de búsqueda</p>
+                    }
+                </div>
+            }
+        </div>
+    </div>
+</div>
+
+@* Modales *@
+<partial name="_ModalNuevaFactura"></partial>
+<partial name="_ModalDetalleFactura"></partial>
+
+<script>
+    function abrirModalNuevaFactura() {
+        document.getElementById('modalNuevaFactura').classList.remove('hidden');
+        cargarCitasSinFacturar();
+    }
+
+    function cerrarModalNuevaFactura() {
+        document.getElementById('modalNuevaFactura').classList.add('hidden');
+        document.getElementById('formNuevaFactura').reset();
+        document.getElementById('montoCalculado').classList.add('hidden');
+    }
+
+    async function cargarCitasSinFacturar() {
+        try {
+            const res = await fetch('/Recepcionista/ObtenerCitasSinFacturar');
+            const result = await res.json();
+            
+            if (result.success) {
+                const select = document.getElementById('CitaID');
+                select.innerHTML = '<option value="">Seleccione una cita</option>';
+                
+                result.data.forEach(cita => {
+                    const option = document.createElement('option');
+                    option.value = cita.id;
+                    option.textContent = `${cita.nombreDueno} - ${cita.nombreMascota} (${new Date(cita.fechaCita).toLocaleDateString()}) - $${cita.importeTotal.toFixed(2)}`;
+                    option.dataset.monto = cita.importeTotal;
+                    select.appendChild(option);
+                });
+            }
+        } catch (error) {
+            console.error('Error al cargar citas:', error);
+        }
+    }
+
+    function calcularFactura() {
+        const select = document.getElementById('CitaID');
+        const selectedOption = select.options[select.selectedIndex];
+        
+        if (!selectedOption.value) {
+            document.getElementById('montoCalculado').classList.add('hidden');
+            return;
+        }
+
+        const monto = parseFloat(selectedOption.dataset.monto || 0);
+        const iva = monto * 0.16;
+        const total = monto + iva;
+
+        document.getElementById('Monto').value = monto.toFixed(2);
+        document.getElementById('Iva').value = iva.toFixed(2);
+        document.getElementById('Total').value = total.toFixed(2);
+
+        document.getElementById('montoMostrar').textContent = '$' + monto.toFixed(2);
+        document.getElementById('ivaMostrar').textContent = '$' + iva.toFixed(2);
+        document.getElementById('totalMostrar').textContent = '$' + total.toFixed(2);
+        
+        document.getElementById('montoCalculado').classList.remove('hidden');
+    }
+
+    async function abrirModalDetalleFactura(facturaId) {
+        try {
+            const res = await fetch(`/Recepcionista/ObtenerDetalleFactura?id=${facturaId}`);
+            const result = await res.json();
+            
+            if (result.success) {
+                const f = result.data;
+                
+                document.getElementById('detalleFacturaId').textContent = f.id;
+                document.getElementById('detalleFacturaDueno').textContent = f.nombreDueno || 'N/A';
+                document.getElementById('detalleFacturaMascota').textContent = f.nombreMascota || 'N/A';
+                document.getElementById('detalleFacturaVeterinario').textContent = f.nombreVeterinario || 'N/A';
+                document.getElementById('detalleFacturaTipoCita').textContent = f.tipoCita || 'N/A';
+                document.getElementById('detalleFacturaFecha').textContent = f.fechaFormateada || 'N/A';
+                document.getElementById('detalleFacturaMonto').textContent = '$' + f.monto.toFixed(2);
+                document.getElementById('detalleFacturaIva').textContent = '$' + f.iva.toFixed(2);
+                document.getElementById('detalleFacturaTotal').textContent = '$' + f.total.toFixed(2);
+                
+                document.getElementById('modalDetalleFactura').classList.remove('hidden');
+            }
+        } catch (error) {
+            console.error('Error:', error);
+        }
+    }
+
+    function cerrarModalDetalleFactura() {
+        document.getElementById('modalDetalleFactura').classList.add('hidden');
+    }
+
+    document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape') {
+            cerrarModalNuevaFactura();
+            cerrarModalDetalleFactura();
+        }
+    });
+</script>

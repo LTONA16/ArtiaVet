@@ -1,0 +1,97 @@
+@* Modal Nueva Factura *@
+<div id="modalNuevaFactura" class="hidden fixed inset-0 bg-opacity-50 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+    <div class="bg-white rounded-2xl max-w-2xl w-full max-h-[90vh] overflow-y-auto">
+        @* Header del modal *@
+        <div class="sticky top-0 bg-white border-b border-gray-200 px-6 py-4 rounded-t-2xl">
+            <div class="flex justify-between items-center">
+                <h2 class="text-2xl font-bold text-gray-800">Nueva Factura</h2>
+                <button onclick="cerrarModalNuevaFactura()" class="text-gray-400 hover:text-gray-600 transition-colors">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+                    </svg>
+                </button>
+            </div>
+        </div>
+
+        @* Contenido del modal *@
+        <form id="formNuevaFactura" asp-action="CrearFactura" asp-controller="Recepcionista" method="post">
+            @Html.AntiForgeryToken()
+            
+            <div class="p-6 space-y-4">
+                @* Selección de Cita *@
+                <div>
+                    <label class="block text-sm font-semibold text-gray-700 mb-2">
+                        Cita <span class="text-red-500">*</span>
+                    </label>
+                    <select id="CitaID" 
+                            name="CitaID" 
+                            onchange="calcularFactura()"
+                            required
+                            class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all">
+                        <option value="">Cargando citas...</option>
+                    </select>
+                    <p class="text-xs text-gray-500 mt-1">Seleccione la cita para la cual desea generar factura</p>
+                </div>
+
+                @* Resumen de cálculo (inicialmente oculto) *@
+                <div id="montoCalculado" class="hidden bg-blue-50 border border-blue-200 rounded-xl p-4 space-y-2">
+                    <h3 class="font-semibold text-blue-900 mb-3">Detalle de Facturación</h3>
+                    
+                    <div class="flex justify-between items-center">
+                        <span class="text-gray-700">Subtotal (Monto):</span>
+                        <span id="montoMostrar" class="font-semibold text-gray-900">$0.00</span>
+                    </div>
+                    
+                    <div class="flex justify-between items-center">
+                        <span class="text-gray-700">IVA (16%):</span>
+                        <span id="ivaMostrar" class="font-semibold text-gray-900">$0.00</span>
+                    </div>
+                    
+                    <div class="border-t border-blue-300 my-2"></div>
+                    
+                    <div class="flex justify-between items-center">
+                        <span class="font-bold text-gray-900">Total:</span>
+                        <span id="totalMostrar" class="font-bold text-xl text-blue-600">$0.00</span>
+                    </div>
+                </div>
+
+                @* Campos ocultos para enviar al servidor *@
+                <input type="hidden" id="Monto" name="Monto" />
+                <input type="hidden" id="Iva" name="Iva" />
+                <input type="hidden" id="Total" name="Total" />
+
+                @* Información adicional *@
+                <div class="bg-gray-50 border border-gray-200 rounded-xl p-4">
+                    <div class="flex items-start gap-2">
+                        <svg class="w-5 h-5 text-blue-500 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                        </svg>
+                        <div class="text-sm text-gray-600">
+                            <p class="font-semibold mb-1">Información importante:</p>
+                            <ul class="list-disc list-inside space-y-1 text-xs">
+                                <li>Solo se muestran citas completadas sin factura</li>
+                                <li>El IVA se calcula automáticamente (16%)</li>
+                                <li>El monto base incluye el importe de la cita + importes adicionales</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            @* Footer del modal *@
+            <div class="sticky bottom-0 bg-gray-50 px-6 py-4 rounded-b-2xl border-t border-gray-200">
+                <div class="flex gap-3 justify-end">
+                    <button type="button" 
+                            onclick="cerrarModalNuevaFactura()"
+                            class="px-6 py-2.5 border border-gray-300 text-gray-700 rounded-xl font-semibold hover:bg-gray-100 transition-colors">
+                        Cancelar
+                    </button>
+                    <button type="submit"
+                            class="px-6 py-2.5 bg-blue-600 text-white rounded-xl font-semibold hover:bg-blue-700 transition-colors">
+                        Crear Factura
+                    </button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>

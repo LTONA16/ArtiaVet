@@ -12,17 +12,20 @@ namespace ArtiaVet.Controllers
         private readonly IRepositorioInventario _repositorioInventario;
         private readonly IRepositorioCalendario _repositorioCalendario;
         private readonly IRepositorioCitas _repositorioCitas;
+        private readonly IRepositorioFacturas _repositorioFacturas;
 
         public RecepcionistaController(
             IRepositorioDropdowns repositorioDropdowns,
             IRepositorioInventario repositorioInventario,
             IRepositorioCalendario repositorioCalendario,
-            IRepositorioCitas repositorioCitas)
+            IRepositorioCitas repositorioCitas,
+            IRepositorioFacturas repositorioFacturas)
         {
             _repositorioDropdowns = repositorioDropdowns;
             _repositorioInventario = repositorioInventario;
             _repositorioCalendario = repositorioCalendario;
             _repositorioCitas = repositorioCitas;
+            _repositorioFacturas = repositorioFacturas;
         }
 
         public async Task<IActionResult> Index()
@@ -160,10 +163,10 @@ namespace ArtiaVet.Controllers
                 var fechaConsulta = fecha ?? DateTime.Today;
                 var calendarioSemanal = await _repositorioCalendario.ObtenerCalendarioSemanalAsync(fechaConsulta);
                 var veterinarios = await _repositorioCalendario.ObtenerVeterinariosConCitasAsync(
-                    calendarioSemanal.FechaInicio, 
+                    calendarioSemanal.FechaInicio,
                     calendarioSemanal.FechaFin
                 );
-                
+
                 ViewBag.Veterinarios = veterinarios;
                 return View(calendarioSemanal);
             }
@@ -181,12 +184,12 @@ namespace ArtiaVet.Controllers
             try
             {
                 var cita = await _repositorioCalendario.ObtenerDetalleCitaAsync(id);
-                
+
                 if (cita == null)
                 {
                     return NotFound(new { mensaje = "Cita no encontrada" });
                 }
-                
+
                 return Json(new
                 {
                     success = true,
@@ -228,7 +231,7 @@ namespace ArtiaVet.Controllers
                 ViewBag.TiposAnimales = await _repositorioCitas.ObtenerTiposAnimalesAsync();
                 ViewBag.Duenos = await _repositorioCitas.ObtenerDuenosAsync();
                 ViewBag.Alergias = await _repositorioCitas.ObtenerAlergiasAsync();
-                
+
                 return View(citasProximas);
             }
             catch (Exception ex)
@@ -276,9 +279,10 @@ namespace ArtiaVet.Controllers
             {
                 var dueñoId = await _repositorioCitas.CrearDuenoAsync(model);
                 var dueños = await _repositorioCitas.ObtenerDuenosAsync();
-                
-                return Json(new { 
-                    success = true, 
+
+                return Json(new
+                {
+                    success = true,
                     mensaje = "Dueño creado exitosamente",
                     dueñoId = dueñoId,
                     dueños = dueños
@@ -304,9 +308,10 @@ namespace ArtiaVet.Controllers
             {
                 var mascotaId = await _repositorioCitas.CrearMascotaAsync(model);
                 var mascotas = await _repositorioCitas.ObtenerMascotasAsync();
-                
-                return Json(new { 
-                    success = true, 
+
+                return Json(new
+                {
+                    success = true,
                     mensaje = "Mascota creada exitosamente",
                     mascotaId = mascotaId,
                     mascotas = mascotas
@@ -325,12 +330,12 @@ namespace ArtiaVet.Controllers
             try
             {
                 var cita = await _repositorioCitas.ObtenerDetalleCitaAsync(id);
-                
+
                 if (cita == null)
                 {
                     return NotFound(new { mensaje = "Cita no encontrada" });
                 }
-                
+
                 return Json(new { success = true, data = cita });
             }
             catch (Exception ex)
@@ -508,5 +513,122 @@ namespace ArtiaVet.Controllers
             }
         }
 
+        public async Task<IActionResult> Facturas(string? busqueda, DateTime? fechaInicio, DateTime? fechaFin)
+        {
+            try
+            {
+                List<FacturaViewModel> facturas;
+
+                if (!string.IsNullOrWhiteSpace(busqueda) || fechaInicio.HasValue || fechaFin.HasValue)
+                {
+                    facturas = await _repositorioFacturas.BuscarFacturasAsync(busqueda, fechaInicio, fechaFin);
+                }
+                else
+                {
+                    facturas = await _repositorioFacturas.ObtenerFacturasAsync();
+                }
+
+                var viewModel = new FacturasViewModel
+                {
+                    Facturas = facturas,
+                    TerminoBusqueda = busqueda,
+                    FechaInicio = fechaInicio,
+                    FechaFin = fechaFin
+                };
+
+                ViewBag.CitasSinFacturar = await _repositorioFacturas.ObtenerCitasSinFacturarAsync();
+
+                return View(viewModel);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error al cargar facturas: {ex.Message}");
+                TempData["Error"] = "Ocurrió un error al cargar las facturas. Por favor intente nuevamente.";
+                return RedirectToAction("Index");
+            }
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> CrearFactura(FacturaViewModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                TempData["Error"] = "Por favor complete todos los campos requeridos";
+                return RedirectToAction("Facturas");
+            }
+
+            try
+            {
+                await _repositorioFacturas.CrearFacturaAsync(model);
+                TempData["Mensaje"] = "Factura creada exitosamente";
+                return RedirectToAction("Facturas");
+            }
+            catch (InvalidOperationException ex)
+            {
+                TempData["Error"] = ex.Message;
+                return RedirectToAction("Facturas");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error al crear factura: {ex.Message}");
+                TempData["Error"] = "Ocurrió un error al crear la factura. Por favor intente nuevamente.";
+                return RedirectToAction("Facturas");
+            }
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> ObtenerDetalleFactura(int id)
+        {
+            try
+            {
+                var factura = await _repositorioFacturas.ObtenerFacturaPorIdAsync(id);
+
+                if (factura == null)
+                {
+                    return NotFound(new { mensaje = "Factura no encontrada" });
+                }
+
+                return Json(new { success = true, data = factura });
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error al obtener detalle de factura: {ex.Message}");
+                return Json(new { success = false, mensaje = "Error al obtener los detalles de la factura" });
+            }
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> EliminarFactura(int id)
+        {
+            try
+            {
+                await _repositorioFacturas.EliminarFacturaAsync(id);
+                TempData["Mensaje"] = "Factura eliminada exitosamente";
+                return RedirectToAction("Facturas");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error al eliminar factura: {ex.Message}");
+                TempData["Error"] = "Ocurrió un error al eliminar la factura. Por favor intente nuevamente.";
+                return RedirectToAction("Facturas");
+            }
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> ObtenerCitasSinFacturar()
+        {
+            try
+            {
+                var citas = await _repositorioFacturas.ObtenerCitasSinFacturarAsync();
+                return Json(new { success = true, data = citas });
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error al obtener citas sin facturar: {ex.Message}");
+                return Json(new { success = false, mensaje = "Error al obtener las citas sin facturar" });
+            }
+        }
     }
 }

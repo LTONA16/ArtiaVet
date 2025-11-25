@@ -15,6 +15,7 @@ builder.Services.AddScoped<IRepositorioCitas, RepositorioCitas>();
 builder.Services.AddScoped<IRepositorioCalendarioVeterinario, RepositorioCalendarioVeterinario>();
 builder.Services.AddScoped<IRepositorioCitasVeterinario, RepositorioCitasVeterinario>();
 builder.Services.AddScoped<IRepositorioUsuarios, RepositorioUsuarios>();
+builder.Services.AddScoped<IRepositorioFacturas, RepositorioFacturas>();
 
 builder.Services.AddSession();
 

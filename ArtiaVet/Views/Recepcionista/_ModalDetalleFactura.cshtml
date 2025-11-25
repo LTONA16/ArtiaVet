@@ -1,0 +1,113 @@
+@* Modal Detalle Factura *@
+<div id="modalDetalleFactura" class="hidden fixed inset-0 bg-opacity-30 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+    <div class="bg-white rounded-2xl max-w-2xl w-full max-h-[90vh] overflow-y-auto">
+        @* Header del modal *@
+        <div class="sticky top-0 bg-white border-b border-gray-200 px-6 py-4 rounded-t-2xl">
+            <div class="flex justify-between items-center">
+                <h2 class="text-2xl font-bold text-gray-800">Detalle de Factura</h2>
+                <button onclick="cerrarModalDetalleFactura()" class="text-gray-400 hover:text-gray-600 transition-colors">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+                    </svg>
+                </button>
+            </div>
+        </div>
+
+        @* Contenido del modal *@
+        <div class="p-6 space-y-6">
+            @* ID de Factura *@
+            <div class="bg-gradient-to-r from-blue-500 to-blue-600 text-white rounded-xl p-4">
+                <p class="text-sm opacity-90 mb-1">Factura No.</p>
+                <p id="detalleFacturaId" class="text-3xl font-bold">#0000</p>
+            </div>
+
+            @* Información de la Cita *@
+            <div class="bg-gray-50 rounded-xl p-4 space-y-3">
+                <h3 class="font-semibold text-gray-800 text-lg mb-3 flex items-center gap-2">
+                    <svg class="w-5 h-5 text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/>
+                    </svg>
+                    Información de la Cita
+                </h3>
+
+                <div class="grid grid-cols-2 gap-4">
+                    <div>
+                        <p class="text-xs text-gray-500 font-medium mb-1">Dueño</p>
+                        <p id="detalleFacturaDueno" class="text-sm font-semibold text-gray-800">-</p>
+                    </div>
+                    
+                    <div>
+                        <p class="text-xs text-gray-500 font-medium mb-1">Mascota</p>
+                        <p id="detalleFacturaMascota" class="text-sm font-semibold text-gray-800">-</p>
+                    </div>
+                    
+                    <div>
+                        <p class="text-xs text-gray-500 font-medium mb-1">Veterinario</p>
+                        <p id="detalleFacturaVeterinario" class="text-sm font-semibold text-gray-800">-</p>
+                    </div>
+                    
+                    <div>
+                        <p class="text-xs text-gray-500 font-medium mb-1">Tipo de Cita</p>
+                        <p id="detalleFacturaTipoCita" class="text-sm font-semibold text-gray-800">-</p>
+                    </div>
+                    
+                    <div class="col-span-2">
+                        <p class="text-xs text-gray-500 font-medium mb-1">Fecha de Cita</p>
+                        <p id="detalleFacturaFecha" class="text-sm font-semibold text-gray-800">-</p>
+                    </div>
+                </div>
+            </div>
+
+            @* Detalle Financiero *@
+            <div class="bg-green-50 border border-green-200 rounded-xl p-4 space-y-3">
+                <h3 class="font-semibold text-green-900 text-lg mb-3 flex items-center gap-2">
+                    <svg class="w-5 h-5 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                    </svg>
+                    Detalle Financiero
+                </h3>
+
+                <div class="space-y-3">
+                    <div class="flex justify-between items-center pb-2 border-b border-green-200">
+                        <span class="text-gray-700 font-medium">Subtotal (Monto)</span>
+                        <span id="detalleFacturaMonto" class="font-semibold text-gray-900 text-lg">$0.00</span>
+                    </div>
+                    
+                    <div class="flex justify-between items-center pb-2 border-b border-green-200">
+                        <span class="text-gray-700 font-medium">IVA (16%)</span>
+                        <span id="detalleFacturaIva" class="font-semibold text-gray-900 text-lg">$0.00</span>
+                    </div>
+                    
+                    <div class="flex justify-between items-center pt-2">
+                        <span class="font-bold text-green-900 text-lg">Total</span>
+                        <span id="detalleFacturaTotal" class="font-bold text-2xl text-green-600">$0.00</span>
+                    </div>
+                </div>
+            </div>
+
+            @* Nota informativa *@
+            <div class="bg-blue-50 border border-blue-200 rounded-xl p-4">
+                <div class="flex items-start gap-2">
+                    <svg class="w-5 h-5 text-blue-500 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                    </svg>
+                    <p class="text-sm text-blue-700">
+                        Esta factura fue generada automáticamente al finalizar la cita. 
+                        El monto incluye el costo base del servicio más cualquier cargo adicional aplicado.
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        @* Footer del modal *@
+        <div class="sticky bottom-0 bg-gray-50 px-6 py-4 rounded-b-2xl border-t border-gray-200">
+            <div class="flex gap-3 justify-end">
+                <button type="button" 
+                        onclick="cerrarModalDetalleFactura()"
+                        class="px-6 py-2.5 bg-blue-600 text-white rounded-xl font-semibold hover:bg-blue-700 transition-colors">
+                    Cerrar
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
