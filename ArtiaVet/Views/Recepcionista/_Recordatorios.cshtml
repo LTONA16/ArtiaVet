@@ -1,35 +1,39 @@
+@using ArtiaVet.Models
+@{
+    var recordatoriosHoy = ViewBag.RecordatoriosHoy as List<RecordatorioViewModel> ?? new List<RecordatorioViewModel>();
+}
+
 <div class="bg-white rounded-lg shadow-sm p-6">
     <h2 class="text-3xl font-bold text-gray-800 mb-6">Recordatorios Recientes</h2>
-    
-    <div class="space-y-4">
-        @* Recordatorio 1 *@
-        <div class="flex items-center gap-3 py-2">
-            <div class="w-3 h-3 bg-purple-600 rounded-full flex-shrink-0"></div>
-            <p class="text-gray-700">Confirmar cita de Juan Perea.</p>
-        </div>
 
-        @* Recordatorio 2 *@
-        <div class="flex items-center gap-3 py-2">
-            <div class="w-3 h-3 bg-purple-600 rounded-full flex-shrink-0"></div>
-            <p class="text-gray-700">Confirmar cita de Luis Tona.</p>
+    @if (recordatoriosHoy.Any())
+    {
+        <div class="space-y-4">
+            @foreach (var recordatorio in recordatoriosHoy)
+            {
+                <div class="flex items-start gap-3 py-2 hover:bg-gray-50 rounded-lg px-2 transition-colors cursor-pointer">
+                    <div class="w-3 h-3 bg-purple-600 rounded-full flex-shrink-0 mt-1.5"></div>
+                    <div class="flex-1">
+                        <p class="text-gray-700 font-medium">@recordatorio.Asunto</p>
+                        <p class="text-sm text-gray-500 mt-1">
+                            @recordatorio.NombreDueno - @recordatorio.NombreMascota
+                        </p>
+                        <p class="text-xs text-gray-400 mt-1">
+                            @recordatorio.FechaRecordatorio.ToString("dd/MM/yyyy") a las @recordatorio.HoraRecordatorio
+                        </p>
+                    </div>
+                </div>
+            }
         </div>
-
-        @* Recordatorio 3 *@
-        <div class="flex items-center gap-3 py-2">
-            <div class="w-3 h-3 bg-purple-600 rounded-full flex-shrink-0"></div>
-            <p class="text-gray-700">Recordar a Dr. Navarrete sobre los instrumentos.</p>
+    }
+    else
+    {
+        <div class="text-center py-8">
+            <svg class="w-12 h-12 text-gray-300 mx-auto mb-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" />
+            </svg>
+            <p class="text-gray-500">No hay recordatorios próximos</p>
+            <p class="text-gray-400 text-sm mt-1">Los recordatorios aparecerán aquí</p>
         </div>
-
-        @* Recordatorio 4 *@
-        <div class="flex items-center gap-3 py-2">
-            <div class="w-3 h-3 bg-purple-600 rounded-full flex-shrink-0"></div>
-            <p class="text-gray-700">Confirmar cita de Kevin Mtz.</p>
-        </div>
-
-        @* Recordatorio 5 *@
-        <div class="flex items-center gap-3 py-2">
-            <div class="w-3 h-3 bg-purple-600 rounded-full flex-shrink-0"></div>
-            <p class="text-gray-700">Confirmar cita de Joshua Murillo.</p>
-        </div>
-    </div>
+    }
 </div>

@@ -2,11 +2,14 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.Data.SqlClient;
 using ArtiaVet.Models;
 using System.Globalization;
+using System.Data;
 
 namespace ArtiaVet.Servicios
 {
     public interface IRepositorioCitas
     {
+        Task<List<CitaViewModel>> ObtenerCitasDelDiaAsync();
+        Task<List<RecordatorioViewModel>> ObtenerRecordatoriosHoyAsync(int cantidad = 5);
         Task<CitasProximasViewModel> ObtenerCitasProximos7DiasAsync();
         Task<CitaViewModel> ObtenerDetalleCitaAsync(int id);
         Task<int> CrearCitaAsync(CitaViewModel cita);
@@ -210,26 +213,40 @@ namespace ArtiaVet.Servicios
                 using var connection = new SqlConnection(connectionString);
                 await connection.OpenAsync();
 
-                var query = @"
-                    INSERT INTO Citas (veterinarioID, mascotaID, tipoCitaID, fechaCita, importeAdicional, observaciones)
-                    VALUES (@veterinarioID, @mascotaID, @tipoCitaID, @fechaCita, @importeAdicional, @observaciones);
-                    SELECT CAST(SCOPE_IDENTITY() as int)";
+                string procedureName = "dbo.CrearCitaYActualizarInventario";
 
-                using var command = new SqlCommand(query, connection);
-                command.Parameters.AddWithValue("@veterinarioID", cita.VeterinarioID);
-                command.Parameters.AddWithValue("@mascotaID", cita.MascotaID);
-                command.Parameters.AddWithValue("@tipoCitaID", cita.TipoCitaID);
-                command.Parameters.AddWithValue("@fechaCita", cita.FechaCita);
-                command.Parameters.AddWithValue("@importeAdicional", cita.ImporteAdicional);
-                command.Parameters.AddWithValue("@observaciones", (object?)cita.Observaciones ?? DBNull.Value);
+                using var command = new SqlCommand(procedureName, connection);
+                command.CommandType = CommandType.StoredProcedure;
+
+                command.Parameters.AddWithValue("@p_veterinarioID", cita.VeterinarioID);
+                command.Parameters.AddWithValue("@p_mascotaID", cita.MascotaID);
+                command.Parameters.AddWithValue("@p_tipoCitaID", cita.TipoCitaID);
+                command.Parameters.AddWithValue("@p_fechaCita", cita.FechaCita);
+
+                command.Parameters.Add("@p_importeAdicional", SqlDbType.Decimal).Value = cita.ImporteAdicional;
+
+                command.Parameters.AddWithValue("@p_observaciones", (object?)cita.Observaciones ?? DBNull.Value);
 
                 var result = await command.ExecuteScalarAsync();
-                Console.WriteLine("Cita creada exitosamente");
-                return Convert.ToInt32(result);
+
+                if (result != null && int.TryParse(result.ToString(), out int nuevoId))
+                {
+                    Console.WriteLine($"Cita #{nuevoId} creada y stock actualizado exitosamente.");
+                    return nuevoId;
+                }
+                else
+                {
+                    throw new Exception("La cita se creó, pero no se pudo recuperar el ID.");
+                }
             }
             catch (SqlException ex)
             {
-                Console.WriteLine($"Error al crear cita: {ex.Message}");
+                Console.WriteLine($"Error de base de datos al crear cita: {ex.Message}");
+                throw;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error general al crear cita: {ex.Message}");
                 throw;
             }
         }
@@ -841,6 +858,142 @@ namespace ArtiaVet.Servicios
             }
 
             return recordatorio;
+        }
+
+        public async Task<List<CitaViewModel>> ObtenerCitasDelDiaAsync()
+        {
+            var citas = new List<CitaViewModel>();
+            var cultura = new CultureInfo("es-MX");
+
+            try
+            {
+                using var connection = new SqlConnection(connectionString);
+                await connection.OpenAsync();
+
+                var fechaHoy = DateTime.Today;
+                var fechaManana = DateTime.Today.AddDays(1);
+
+                var query = @"
+                            SELECT 
+                                c.id,
+                                c.veterinarioID,
+                                c.mascotaID,
+                                c.tipoCitaID,
+                                c.fechaCita,
+                                c.importeAdicional,
+                                c.observaciones,
+                                u.nombre AS nombreVeterinario,
+                                m.nombre AS nombreMascota,
+                                d.nombre AS nombreDueno,
+                                tc.nombre AS tipoCita,
+                                tc.importe
+                            FROM Citas c
+                            INNER JOIN Usuarios u ON c.veterinarioID = u.id
+                            INNER JOIN Mascotas m ON c.mascotaID = m.id
+                            INNER JOIN Dueños d ON m.dueñoID = d.id
+                            INNER JOIN TiposCitas tc ON c.tipoCitaID = tc.id
+                            WHERE c.fechaCita >= @fechaHoy AND c.fechaCita < @fechaManana
+                            ORDER BY c.fechaCita";
+
+                using var command = new SqlCommand(query, connection);
+                command.Parameters.AddWithValue("@fechaHoy", fechaHoy);
+                command.Parameters.AddWithValue("@fechaManana", fechaManana);
+
+                using var reader = await command.ExecuteReaderAsync();
+
+                while (await reader.ReadAsync())
+                {
+                    var importeBase = reader["importe"] != DBNull.Value ? Convert.ToDecimal(reader["importe"]) : 0;
+                    var importeAdicional = reader["importeAdicional"] != DBNull.Value ? Convert.ToDecimal(reader["importeAdicional"]) : 0;
+
+                    var cita = new CitaViewModel
+                    {
+                        Id = Convert.ToInt32(reader["id"]),
+                        VeterinarioID = Convert.ToInt32(reader["veterinarioID"]),
+                        MascotaID = Convert.ToInt32(reader["mascotaID"]),
+                        TipoCitaID = Convert.ToInt32(reader["tipoCitaID"]),
+                        FechaCita = Convert.ToDateTime(reader["fechaCita"]),
+                        ImporteAdicional = importeAdicional,
+                        Observaciones = reader["observaciones"]?.ToString(),
+                        NombreVeterinario = reader["nombreVeterinario"]?.ToString(),
+                        NombreMascota = reader["nombreMascota"]?.ToString(),
+                        NombreDueno = reader["nombreDueno"]?.ToString(),
+                        TipoCita = reader["tipoCita"]?.ToString(),
+                        HoraInicio = Convert.ToDateTime(reader["fechaCita"]).ToString("h:mm tt", cultura),
+                        ImporteTotal = importeBase + importeAdicional
+                    };
+
+                    citas.Add(cita);
+                }
+            }
+            catch (SqlException ex)
+            {
+                Console.WriteLine($"Error al obtener citas del día: {ex.Message}");
+            }
+
+            return citas;
+        }
+
+        public async Task<List<RecordatorioViewModel>> ObtenerRecordatoriosHoyAsync(int cantidad = 5)
+        {
+            var recordatorios = new List<RecordatorioViewModel>();
+
+            try
+            {
+                using var connection = new SqlConnection(connectionString);
+                await connection.OpenAsync();
+
+                var fechaHoraActual = DateTime.Now;
+
+                var query = @"
+                            SELECT TOP (@cantidad)
+                                r.id,
+                                r.citaID,
+                                r.fechaRecordatorio,
+                                r.asunto,
+                                r.mensaje,
+                                d.nombre AS nombreDueno,
+                                m.nombre AS nombreMascota,
+                                d.numeroTelefono AS telefonoDueno,
+                                d.email AS emailDueno
+                            FROM RecordatoriosDueños r
+                            INNER JOIN Citas c ON r.citaID = c.id
+                            INNER JOIN Mascotas m ON c.mascotaID = m.id
+                            INNER JOIN Dueños d ON m.dueñoID = d.id
+                            WHERE r.fechaRecordatorio >= @fechaHoraActual
+                            ORDER BY r.fechaRecordatorio";
+
+                using var command = new SqlCommand(query, connection);
+                command.Parameters.AddWithValue("@cantidad", cantidad);
+                command.Parameters.AddWithValue("@fechaHoraActual", fechaHoraActual);
+
+                using var reader = await command.ExecuteReaderAsync();
+
+                while (await reader.ReadAsync())
+                {
+                    var recordatorio = new RecordatorioViewModel
+                    {
+                        Id = Convert.ToInt32(reader["id"]),
+                        CitaID = Convert.ToInt32(reader["citaID"]),
+                        FechaRecordatorio = Convert.ToDateTime(reader["fechaRecordatorio"]),
+                        Asunto = reader["asunto"]?.ToString(),
+                        Mensaje = reader["mensaje"]?.ToString(),
+                        NombreDueno = reader["nombreDueno"]?.ToString(),
+                        NombreMascota = reader["nombreMascota"]?.ToString(),
+                        TelefonoDueno = reader["telefonoDueno"]?.ToString(),
+                        EmailDueno = reader["emailDueno"]?.ToString(),
+                        HoraRecordatorio = Convert.ToDateTime(reader["fechaRecordatorio"]).ToString("HH:mm")
+                    };
+
+                    recordatorios.Add(recordatorio);
+                }
+            }
+            catch (SqlException ex)
+            {
+                Console.WriteLine($"Error al obtener recordatorios de hoy: {ex.Message}");
+            }
+
+            return recordatorios;
         }
 
     }

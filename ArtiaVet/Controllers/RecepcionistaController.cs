@@ -27,9 +27,16 @@ namespace ArtiaVet.Controllers
 
         public async Task<IActionResult> Index()
         {
-            ViewBag.Veterinarios = await _repositorioDropdowns.ObtenerVeterinariosAsync();
-            ViewBag.Mascotas = await _repositorioDropdowns.ObtenerMascotasAsync();
-            ViewBag.TiposCita = await _repositorioDropdowns.ObtenerTiposCitaAsync();
+            //// Datos para el modal de crear cita
+            //ViewBag.Veterinarios = await _repositorioDropdowns.ObtenerVeterinariosAsync();
+            //ViewBag.Mascotas = await _repositorioDropdowns.ObtenerMascotasAsync();
+            //ViewBag.TiposCita = await _repositorioDropdowns.ObtenerTiposCitaAsync();
+
+            // Datos para las vistas parciales dinámicas
+            ViewBag.CitasHoy = await _repositorioCitas.ObtenerCitasDelDiaAsync();
+            ViewBag.RecordatoriosHoy = await _repositorioCitas.ObtenerRecordatoriosHoyAsync(5);
+            ViewBag.StockBajo = await _repositorioInventario.ObtenerTop5StockBajoAsync();
+
             return View();
         }
 
@@ -74,6 +81,8 @@ namespace ArtiaVet.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> CrearInventario(InventarioViewModel model)
         {
+            // Limpiamos errores de validación de campos que no vienen en el form (Nombre, Precio)
+            // Aunque con el cambio en el Modelo esto ya debería estar resuelto.
             if (!ModelState.IsValid)
             {
                 TempData["Error"] = "Por favor complete todos los campos requeridos";
@@ -86,10 +95,16 @@ namespace ArtiaVet.Controllers
                 TempData["Mensaje"] = "Inventario creado exitosamente";
                 return RedirectToAction("Inventario");
             }
+            catch (InvalidOperationException ex)
+            {
+                // CAPTURAMOS EL ERROR DE DUPLICADO QUE CREAMOS EN EL REPOSITORIO
+                TempData["Error"] = ex.Message; // Mostrará: "Este insumo ya está registrado..."
+                return RedirectToAction("Inventario");
+            }
             catch (Exception ex)
             {
                 Console.WriteLine($"Error al crear inventario: {ex.Message}");
-                TempData["Error"] = "Ocurrió un error al crear el inventario. Por favor intente nuevamente.";
+                TempData["Error"] = "Ocurrió un error inesperado. Por favor intente nuevamente.";
                 return RedirectToAction("Inventario");
             }
         }

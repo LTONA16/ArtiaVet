@@ -1,4 +1,30 @@
-@using Microsoft.AspNetCore.Mvc.Rendering
+@using ArtiaVet.Models
+@{
+    var citasHoy = ViewBag.CitasHoy as List<CitaViewModel> ?? new List<CitaViewModel>();
+    var fechaHoy = DateTime.Today;
+    var cultura = new System.Globalization.CultureInfo("es-MX");
+
+    // Mapeo de colores por tipo de cita
+    var coloresPorTipo = new Dictionary<string, string>
+    {
+        { "Limpieza Dental", "bg-green-500" },
+        { "Consulta General", "bg-blue-500" },
+        { "Vacunación", "bg-purple-600" },
+        { "Cirugía", "bg-red-500" },
+        { "Control", "bg-yellow-500" },
+        { "Emergencia", "bg-orange-500" }
+    };
+
+    string ObtenerColorCita(string tipoCita)
+    {
+        if (!string.IsNullOrEmpty(tipoCita) && coloresPorTipo.ContainsKey(tipoCita))
+        {
+            return coloresPorTipo[tipoCita];
+        }
+        // Color por defecto si no se encuentra el tipo
+        return "bg-cyan-500";
+    }
+}
 
 @if (TempData["Mensaje"] != null)
 {
@@ -18,14 +44,8 @@
     <div class="flex justify-between items-center mb-6">
         <div>
             <h1 class="text-4xl font-bold text-gray-800 mb-2">Inicio</h1>
-            <p class="text-gray-400 text-sm">Lunes, 25 de Agosto 2025</p>
+            <p class="text-gray-400 text-sm">@fechaHoy.ToString("dddd, dd 'de' MMMM yyyy", cultura)</p>
         </div>
-        <button onclick="abrirModalCita()" class="flex items-center gap-2 px-4 py-2 bg-gray-100 hover:bg-gray-200 rounded-lg transition-colors">
-            <span class="text-gray-600">Nueva cita</span>
-            <div class="w-6 h-6 rounded-full border-2 border-gray-400 flex items-center justify-center">
-                <span class="text-gray-600 text-lg leading-none pb-0.5">+</span>
-            </div>
-        </button>
     </div>
 
     @* Hoy *@
@@ -37,131 +57,42 @@
             </button>
         </div>
 
-        <div class="space-y-4">
-            @* Cita 1 *@
-            <div class="flex items-center justify-between py-3 hover:bg-gray-50 rounded-lg transition-colors">
-                <div class="flex items-center gap-4">
-                    <div class="w-12 h-12 bg-green-500 rounded-full flex items-center justify-center">
-                        <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" />
-                        </svg>
+        @if (citasHoy.Any())
+        {
+            <div class="space-y-4">
+                @foreach (var cita in citasHoy)
+                {
+                    <div class="flex items-center justify-between py-3 hover:bg-gray-50 rounded-lg transition-colors">
+                        <div class="flex items-center gap-4">
+                            <div class="w-12 h-12 @ObtenerColorCita(cita.TipoCita) rounded-full flex items-center justify-center">
+                                <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" />
+                                </svg>
+                            </div>
+                            <div>
+                                <h3 class="font-semibold text-gray-800">@cita.NombreDueno</h3>
+                                <p class="text-sm text-gray-400">@cita.TipoCita • @cita.NombreVeterinario</p>
+                            </div>
+                        </div>
+                        <span class="text-gray-600 font-medium">@cita.HoraInicio</span>
                     </div>
-                    <div>
-                        <h3 class="font-semibold text-gray-800">Luis Fernando Tona Scott</h3>
-                        <p class="text-sm text-gray-400">Limpieza Dental • Dr. Juan Navarrete</p>
-                    </div>
-                </div>
-                <span class="text-gray-600 font-medium">5:15 pm</span>
+                }
             </div>
-
-            @* Cita 2 *@
-            <div class="flex items-center justify-between py-3 hover:bg-gray-50 rounded-lg transition-colors">
-                <div class="flex items-center gap-4">
-                    <div class="w-12 h-12 bg-blue-500 rounded-full flex items-center justify-center">
-                        <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" />
-                        </svg>
-                    </div>
-                    <div>
-                        <h3 class="font-semibold text-gray-800">Juan Carlos Perea Panduro</h3>
-                        <p class="text-sm text-gray-400">Limpieza Dental • Dr. Juan Navarrete</p>
-                    </div>
-                </div>
-                <span class="text-gray-600 font-medium">5:45 pm</span>
+        }
+        else
+        {
+            <div class="text-center py-8">
+                <svg class="w-16 h-16 text-gray-300 mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                </svg>
+                <p class="text-gray-500 text-lg">No hay citas programadas para hoy</p>
+                <p class="text-gray-400 text-sm mt-2">Las citas aparecerán aquí cuando sean agendadas</p>
             </div>
-        </div>
-    </div>
-
-    @* Martes, 26 Agosto *@
-    <div class="mb-8">
-        <div class="flex justify-between items-center mb-4">
-            <h2 class="text-xl font-semibold text-gray-800">Martes, 26 Agosto</h2>
-            <button class="text-gray-400 hover:text-gray-600">
-                <span class="text-2xl">⋯</span>
-            </button>
-        </div>
-
-        <div class="space-y-4">
-            @* Cita 3 *@
-            <div class="flex items-center justify-between py-3 hover:bg-gray-50 rounded-lg transition-colors">
-                <div class="flex items-center gap-4">
-                    <div class="w-12 h-12 bg-purple-600 rounded-full flex items-center justify-center">
-                        <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" />
-                        </svg>
-                    </div>
-                    <div>
-                        <h3 class="font-semibold text-gray-800">Daniela Garcia Lopez</h3>
-                        <p class="text-sm text-gray-400">Limpieza Dental • Dr. Juan Navarrete</p>
-                    </div>
-                </div>
-                <span class="text-gray-600 font-medium">6:15 pm</span>
-            </div>
-
-            @* Cita 4 *@
-            <div class="flex items-center justify-between py-3 hover:bg-gray-50 rounded-lg transition-colors">
-                <div class="flex items-center gap-4">
-                    <div class="w-12 h-12 bg-green-500 rounded-full flex items-center justify-center">
-                        <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" />
-                        </svg>
-                    </div>
-                    <div>
-                        <h3 class="font-semibold text-gray-800">Brianna Castillo</h3>
-                        <p class="text-sm text-gray-400">Limpieza Dental • Dr. Juan Navarrete</p>
-                    </div>
-                </div>
-                <span class="text-gray-600 font-medium">7:15 pm</span>
-            </div>
-        </div>
-    </div>
-
-    @* Miercoles, 27 Agosto *@
-    <div>
-        <div class="flex justify-between items-center mb-4">
-            <h2 class="text-xl font-semibold text-gray-800">Miercoles, 27 Agosto</h2>
-            <button class="text-gray-400 hover:text-gray-600">
-                <span class="text-2xl">⋯</span>
-            </button>
-        </div>
-
-        <div class="space-y-4">
-            @* Cita 5 *@
-            <div class="flex items-center justify-between py-3 hover:bg-gray-50 rounded-lg transition-colors">
-                <div class="flex items-center gap-4">
-                    <div class="w-12 h-12 bg-blue-500 rounded-full flex items-center justify-center">
-                        <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" />
-                        </svg>
-                    </div>
-                    <div>
-                        <h3 class="font-semibold text-gray-800">Kevin Xandé Martinez Haro</h3>
-                        <p class="text-sm text-gray-400">Limpieza Dental • Dr. Juan Navarrete</p>
-                    </div>
-                </div>
-                <span class="text-gray-600 font-medium">4:15 pm</span>
-            </div>
-
-            @* Cita 6 *@
-            <div class="flex items-center justify-between py-3 hover:bg-gray-50 rounded-lg transition-colors">
-                <div class="flex items-center gap-4">
-                    <div class="w-12 h-12 bg-yellow-500 rounded-full flex items-center justify-center">
-                        <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" />
-                        </svg>
-                    </div>
-                    <div>
-                        <h3 class="font-semibold text-gray-800">Joshua Murillo Monge</h3>
-                        <p class="text-sm text-gray-400">Limpieza Dental • Dr. Juan Navarrete</p>
-                    </div>
-                </div>
-                <span class="text-gray-600 font-medium">5:45 pm</span>
-            </div>
-        </div>
+        }
     </div>
 </div>
 
-@* Modal para Nueva Cita *@
+@* Modal para Nueva Cita - Se mantiene igual *@
 <div id="modalNuevaCita" class="hidden fixed inset-0 bg-opacity-30 backdrop-blur-sm z-50 flex items-center justify-center p-4">
     <div class="bg-white rounded-2xl shadow-2xl max-w-2xl w-full max-h-[90vh] overflow-y-auto">
 
@@ -193,7 +124,7 @@
                         <option value="">Seleccione un veterinario</option>
                         @if (ViewBag.Veterinarios != null)
                         {
-                            @foreach (var vet in ViewBag.Veterinarios as List<SelectListItem>)
+                            @foreach (var vet in ViewBag.Veterinarios as List<Microsoft.AspNetCore.Mvc.Rendering.SelectListItem>)
                             {
                                 <option value="@vet.Value">@vet.Text</option>
                             }
@@ -211,7 +142,7 @@
                         <option value="">Seleccione una mascota</option>
                         @if (ViewBag.Mascotas != null)
                         {
-                            @foreach (var mascota in ViewBag.Mascotas as List<SelectListItem>)
+                            @foreach (var mascota in ViewBag.Mascotas as List<Microsoft.AspNetCore.Mvc.Rendering.SelectListItem>)
                             {
                                 <option value="@mascota.Value">@mascota.Text</option>
                             }
@@ -229,7 +160,7 @@
                         <option value="">Seleccione un tipo de cita</option>
                         @if (ViewBag.TiposCita != null)
                         {
-                            @foreach (var tipo in ViewBag.TiposCita as List<SelectListItem>)
+                            @foreach (var tipo in ViewBag.TiposCita as List<Microsoft.AspNetCore.Mvc.Rendering.SelectListItem>)
                             {
                                 <option value="@tipo.Value">@tipo.Text</option>
                             }
