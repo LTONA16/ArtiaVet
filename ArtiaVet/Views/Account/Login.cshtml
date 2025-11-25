@@ -3,7 +3,7 @@
 }
 
 <div class="min-h-screen flex items-center justify-center bg-gradient-to-br from-[#1a7487] to-[#0d4a57] py-12 px-4 sm:px-6 lg:px-8">
-    <div class="max-w-md w-full">
+    <div class="max-w-md w-full ">
         
         @* Card Container *@
         <div class="bg-white rounded-2xl shadow-2xl overflow-hidden">
@@ -11,10 +11,8 @@
             @* Header *@
             <div class="bg-[#1a7487] px-8 py-6 text-center">
                 <div class="flex justify-center mb-4">
-                    <div class="w-16 h-16 bg-white rounded-full flex items-center justify-center">
-                        <svg class="w-10 h-10 text-[#1a7487]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
-                        </svg>
+                    <div class="w-42 h-42 bg-white rounded-full flex items-center justify-center">
+                        <img src="~/img/ArtiaLogo512.png" class="rounded-full" />
                     </div>
                 </div>
                 <h2 class="text-3xl font-bold text-white mb-2">Artia Veterinaria</h2>
@@ -67,29 +65,10 @@
                         </div>
                     </div>
 
-                    @* Remember & Forgot *@
-                    <div class="flex items-center justify-between">
-                        <div class="flex items-center">
-                            <input 
-                                type="checkbox" 
-                                id="remember" 
-                                name="remember"
-                                class="h-4 w-4 text-[#1a7487] focus:ring-[#1a7487] border-gray-300 rounded" />
-                            <label for="remember" class="ml-2 block text-sm text-gray-700">
-                                Recordarme
-                            </label>
-                        </div>
-                        <div class="text-sm">
-                            <a href="#" class="font-medium text-[#1a7487] hover:text-[#145a6a] transition-colors">
-                                ¿Olvidaste tu contraseña?
-                            </a>
-                        </div>
-                    </div>
-
                     @* Submit Button *@
                     <button 
                         type="submit"
-                        class="w-full bg-[#1a7487] hover:bg-[#145a6a] text-white font-semibold py-3 px-4 rounded-lg transition-all duration-300 transform hover:scale-[1.02] shadow-lg hover:shadow-xl">
+                        class="w-full bg-[#1a7487] hover:bg-[#145a6a] text-white font-semibold py-3 mt-6 px-4 rounded-lg transition-all duration-300 transform hover:scale-[1.02] shadow-lg hover:shadow-xl">
                         Iniciar Sesión
                     </button>
 

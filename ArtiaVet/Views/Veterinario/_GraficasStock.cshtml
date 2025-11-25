@@ -1,60 +1,63 @@
+@using ArtiaVet.Models
+@{
+    var stockBajo = ViewBag.StockBajo as List<InventarioViewModel> ?? new List<InventarioViewModel>();
+    // Lógica de cálculo específica para esta vista
+    int cantidadMaxima = stockBajo.Any() ? stockBajo.Max(x => x.Cantidad) : 100;
+    int CalcularPorcentaje(int cantidad)
+    {
+        if (cantidadMaxima == 0) return 0;
+        return (int)((double)cantidad / cantidadMaxima * 100);
+    }
+    string ObtenerColorBarra(InventarioViewModel item)
+    {
+        if (item.StockCritico) return "bg-red-500";
+        if (item.StockBajo) return "bg-yellow-500";
+        return "bg-cyan-500";
+    }
+}
 <div class="bg-white rounded-lg shadow-sm p-6">
-    <h2 class="text-3xl font-bold text-gray-800 mb-6">Stock mas bajo</h2>
-    
-    <div class="space-y-5">
-        @* Item 1: Resina *@
-        <div>
-            <div class="flex justify-between items-center mb-2">
-                <span class="text-gray-700 font-medium">Resina</span>
-                <span class="text-gray-700 font-medium">24</span>
-            </div>
-            <div class="w-full bg-gray-200 rounded-full h-2">
-                <div class="bg-cyan-500 h-2 rounded-full" style="width: 15%"></div>
-            </div>
+    <h2 class="text-3xl font-bold text-gray-800 mb-6">Alerta de Stock</h2>
+    @if (stockBajo.Any())
+    {
+        <div class="space-y-5">
+            @foreach (var item in stockBajo)
+            {
+                var porcentaje = CalcularPorcentaje(item.Cantidad);
+                var colorBarra = ObtenerColorBarra(item);
+                <div>
+                    <div class="flex justify-between items-center mb-2">
+                        <span class="text-gray-700 font-medium">@item.NombreInsumo</span>
+                        <div class="flex items-center gap-2">
+                            <span class="text-gray-700 font-medium">@item.Cantidad u.</span>
+                            @if (item.StockCritico)
+                            {
+                                <svg class="w-4 h-4 text-red-500" fill="currentColor" viewBox="0 0 20 20">
+                                    <path fill-rule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z" clip-rule="evenodd" />
+                                </svg>
+                            }
+                            else if (item.StockBajo)
+                            {
+                                <svg class="w-4 h-4 text-yellow-500" fill="currentColor" viewBox="0 0 20 20">
+                                    <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd" />
+                                </svg>
+                            }
+                        </div>
+                    </div>
+                    <div class="w-full bg-gray-200 rounded-full h-2">
+                        <div class="@colorBarra h-2 rounded-full transition-all duration-300" style="width: @(porcentaje)%"></div>
+                    </div>
+                </div>
+            }
         </div>
-
-        @* Item 2: Acrílico *@
-        <div>
-            <div class="flex justify-between items-center mb-2">
-                <span class="text-gray-700 font-medium">Acrilico</span>
-                <span class="text-gray-700 font-medium">48</span>
-            </div>
-            <div class="w-full bg-gray-200 rounded-full h-2">
-                <div class="bg-cyan-500 h-2 rounded-full" style="width: 30%"></div>
-            </div>
+    }
+    else
+    {
+        <div class="text-center py-8">
+            <svg class="w-12 h-12 text-gray-300 mx-auto mb-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4" />
+            </svg>
+            <p class="text-gray-500">Inventario saludable.</p>
+            <p class="text-gray-400 text-sm mt-1">Las alertas de stock aparecerán aquí</p>
         </div>
-
-        @* Item 3: Cera *@
-        <div>
-            <div class="flex justify-between items-center mb-2">
-                <span class="text-gray-700 font-medium">Cera</span>
-                <span class="text-gray-700 font-medium">64</span>
-            </div>
-            <div class="w-full bg-gray-200 rounded-full h-2">
-                <div class="bg-cyan-500 h-2 rounded-full" style="width: 40%"></div>
-            </div>
-        </div>
-
-        @* Item 4: Cintas de pulir *@
-        <div>
-            <div class="flex justify-between items-center mb-2">
-                <span class="text-gray-700 font-medium">Cintas de pulir</span>
-                <span class="text-gray-700 font-medium">128</span>
-            </div>
-            <div class="w-full bg-gray-200 rounded-full h-2">
-                <div class="bg-cyan-500 h-2 rounded-full" style="width: 65%"></div>
-            </div>
-        </div>
-
-        @* Item 5: Pasta de profilaxis *@
-        <div>
-            <div class="flex justify-between items-center mb-2">
-                <span class="text-gray-700 font-medium">Pasta de profilaxis</span>
-                <span class="text-gray-700 font-medium">256</span>
-            </div>
-            <div class="w-full bg-gray-200 rounded-full h-2">
-                <div class="bg-cyan-500 h-2 rounded-full" style="width: 90%"></div>
-            </div>
-        </div>
-    </div>
+    }
 </div>

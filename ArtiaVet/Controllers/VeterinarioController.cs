@@ -600,8 +600,22 @@ namespace ArtiaVet.Controllers
             }
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
+            var veterinarioId = HttpContext.Session.GetInt32("UsuarioId");
+
+            if (!veterinarioId.HasValue)
+            {
+                return RedirectToAction("Login", "Account");
+            }
+
+            // 2. Usamos los métodos del repositorio específico
+            ViewBag.CitasHoy = await _repositorioCitas.ObtenerCitasDelDiaAsync(veterinarioId.Value);
+            ViewBag.RecordatoriosHoy = await _repositorioCitas.ObtenerRecordatoriosHoyAsync(veterinarioId.Value, 5);
+
+            // Inventario sigue siendo general
+            ViewBag.StockBajo = await _repositorioInventario.ObtenerTop5StockBajoAsync();
+
             return View();
         }
     }

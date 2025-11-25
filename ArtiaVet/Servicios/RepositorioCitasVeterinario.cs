@@ -7,6 +7,8 @@ namespace ArtiaVet.Servicios
 {
     public interface IRepositorioCitasVeterinario
     {
+        Task<List<CitaViewModel>> ObtenerCitasDelDiaAsync(int veterinarioId);
+        Task<List<RecordatorioViewModel>> ObtenerRecordatoriosHoyAsync(int veterinarioId, int cantidad = 5);
         Task<CitasProximasViewModel> ObtenerCitasProximos7DiasAsync(int veterinarioId);
         Task<CitaViewModel> ObtenerDetalleCitaAsync(int id, int veterinarioId);
         Task<int> CrearCitaAsync(CitaViewModel cita);
@@ -913,5 +915,133 @@ namespace ArtiaVet.Servicios
 
         return recordatorio;
     }
-}
+
+        public async Task<List<CitaViewModel>> ObtenerCitasDelDiaAsync(int veterinarioId)
+        {
+            var citas = new List<CitaViewModel>();
+            var cultura = new CultureInfo("es-MX");
+
+            try
+            {
+                using var connection = new SqlConnection(connectionString);
+                await connection.OpenAsync();
+
+                var fechaHoy = DateTime.Today;
+                var fechaManana = DateTime.Today.AddDays(1);
+
+                var query = @"
+                SELECT 
+                    c.id, c.veterinarioID, c.mascotaID, c.tipoCitaID, c.fechaCita, 
+                    c.importeAdicional, c.observaciones,
+                    u.nombre AS nombreVeterinario,
+                    m.nombre AS nombreMascota,
+                    d.nombre AS nombreDueno,
+                    tc.nombre AS tipoCita,
+                    tc.importe
+                FROM Citas c
+                INNER JOIN Usuarios u ON c.veterinarioID = u.id
+                INNER JOIN Mascotas m ON c.mascotaID = m.id
+                INNER JOIN Dueños d ON m.dueñoID = d.id
+                INNER JOIN TiposCitas tc ON c.tipoCitaID = tc.id
+                WHERE c.fechaCita >= @fechaHoy 
+                  AND c.fechaCita < @fechaManana 
+                  AND c.veterinarioID = @veterinarioId
+                ORDER BY c.fechaCita";
+
+                using var command = new SqlCommand(query, connection);
+                command.Parameters.AddWithValue("@fechaHoy", fechaHoy);
+                command.Parameters.AddWithValue("@fechaManana", fechaManana);
+                command.Parameters.AddWithValue("@veterinarioId", veterinarioId);
+
+                using var reader = await command.ExecuteReaderAsync();
+
+                while (await reader.ReadAsync())
+                {
+                    var importeBase = reader["importe"] != DBNull.Value ? Convert.ToDecimal(reader["importe"]) : 0;
+                    var importeAdicional = reader["importeAdicional"] != DBNull.Value ? Convert.ToDecimal(reader["importeAdicional"]) : 0;
+
+                    citas.Add(new CitaViewModel
+                    {
+                        Id = Convert.ToInt32(reader["id"]),
+                        VeterinarioID = Convert.ToInt32(reader["veterinarioID"]),
+                        MascotaID = Convert.ToInt32(reader["mascotaID"]),
+                        TipoCitaID = Convert.ToInt32(reader["tipoCitaID"]),
+                        FechaCita = Convert.ToDateTime(reader["fechaCita"]),
+                        ImporteAdicional = importeAdicional,
+                        Observaciones = reader["observaciones"]?.ToString(),
+                        NombreVeterinario = reader["nombreVeterinario"]?.ToString(),
+                        NombreMascota = reader["nombreMascota"]?.ToString(),
+                        NombreDueno = reader["nombreDueno"]?.ToString(),
+                        TipoCita = reader["tipoCita"]?.ToString(),
+                        HoraInicio = Convert.ToDateTime(reader["fechaCita"]).ToString("h:mm tt", cultura),
+                        ImporteTotal = importeBase + importeAdicional
+                    });
+                }
+            }
+            catch (SqlException ex)
+            {
+                Console.WriteLine($"Error al obtener citas del veterinario: {ex.Message}");
+            }
+
+            return citas;
+        }
+
+        public async Task<List<RecordatorioViewModel>> ObtenerRecordatoriosHoyAsync(int veterinarioId, int cantidad = 5)
+        {
+            var recordatorios = new List<RecordatorioViewModel>();
+
+            try
+            {
+                using var connection = new SqlConnection(connectionString);
+                await connection.OpenAsync();
+
+                var fechaHoraActual = DateTime.Now;
+
+                var query = @"
+                            SELECT TOP (@cantidad)
+                                r.id, r.citaID, r.fechaRecordatorio, r.asunto, r.mensaje,
+                                d.nombre AS nombreDueno,
+                                m.nombre AS nombreMascota,
+                                d.numeroTelefono AS telefonoDueno,
+                                d.email AS emailDueno
+                            FROM RecordatoriosDueños r
+                            INNER JOIN Citas c ON r.citaID = c.id
+                            INNER JOIN Mascotas m ON c.mascotaID = m.id
+                            INNER JOIN Dueños d ON m.dueñoID = d.id
+                            WHERE r.fechaRecordatorio >= @fechaHoraActual
+                              AND c.veterinarioID = @veterinarioId
+                            ORDER BY r.fechaRecordatorio";
+
+                using var command = new SqlCommand(query, connection);
+                command.Parameters.AddWithValue("@cantidad", cantidad);
+                command.Parameters.AddWithValue("@fechaHoraActual", fechaHoraActual);
+                command.Parameters.AddWithValue("@veterinarioId", veterinarioId);
+
+                using var reader = await command.ExecuteReaderAsync();
+
+                while (await reader.ReadAsync())
+                {
+                    recordatorios.Add(new RecordatorioViewModel
+                    {
+                        Id = Convert.ToInt32(reader["id"]),
+                        CitaID = Convert.ToInt32(reader["citaID"]),
+                        FechaRecordatorio = Convert.ToDateTime(reader["fechaRecordatorio"]),
+                        Asunto = reader["asunto"]?.ToString(),
+                        Mensaje = reader["mensaje"]?.ToString(),
+                        NombreDueno = reader["nombreDueno"]?.ToString(),
+                        NombreMascota = reader["nombreMascota"]?.ToString(),
+                        TelefonoDueno = reader["telefonoDueno"]?.ToString(),
+                        EmailDueno = reader["emailDueno"]?.ToString(),
+                        HoraRecordatorio = Convert.ToDateTime(reader["fechaRecordatorio"]).ToString("HH:mm")
+                    });
+                }
+            }
+            catch (SqlException ex)
+            {
+                Console.WriteLine($"Error al obtener recordatorios del veterinario: {ex.Message}");
+            }
+
+            return recordatorios;
+        }
+    }
 }

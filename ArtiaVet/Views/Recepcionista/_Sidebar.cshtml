@@ -1,7 +1,6 @@
 @* Vista Parcial: Sidebar - Menú Lateral *@
-
 <div class="bg-slate-700 min-h-screen w-64 flex flex-col p-6">
-    
+
     @* Perfil del usuario *@
     <div class="mb-12 text-center">
         <div class="w-16 h-16 mx-auto mb-3 rounded-lg overflow-hidden bg-gray-600">
@@ -15,42 +14,46 @@
     <nav class="flex-1">
         <ul class="space-y-2">
             <li>
-                <a href="@Url.Action("Index", "Recepcionista")" 
+                <a href="@Url.Action("Index", "Veterinario")"
                    class="block px-4 py-3 text-gray-400 text-lg font-medium hover:bg-slate-600 rounded-lg transition-colors">
                     Inicio
                 </a>
             </li>
             <li>
-                <a href="@Url.Action("Citas", "Recepcionista")" 
+                <a href="@Url.Action("Citas", "Veterinario")"
                    class="block px-4 py-3 text-gray-400 text-lg hover:bg-slate-600 rounded-lg transition-colors">
                     Citas
                 </a>
             </li>
             <li>
-                <a href="@Url.Action("Calendario", "Recepcionista")" 
+                <a href="@Url.Action("Calendario", "Veterinario")"
                    class="block px-4 py-3 text-gray-400 text-lg hover:bg-slate-600 rounded-lg transition-colors">
                     Calendario
                 </a>
             </li>
             <li>
-                <a href="@Url.Action("Recordatorios", "Recepcionista")" 
+                <a href="@Url.Action("Recordatorios", "Veterinario")"
                    class="block px-4 py-3 text-gray-400 text-lg hover:bg-slate-600 rounded-lg transition-colors">
                     Recordatorios
                 </a>
             </li>
             <li>
-                <a href="@Url.Action("Inventario", "Recepcionista")" 
+                <a href="@Url.Action("Inventario", "Veterinario")"
                    class="block px-4 py-3 text-gray-400 text-lg hover:bg-slate-600 rounded-lg transition-colors">
                     Inventario
-                </a>
-            </li>
-            <li>
-                <a href="@Url.Action("Facturas", "Recepcionista")" 
-                   class="block px-4 py-3 text-gray-400 text-lg hover:bg-slate-600 rounded-lg transition-colors">
-                    Facturas
                 </a>
             </li>
         </ul>
     </nav>
 
+    @* Cerrar sesión - Pegado al fondo *@
+    <div class="mt-auto pt-4 border-t border-slate-600">
+        <a href="@Url.Action("Logout", "Account")"
+           class="flex items-center gap-3 px-4 py-3 text-gray-400 text-lg hover:bg-slate-200 hover:text-red-900 rounded-3xl transition-colors group">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
+            </svg>
+            <span>Cerrar sesión</span>
+        </a>
+    </div>
 </div>
