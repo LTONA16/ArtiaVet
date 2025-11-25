@@ -206,6 +206,8 @@ namespace ArtiaVet.Servicios
             return cita;
         }
 
+        // Reemplaza el método CrearCitaAsync en tu RepositorioCitas con este:
+
         public async Task<int> CrearCitaAsync(CitaViewModel cita)
         {
             try
@@ -218,35 +220,45 @@ namespace ArtiaVet.Servicios
                 using var command = new SqlCommand(procedureName, connection);
                 command.CommandType = CommandType.StoredProcedure;
 
+                // Log para debugging
+                Console.WriteLine($"=== CREANDO CITA ===");
+                Console.WriteLine($"Fecha recibida: {cita.FechaCita}");
+                Console.WriteLine($"Fecha formato: {cita.FechaCita:yyyy-MM-dd HH:mm:ss}");
+
                 command.Parameters.AddWithValue("@p_veterinarioID", cita.VeterinarioID);
                 command.Parameters.AddWithValue("@p_mascotaID", cita.MascotaID);
                 command.Parameters.AddWithValue("@p_tipoCitaID", cita.TipoCitaID);
-                command.Parameters.AddWithValue("@p_fechaCita", cita.FechaCita);
 
+                // Asegurarse de pasar el DATETIME completo
+                command.Parameters.Add("@p_fechaCita", SqlDbType.DateTime).Value = cita.FechaCita;
                 command.Parameters.Add("@p_importeAdicional", SqlDbType.Decimal).Value = cita.ImporteAdicional;
-
                 command.Parameters.AddWithValue("@p_observaciones", (object?)cita.Observaciones ?? DBNull.Value);
 
-                var result = await command.ExecuteScalarAsync();
+                // Usar ExecuteReader para obtener el resultado
+                using var reader = await command.ExecuteReaderAsync();
 
-                if (result != null && int.TryParse(result.ToString(), out int nuevoId))
+                if (await reader.ReadAsync())
                 {
-                    Console.WriteLine($"Cita #{nuevoId} creada y stock actualizado exitosamente.");
+                    // Leer el ID retornado
+                    var nuevoId = reader.GetInt32(0);
+                    Console.WriteLine($"Cita #{nuevoId} creada exitosamente con fecha: {cita.FechaCita:yyyy-MM-dd HH:mm:ss}");
                     return nuevoId;
                 }
                 else
                 {
-                    throw new Exception("La cita se creó, pero no se pudo recuperar el ID.");
+                    throw new Exception("No se pudo obtener el ID de la cita creada.");
                 }
             }
             catch (SqlException ex)
             {
-                Console.WriteLine($"Error de base de datos al crear cita: {ex.Message}");
+                Console.WriteLine($"Error SQL al crear cita: {ex.Message}");
+                Console.WriteLine($"Detalles: {ex.StackTrace}");
                 throw;
             }
             catch (Exception ex)
             {
                 Console.WriteLine($"Error general al crear cita: {ex.Message}");
+                Console.WriteLine($"Detalles: {ex.StackTrace}");
                 throw;
             }
         }

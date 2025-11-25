@@ -6,14 +6,14 @@
 
     // Mapeo de colores por tipo de cita
     var coloresPorTipo = new Dictionary<string, string>
-    {
-        { "Limpieza Dental", "bg-green-500" },
-        { "Consulta General", "bg-blue-500" },
-        { "Vacunación", "bg-purple-600" },
-        { "Cirugía", "bg-red-500" },
-        { "Control", "bg-yellow-500" },
-        { "Emergencia", "bg-orange-500" }
-    };
+{
+{ "Limpieza Dental", "bg-green-500" },
+{ "Consulta General", "bg-blue-500" },
+{ "Vacunación", "bg-purple-600" },
+{ "Cirugía", "bg-red-500" },
+{ "Control", "bg-yellow-500" },
+{ "Emergencia", "bg-orange-500" }
+};
 
     string ObtenerColorCita(string tipoCita)
     {
@@ -64,9 +64,30 @@
                 {
                     <div class="flex items-center justify-between py-3 hover:bg-gray-50 rounded-lg transition-colors">
                         <div class="flex items-center gap-4">
-                            <div class="w-12 h-12 @ObtenerColorCita(cita.TipoCita) rounded-full flex items-center justify-center">
-                                <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" />
+                            <div
+                                class="w-12 h-12 @ObtenerColorCita(cita.TipoCita) rounded-full flex items-center justify-center">
+                                <svg class="w-6 h-6" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"
+                                    stroke="#ffffff">
+                                    <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+                                    <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round">
+                                    </g>
+                                    <g id="SVGRepo_iconCarrier">
+                                        <path
+                                            d="M19.0803 15.7203C18.4903 12.1903 15.1003 9.32031 11.5203 9.32031C7.63028 9.32031 4.21028 12.4703 3.88028 16.3503C3.75028 17.8503 4.23028 19.2703 5.22028 20.3403C6.20028 21.4103 7.58028 22.0003 9.08028 22.0003H13.7603C15.4503 22.0003 16.9303 21.3403 17.9403 20.1503C18.9503 18.9603 19.3503 17.3803 19.0803 15.7203Z"
+                                            fill="#f9fffe"></path>
+                                        <path
+                                            d="M10.2796 7.86C11.8978 7.86 13.2096 6.54819 13.2096 4.93C13.2096 3.31181 11.8978 2 10.2796 2C8.66141 2 7.34961 3.31181 7.34961 4.93C7.34961 6.54819 8.66141 7.86 10.2796 7.86Z"
+                                            fill="#f9fffe"></path>
+                                        <path
+                                            d="M16.94 9.02844C18.2876 9.02844 19.38 7.93601 19.38 6.58844C19.38 5.24086 18.2876 4.14844 16.94 4.14844C15.5924 4.14844 14.5 5.24086 14.5 6.58844C14.5 7.93601 15.5924 9.02844 16.94 9.02844Z"
+                                            fill="#f9fffe"></path>
+                                        <path
+                                            d="M20.5496 12.9313C21.6266 12.9313 22.4996 12.0582 22.4996 10.9812C22.4996 9.90429 21.6266 9.03125 20.5496 9.03125C19.4727 9.03125 18.5996 9.90429 18.5996 10.9812C18.5996 12.0582 19.4727 12.9313 20.5496 12.9313Z"
+                                            fill="#f9fffe"></path>
+                                        <path
+                                            d="M3.94 10.9816C5.28757 10.9816 6.38 9.88914 6.38 8.54156C6.38 7.19399 5.28757 6.10156 3.94 6.10156C2.59243 6.10156 1.5 7.19399 1.5 8.54156C1.5 9.88914 2.59243 10.9816 3.94 10.9816Z"
+                                            fill="#f9fffe"></path>
+                                    </g>
                                 </svg>
                             </div>
                             <div>
@@ -82,8 +103,27 @@
         else
         {
             <div class="text-center py-8">
-                <svg class="w-16 h-16 text-gray-300 mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                <svg class="w-6 h-6" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" stroke="#ffffff">
+                    <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+                    <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round">
+                    </g>
+                    <g id="SVGRepo_iconCarrier">
+                        <path
+                            d="M19.0803 15.7203C18.4903 12.1903 15.1003 9.32031 11.5203 9.32031C7.63028 9.32031 4.21028 12.4703 3.88028 16.3503C3.75028 17.8503 4.23028 19.2703 5.22028 20.3403C6.20028 21.4103 7.58028 22.0003 9.08028 22.0003H13.7603C15.4503 22.0003 16.9303 21.3403 17.9403 20.1503C18.9503 18.9603 19.3503 17.3803 19.0803 15.7203Z"
+                            fill="#f9fffe"></path>
+                        <path
+                            d="M10.2796 7.86C11.8978 7.86 13.2096 6.54819 13.2096 4.93C13.2096 3.31181 11.8978 2 10.2796 2C8.66141 2 7.34961 3.31181 7.34961 4.93C7.34961 6.54819 8.66141 7.86 10.2796 7.86Z"
+                            fill="#f9fffe"></path>
+                        <path
+                            d="M16.94 9.02844C18.2876 9.02844 19.38 7.93601 19.38 6.58844C19.38 5.24086 18.2876 4.14844 16.94 4.14844C15.5924 4.14844 14.5 5.24086 14.5 6.58844C14.5 7.93601 15.5924 9.02844 16.94 9.02844Z"
+                            fill="#f9fffe"></path>
+                        <path
+                            d="M20.5496 12.9313C21.6266 12.9313 22.4996 12.0582 22.4996 10.9812C22.4996 9.90429 21.6266 9.03125 20.5496 9.03125C19.4727 9.03125 18.5996 9.90429 18.5996 10.9812C18.5996 12.0582 19.4727 12.9313 20.5496 12.9313Z"
+                            fill="#f9fffe"></path>
+                        <path
+                            d="M3.94 10.9816C5.28757 10.9816 6.38 9.88914 6.38 8.54156C6.38 7.19399 5.28757 6.10156 3.94 6.10156C2.59243 6.10156 1.5 7.19399 1.5 8.54156C1.5 9.88914 2.59243 10.9816 3.94 10.9816Z"
+                            fill="#f9fffe"></path>
+                    </g>
                 </svg>
                 <p class="text-gray-500 text-lg">No hay citas programadas para hoy</p>
                 <p class="text-gray-400 text-sm mt-2">Las citas aparecerán aquí cuando sean agendadas</p>
@@ -93,16 +133,19 @@
 </div>
 
 @* Modal para Nueva Cita - Se mantiene igual *@
-<div id="modalNuevaCita" class="hidden fixed inset-0 bg-opacity-30 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+<div id="modalNuevaCita"
+    class="hidden fixed inset-0 bg-opacity-30 backdrop-blur-sm z-50 flex items-center justify-center p-4">
     <div class="bg-white rounded-2xl shadow-2xl max-w-2xl w-full max-h-[90vh] overflow-y-auto">
 
         @* Header del Modal *@
         <div class="sticky top-0 bg-white border-b border-gray-200 px-6 py-4 rounded-t-2xl">
             <div class="flex justify-between items-center">
                 <h2 class="text-2xl font-bold text-gray-800">Nueva Cita</h2>
-                <button type="button" onclick="cerrarModalCita()" class="text-gray-400 hover:text-gray-600 transition-colors">
+                <button type="button" onclick="cerrarModalCita()"
+                    class="text-gray-400 hover:text-gray-600 transition-colors">
                     <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M6 18L18 6M6 6l12 12" />
                     </svg>
                 </button>
             </div>
@@ -120,11 +163,12 @@
                         Veterinario <span class="text-red-500">*</span>
                     </label>
                     <select id="VeterinarioID" name="VeterinarioID" required
-                            class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-cyan-500 focus:border-transparent transition-all">
+                        class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-cyan-500 focus:border-transparent transition-all">
                         <option value="">Seleccione un veterinario</option>
                         @if (ViewBag.Veterinarios != null)
                         {
-                            @foreach (var vet in ViewBag.Veterinarios as List<Microsoft.AspNetCore.Mvc.Rendering.SelectListItem>)
+                            @foreach (var vet in ViewBag.Veterinarios as
+                                                    List<Microsoft.AspNetCore.Mvc.Rendering.SelectListItem>)
                             {
                                 <option value="@vet.Value">@vet.Text</option>
                             }
@@ -138,11 +182,12 @@
                         Mascota <span class="text-red-500">*</span>
                     </label>
                     <select id="MascotaID" name="MascotaID" required
-                            class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-cyan-500 focus:border-transparent transition-all">
+                        class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-cyan-500 focus:border-transparent transition-all">
                         <option value="">Seleccione una mascota</option>
                         @if (ViewBag.Mascotas != null)
                         {
-                            @foreach (var mascota in ViewBag.Mascotas as List<Microsoft.AspNetCore.Mvc.Rendering.SelectListItem>)
+                            @foreach (var mascota in ViewBag.Mascotas as
+                                                    List<Microsoft.AspNetCore.Mvc.Rendering.SelectListItem>)
                             {
                                 <option value="@mascota.Value">@mascota.Text</option>
                             }
@@ -156,11 +201,12 @@
                         Tipo de Cita <span class="text-red-500">*</span>
                     </label>
                     <select id="TipoCitaID" name="TipoCitaID" required
-                            class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-cyan-500 focus:border-transparent transition-all">
+                        class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-cyan-500 focus:border-transparent transition-all">
                         <option value="">Seleccione un tipo de cita</option>
                         @if (ViewBag.TiposCita != null)
                         {
-                            @foreach (var tipo in ViewBag.TiposCita as List<Microsoft.AspNetCore.Mvc.Rendering.SelectListItem>)
+                            @foreach (var tipo in ViewBag.TiposCita as
+                                                    List<Microsoft.AspNetCore.Mvc.Rendering.SelectListItem>)
                             {
                                 <option value="@tipo.Value">@tipo.Text</option>
                             }
@@ -177,14 +223,14 @@
                             Fecha <span class="text-red-500">*</span>
                         </label>
                         <input type="date" id="fechaCitaInput" required
-                               class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-cyan-500 focus:border-transparent transition-all" />
+                            class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-cyan-500 focus:border-transparent transition-all" />
                     </div>
                     <div>
                         <label for="horaCitaInput" class="block text-sm font-semibold text-gray-700 mb-2">
                             Hora <span class="text-red-500">*</span>
                         </label>
                         <input type="time" id="horaCitaInput" required
-                               class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-cyan-500 focus:border-transparent transition-all" />
+                            class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-cyan-500 focus:border-transparent transition-all" />
                     </div>
                 </div>
 
@@ -196,8 +242,8 @@
                     <div class="relative">
                         <span class="absolute left-4 top-1/2 -translate-y-1/2 text-gray-500 font-medium">$</span>
                         <input type="number" id="ImporteAdicional" name="ImporteAdicional" step="0.01" min="0" value="0"
-                               class="w-full pl-8 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-cyan-500 focus:border-transparent transition-all"
-                               placeholder="0.00" />
+                            class="w-full pl-8 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-cyan-500 focus:border-transparent transition-all"
+                            placeholder="0.00" />
                     </div>
                 </div>
 
@@ -207,8 +253,8 @@
                         Observaciones
                     </label>
                     <textarea id="Observaciones" name="Observaciones" rows="4"
-                              class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-cyan-500 focus:border-transparent transition-all resize-none"
-                              placeholder="Escriba cualquier observación adicional sobre la cita..."></textarea>
+                        class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-cyan-500 focus:border-transparent transition-all resize-none"
+                        placeholder="Escriba cualquier observación adicional sobre la cita..."></textarea>
                 </div>
 
             </div>
@@ -216,11 +262,11 @@
             @* Botones *@
             <div class="flex gap-3 mt-6 pt-6 border-t border-gray-200">
                 <button type="button" onclick="cerrarModalCita()"
-                        class="flex-1 px-6 py-3 border border-gray-300 text-gray-700 font-medium rounded-lg hover:bg-gray-50 transition-colors">
+                    class="flex-1 px-6 py-3 border border-gray-300 text-gray-700 font-medium rounded-lg hover:bg-gray-50 transition-colors">
                     Cancelar
                 </button>
                 <button type="submit"
-                        class="flex-1 px-6 py-3 bg-cyan-600 text-white font-medium rounded-lg hover:bg-cyan-700 transition-colors">
+                    class="flex-1 px-6 py-3 bg-cyan-600 text-white font-medium rounded-lg hover:bg-cyan-700 transition-colors">
                     Guardar Cita
                 </button>
             </div>

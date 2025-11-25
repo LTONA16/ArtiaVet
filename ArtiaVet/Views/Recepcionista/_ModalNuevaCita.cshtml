@@ -151,6 +151,8 @@
     </div>
 </div>
 
+// Reemplaza el script existente en _ModalNuevaCita.cshtml con este:
+
 <script>
     function abrirModalCita() {
         document.getElementById('modalNuevaCita').classList.remove('hidden');
@@ -177,14 +179,31 @@
         document.getElementById('errorMensajeCita').classList.add('hidden');
     }
 
+    // ESTE ES EL FIX PRINCIPAL
     document.getElementById('formNuevaCita').addEventListener('submit', function (e) {
-        const fecha = document.getElementById('fechaCitaInput').value;
-        const hora = document.getElementById('horaCitaInput').value;
+        const fechaInput = document.getElementById('fechaCitaInput').value;
+        const horaInput = document.getElementById('horaCitaInput').value;
 
-        if (fecha && hora) {
-            const fechaHora = fecha + 'T' + hora + ':00';
-            document.getElementById('FechaCita').value = fechaHora;
+        console.log('Fecha input:', fechaInput);
+        console.log('Hora input:', horaInput);
+
+        if (!fechaInput || !horaInput) {
+            e.preventDefault();
+            mostrarErrorCita('Por favor seleccione fecha y hora de la cita');
+            return false;
         }
+
+        // Combinar fecha y hora en formato ISO 8601
+        const fechaHoraISO = `${fechaInput}T${horaInput}:00`;
+        console.log('Fecha y hora combinada (ISO):', fechaHoraISO);
+        
+        // Asignar al campo oculto
+        document.getElementById('FechaCita').value = fechaHoraISO;
+        
+        console.log('Valor final en FechaCita:', document.getElementById('FechaCita').value);
+        
+        // Permitir que el formulario se envíe
+        return true;
     });
 
     document.getElementById('modalNuevaCita')?.addEventListener('click', function (e) {
